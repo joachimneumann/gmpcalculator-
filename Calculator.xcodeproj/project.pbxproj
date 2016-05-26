@@ -158,7 +158,7 @@
 				TargetAttributes = {
 					AAE9DA861CE0BBE400C44198 = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = RWN6775UE9;
+						DevelopmentTeam = 8A4DL788W9;
 					};
 				};
 			};
@@ -331,9 +331,10 @@
 				DEFINES_MODULE = NO;
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
-				PRODUCT_BUNDLE_IDENTIFIER = com.visamedit.Calculator2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/GmpObjC.h;
@@ -353,9 +354,10 @@
 				DEFINES_MODULE = NO;
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
-				PRODUCT_BUNDLE_IDENTIFIER = com.visamedit.Calculator2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/GmpObjC.h;
