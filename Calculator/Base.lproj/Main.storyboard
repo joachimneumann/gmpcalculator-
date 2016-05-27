@@ -422,7 +422,7 @@
                                                         <rect key="frame" x="94.5" y="0.0" width="93.5" height="82"/>
                                                         <color key="backgroundColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="31"/>
-                                                        <state key="normal" title="γ">
+                                                        <state key="normal" title="x↑↑y">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>

@@ -25,6 +25,7 @@
 - (void) sub:(GmpObjC*) other;
 - (void) mul:(GmpObjC*) other;
 - (void) pow_x_y:(GmpObjC*) other;
+- (void) x_double_up_arrow_y:(GmpObjC*) other;
 - (void) sqrt;
 - (void) sqrt3;
 - (void) rez;

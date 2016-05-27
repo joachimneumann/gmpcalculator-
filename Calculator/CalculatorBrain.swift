@@ -84,6 +84,7 @@ class CalculatorBrain {
         "−": Operation.BinaryOperation(-),
         "÷": Operation.BinaryOperation(/),
         "x^y": Operation.BinaryOperation(pow_x_y),
+        "x↑↑y": Operation.BinaryOperation(x_double_up_arrow_y),
         "=": Operation.Equals
     ]
     

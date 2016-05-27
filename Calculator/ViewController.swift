@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     }
     
     func updateDisplay() {
-        display.text = displayValue.toString()
+        display!.text = displayValue.toString()
         displayDescription.text = brain.description
     }
     

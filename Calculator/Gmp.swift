@@ -96,6 +96,10 @@ func pow_x_y(base: Gmp, exponent: Gmp) -> Gmp {
     base.d.pow_x_y(exponent.d)
     return base
 }
+func x_double_up_arrow_y(base: Gmp, exponent: Gmp) -> Gmp {
+    base.d.x_double_up_arrow_y(exponent.d)
+    return base
+}
 
 
 class Gmp {
