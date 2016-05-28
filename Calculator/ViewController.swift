@@ -84,13 +84,11 @@ class ViewController: UIViewController {
     }
     
     func layout() {
-        var buttonFont: UIFont
-        var displayFont: UIFont
         switch UIDevice.currentDevice().orientation{
         case .LandscapeLeft, .LandscapeRight:
             scienceStack.hidden = false
-            keysStackWidthConstraint.constant = screenWidth*0.75
-            scienceStackWidthConstraint.constant = screenHeight - screenWidth*0.75-1
+            keysStackWidthConstraint.constant = screenWidth*0.6
+            scienceStackWidthConstraint.constant = screenHeight - keysStackWidthConstraint.constant-1
             if brain.nBits < 100 {
                 displayHeightConstraint.constant =  screenWidth * 0.2
             } else if brain.nBits <= 1000 {
@@ -98,8 +96,6 @@ class ViewController: UIViewController {
             } else {
                 displayHeightConstraint.constant =  screenWidth * 0.4
             }
-            buttonFont = UIFont(name: "HelveticaNeue-Thin", size: 20)!
-            displayFont = UIFont(name: "HelveticaNeue-Thin", size: 20)!
         default: // portrait
             scienceStack.hidden = true
             keysStackWidthConstraint.constant = screenWidth
@@ -109,15 +105,25 @@ class ViewController: UIViewController {
             } else {
                 displayHeightConstraint.constant =  screenHeight * 0.3
             }
-            buttonFont = UIFont(name: "HelveticaNeue-Thin", size: 36)!
-            displayFont = UIFont(name: "HelveticaNeue-Thin", size: 27)!
         }
+        view.layoutIfNeeded()
+        keyFontSize()
+    }
+    
+    func keyFontSize() {
+        var buttonFont: UIFont
+        var displayFont: UIFont
+        let buttonFontSize: CGFloat = round(keysStack.bounds.size.height * 0.2 * 0.4)
+        let displayFontSize = min(buttonFontSize, 30)
+        buttonFont = UIFont(name: "HelveticaNeue-Thin", size: buttonFontSize)!
+        displayFont = UIFont(name: "HelveticaNeue-Thin", size: displayFontSize)!
         for stack in scienceStack.subviews {
             for key in stack.subviews {
                 if let b = key as? UIButton {
+                    b.titleLabel?.bounds.height
                     b.titleLabel!.font = buttonFont
                     b.titleLabel!.adjustsFontSizeToFitWidth = true
-
+                    
                 }
             }
         }
@@ -131,8 +137,12 @@ class ViewController: UIViewController {
         display.font = displayFont
     }
     
+
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         layout()
+    }
+    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+        keyFontSize()
     }
     
     @IBAction func loadProgram() {

@@ -12,7 +12,7 @@
 
 @interface GmpObjC () {
     mpfr_t mpfr;
-    long status;
+    long status; // not used a t the moment
 }
 
 @end
@@ -136,9 +136,7 @@
 
     long counter = mpfr_get_ui(exponent->mpfr, MPFR_RNDN) - 1;
     for (long i = 0; i < counter; i++) {
-        if (status == 0) {
-            status = mpfr_pow(mpfr, left, mpfr, MPFR_RNDN);
-        }
+         mpfr_pow(mpfr, left, mpfr, MPFR_RNDN);
     }
     mpfr_clear(left);
 }
@@ -167,29 +165,56 @@
         return @"0";
     }
 
-//    if (status != 0) {
-//        return @"Outside Range";
-//    }
-
-    // special case double
-    if (mpfr_get_prec(mpfr) == 53) {
+    // special case: no precision loss when converted to double?
+    double asDouble = mpfr_get_d(mpfr, MPFR_RNDN);
+    mpfr_t test;
+    mpfr_init2 (test, mpfr_get_prec(mpfr));
+    mpfr_set_d (test, asDouble, MPFR_RNDD);
+    if (mpfr_cmp(mpfr, test) == 0) {
         ret = [NSString stringWithFormat:@"%.17g", mpfr_get_d(mpfr, MPFR_RNDN)];
-        return ret;
-    }
-
-    // higher precision
-    int significantBytesEstimate = (int)round(0.3 * mpfr_get_prec(mpfr));
-    mpfr_exp_t expptr;
-    char c[significantBytesEstimate+10];
-    mpfr_get_str(c, &expptr, 10, significantBytesEstimate, mpfr, MPFR_RNDN);
-    NSMutableString *s1 = [[NSString stringWithCString:c encoding:[NSString defaultCStringEncoding]] mutableCopy];
-    while ([s1 length] < 2) s1 = [[s1 stringByAppendingString:@"0"] mutableCopy];
-    if ([s1 hasPrefix:@"-"]) {
-        [s1 insertString:@"." atIndex:2];
+        mpfr_clear(test);
     } else {
-        [s1 insertString:@"." atIndex:1];
+        mpfr_clear(test);
+        
+        // higher precision
+        int significantBytesEstimate = (int)round(0.3 * mpfr_get_prec(mpfr));
+        mpfr_exp_t expptr;
+        char c[significantBytesEstimate+10];
+        mpfr_get_str(c, &expptr, 10, significantBytesEstimate, mpfr, MPFR_RNDN);
+        NSMutableString *s1 = [[NSString stringWithCString:c encoding:[NSString defaultCStringEncoding]] mutableCopy];
+        
+        // cut tailing zeros
+        NSInteger positionOfLastNonNullCharacter = -1;
+        BOOL done = NO;
+        for (NSUInteger pos = s1.length-1; pos > 0; pos--) {
+            if (!done) {
+                NSString * newString = [s1 substringWithRange:NSMakeRange(pos, 1)];
+                if ([newString  isEqualToString:@"0"]) {
+                    positionOfLastNonNullCharacter = pos;
+                } else {
+                    done = YES;
+                }
+            }
+        }
+        NSMutableString* s2;
+        if (positionOfLastNonNullCharacter > 0) {
+            s2 = [[s1 substringWithRange:NSMakeRange(0, positionOfLastNonNullCharacter)] mutableCopy];
+        } else {
+            // no tailing zeroes
+            s2 = s1;
+        }
+        
+        // make sure, the string is at least 2 characters long
+        while ([s2 length] < 2) s2 = [[s2 stringByAppendingString:@"0"] mutableCopy];
+        
+        
+        if ([s2 hasPrefix:@"-"]) {
+            [s2 insertString:@"." atIndex:2];
+        } else {
+            [s2 insertString:@"." atIndex:1];
+        }
+        ret = [NSString stringWithFormat:@"%@ E%02ld", s2, expptr-1];
     }
-    ret = [NSString stringWithFormat:@"%@ E%02ld", s1, expptr-1];
     return ret;
 }
 
