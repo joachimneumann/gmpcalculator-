@@ -17,17 +17,19 @@ class ViewController: UIViewController {
     @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysStack: UIStackView!
     @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var precisionStack: UIStackView!
     
     @IBOutlet weak var displayLabel: UIView!
     @IBOutlet weak var displayHeightConstraint: NSLayoutConstraint!
-    private var userIsInTheMiddleOfTypeing = false
+    private var userIsInTheMiddleOfTyping = false
     private let fmt = NSNumberFormatter()
     private var brain = CalculatorBrain()
     private var screenWidth:CGFloat = 300.0
     private var screenHeight:CGFloat = 300.0
 
     private var displayValue: Gmp
-    
+    var currentDeviceOrientation: UIDeviceOrientation = .Unknown
+
     
     private var savedProgram: CalculatorBrain.PropertyList?
     
@@ -51,25 +53,62 @@ class ViewController: UIViewController {
         layout()
     }
     
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        
+        // Initial device orientation
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeRight:
+            self.currentDeviceOrientation = .LandscapeRight
+        case .LandscapeLeft:
+            self.currentDeviceOrientation = .LandscapeLeft
+        default:
+            self.currentDeviceOrientation = .Portrait
+        }
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        if UIDevice.currentDevice().generatesDeviceOrientationNotifications {
+            UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
+        }
+    }
+    
+    func deviceDidRotate(notification: NSNotification) {
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeRight:
+            self.currentDeviceOrientation = .LandscapeRight
+        case .LandscapeLeft:
+            self.currentDeviceOrientation = .LandscapeLeft
+        case .Portrait:
+            self.currentDeviceOrientation = .Portrait
+        case .PortraitUpsideDown:
+            self.currentDeviceOrientation = .PortraitUpsideDown
+        default: ()
+        }
+        layout()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         display.indicatorStyle = UIScrollViewIndicatorStyle.White
         fmt.usesSignificantDigits = false
         fmt.maximumSignificantDigits = 10
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeLeft, .LandscapeRight:
-            screenWidth = view.frame.size.width
-            screenHeight = view.frame.size.height
-        default:
-            screenWidth = view.frame.size.width
-            screenHeight = view.frame.size.height
-        }
+        screenWidth = view.frame.size.width
+        screenHeight = view.frame.size.height
         if (screenWidth > screenHeight) {
             let temp:CGFloat = screenWidth
             screenWidth = screenHeight
             screenHeight = temp
         }
+        scienceStackWidthConstraint.constant = screenHeight*0.6-1
         displayDescription.hidden = true
         
         
@@ -152,27 +191,26 @@ class ViewController: UIViewController {
     }
     
     func layout() {
-        switch UIDevice.currentDevice().orientation{
+        switch self.currentDeviceOrientation {
         case .LandscapeLeft, .LandscapeRight:
             scienceStack.hidden = false
-            keysStackWidthConstraint.constant = screenWidth*0.6
-            scienceStackWidthConstraint.constant = screenHeight - keysStackWidthConstraint.constant-1
+            keysStackWidthConstraint.constant = screenHeight*0.4
             if brain.nBits < 100 {
                 displayHeightConstraint.constant =  screenWidth * 0.2
-            } else if brain.nBits <= 1000 {
-                displayHeightConstraint.constant =  screenWidth * 0.3
             } else {
                 displayHeightConstraint.constant =  screenWidth * 0.4
             }
-        default: // portrait
+        case .Portrait, .PortraitUpsideDown:
             scienceStack.hidden = true
             keysStackWidthConstraint.constant = screenWidth
-            scienceStackWidthConstraint.constant = screenHeight - screenWidth-1
             if brain.nBits < 100 {
                 displayHeightConstraint.constant =  screenHeight * 0.2
             } else {
                 displayHeightConstraint.constant =  screenHeight * 0.3
             }
+        default:
+            // do nothing
+            return
         }
         view.layoutIfNeeded()
         keyFontSize()
@@ -185,15 +223,18 @@ class ViewController: UIViewController {
         var buttonFontSize: CGFloat
         var largeButtonFontSize: CGFloat
         var inset: CGFloat
-        switch UIDevice.currentDevice().orientation{
+        switch self.currentDeviceOrientation {
         case .LandscapeLeft, .LandscapeRight:
             buttonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.45)
             largeButtonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.6)
             inset = buttonFontSize / 10
-        default: // portrait
+        case .Portrait, .PortraitUpsideDown:
             buttonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.35)
             largeButtonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.5)
             inset = buttonFontSize / 3
+        default:
+            // do nothing
+            return
         }
         let displayFontSize = min(buttonFontSize, 30)
         buttonFont = UIFont(name: "HelveticaNeue-Thin", size: buttonFontSize)!
@@ -244,9 +285,9 @@ class ViewController: UIViewController {
     override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         layout()
     }
-    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-        keyFontSize()
-    }
+//    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
+//        keyFontSize()
+//    }
     
     @IBAction func loadProgram() {
         if savedProgram != nil {
@@ -266,13 +307,13 @@ class ViewController: UIViewController {
         let currentText = display.text!
         // zeros at the beginning (display is "0") are ignored
         if !(digit == "0" && currentText == "0") {
-            if userIsInTheMiddleOfTypeing {
+            if userIsInTheMiddleOfTyping {
                 digit = (digit == "." && currentText.rangeOfString(".") != nil) ? "" : digit
                 display.text = currentText + digit
             } else {
                 digit = (digit == ".") ? "0." : digit
                 display.text = digit
-                userIsInTheMiddleOfTypeing = true
+                userIsInTheMiddleOfTyping = true
             }
         }
 //        displayDescription.text = brain.description
@@ -280,6 +321,16 @@ class ViewController: UIViewController {
     }
 
     @IBAction func setBits(sender: AnyObject) {
+        for subview in precisionStack.subviews {
+            if let b = subview as? UIButton {
+                b.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+                b.setTitleColor(UIColor.blackColor(), forState: .Normal)
+            }
+        }
+        if let b = sender as? UIButton {
+            b.backgroundColor = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+            b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        }
         let bits = Int(sender.currentTitle ?? "100") ?? 100
         brain.nBits = bits
         layout()
@@ -289,13 +340,14 @@ class ViewController: UIViewController {
         } else {
             display.text = "precision set to \(bits) bits"
         }
+        userIsInTheMiddleOfTyping = false
     }
     
     @IBAction private func performOperation(sender: UIButton) {
-        if (userIsInTheMiddleOfTypeing) {
+        if (userIsInTheMiddleOfTyping) {
             displayValue = Gmp(display.text!, precision: brain.nBits)
             brain.setOperand(displayValue)
-            userIsInTheMiddleOfTypeing = false
+            userIsInTheMiddleOfTyping = false
         }
         if let mathematicalSymbol = sender.currentTitle {
             if mathematicalSymbol == "AC" {
