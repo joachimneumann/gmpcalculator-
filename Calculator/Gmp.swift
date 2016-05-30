@@ -6,6 +6,11 @@
 //  Copyright © 2016 VISAMED IT. All rights reserved.
 //
 
+
+// Note: This class could use the C functions by makeing mpfr.h the bridging header.
+// However, mpfr_t is a C struct, not a swift struct and that might created complications
+// Therefore, Gmp.swift uses the Objectice-C Wrapper GmpObjC
+
 import Foundation
 
 func + (left: Gmp, right: Gmp) -> Gmp {
