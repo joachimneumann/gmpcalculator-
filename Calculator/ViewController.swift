@@ -167,7 +167,7 @@ class ViewController: UIViewController {
                                     b.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
                                     b.setImage(image, forState: UIControlState.Normal)
                                 case "x↑↑y":
-                                    let image = UIImage(named: "x_arrow_arrow_x")
+                                    let image = UIImage(named: "x_arrow_arrow_y")
                                     b.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
                                     b.setImage(image, forState: UIControlState.Normal)
                                 default: ()
