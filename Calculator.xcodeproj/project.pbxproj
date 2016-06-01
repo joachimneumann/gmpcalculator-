@@ -14,7 +14,6 @@
 		AAE9DA951CE0BBE400C44198 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */; };
 		AAE9DA9E1CE0D35000C44198 /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA9D1CE0D35000C44198 /* CalculatorBrain.swift */; };
 		BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE153BB11CF4354900E53E4B /* Gmp.swift */; };
-		BE48749B1CF354A100460C13 /* GmpObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE48749A1CF354A100460C13 /* GmpObjC.mm */; };
 		BE808DC91CF7705E00ECDBAF /* libmpfr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE808DC71CF7705E00ECDBAF /* libmpfr.a */; };
 		BE808DCA1CF7705E00ECDBAF /* libgmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE808DC81CF7705E00ECDBAF /* libgmp.a */; };
 		BE808DD61CF772EF00ECDBAF /* AUTHORS.gmp in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */; };
@@ -36,8 +35,6 @@
 		AAE9DA961CE0BBE400C44198 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AAE9DA9D1CE0D35000C44198 /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 		BE153BB11CF4354900E53E4B /* Gmp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gmp.swift; sourceTree = "<group>"; };
-		BE48749A1CF354A100460C13 /* GmpObjC.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GmpObjC.mm; sourceTree = "<group>"; };
-		BE48749C1CF3554300460C13 /* GmpObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GmpObjC.h; sourceTree = "<group>"; };
 		BE808DC71CF7705E00ECDBAF /* libmpfr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmpfr.a; path = libGmp/libmpfr.a; sourceTree = "<group>"; };
 		BE808DC81CF7705E00ECDBAF /* libgmp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmp.a; path = libGmp/libgmp.a; sourceTree = "<group>"; };
 		BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.gmp; path = libGmp/AUTHORS.gmp; sourceTree = "<group>"; };
@@ -101,8 +98,6 @@
 				AAE9DA911CE0BBE400C44198 /* Assets.xcassets */,
 				AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */,
 				AAE9DA961CE0BBE400C44198 /* Info.plist */,
-				BE48749A1CF354A100460C13 /* GmpObjC.mm */,
-				BE48749C1CF3554300460C13 /* GmpObjC.h */,
 			);
 			name = "supporting files";
 			sourceTree = "<group>";
@@ -205,7 +200,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE48749B1CF354A100460C13 /* GmpObjC.mm in Sources */,
 				AAE9DA9E1CE0D35000C44198 /* CalculatorBrain.swift in Sources */,
 				AAE9DA8D1CE0BBE400C44198 /* ViewController.swift in Sources */,
 				BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */,
@@ -338,7 +332,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = Calculator/GmpObjC.h;
+				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 			};
@@ -362,7 +356,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = Calculator/GmpObjC.h;
+				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 			};
 			name = Release;
