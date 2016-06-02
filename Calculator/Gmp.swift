@@ -42,8 +42,9 @@ func x_double_up_arrow_y(base: Gmp, exponent: Gmp) -> Gmp {
     mpfr_init2 (&left, mpfr_get_prec(&base.mpfr))
     mpfr_set(&left, &base.mpfr, MPFR_RNDN)
     
-    let counter: CUnsignedLong = mpfr_get_ui(&exponent.mpfr, MPFR_RNDN) - 1
-    for _ in 0 ... counter {
+    let counter: CLong = mpfr_get_si(&exponent.mpfr, MPFR_RNDN) - 1
+    guard counter > 0 else { return base }
+    for _ in 0..<counter {
         mpfr_pow(&base.mpfr, &left, &base.mpfr, MPFR_RNDN)
     }
     mpfr_clear(&left)
