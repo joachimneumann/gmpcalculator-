@@ -35,7 +35,7 @@ class ViewController: UIViewController {
     
    
     required init?(coder aDecoder: NSCoder) {
-        displayValue = Gmp(0.0, precision: brain.nBits)
+        displayValue = Gmp("0.0", precision: brain.nBits)
         super.init(coder: aDecoder)
     }
     
@@ -334,7 +334,7 @@ class ViewController: UIViewController {
         let bits = Int(sender.currentTitle ?? "100") ?? 100
         brain.nBits = bits
         layout()
-        displayValue = Gmp(0.0, precision: brain.nBits)
+        displayValue = Gmp("0.0", precision: brain.nBits)
         if bits == 53 {
             display.text = "precision set double"
         } else {

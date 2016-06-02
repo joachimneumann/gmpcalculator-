@@ -131,23 +131,15 @@ func pow_10_x(left: Gmp) -> Gmp {
 }
 
 class Gmp {
-    // Swift wants me to initialize the mpfr_t struc
-    // I do this will zeros. The struct will be initialized with correct values in mpfr_init2
+    // Swift requires me to initialize the mpfr_t struc
+    // I do this will zeros. The struct will be initialized correctly in mpfr_init2
     private var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     
-    init(_ d: Double, precision: CLong) {
+    // there is only ine initialzer that takes a string.
+    // Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
+    init(_ s: String, precision: CLong) {
         mpfr_init2 (&mpfr, precision)
-        mpfr_set_d (&mpfr, d, MPFR_RNDN)
-    }
-    convenience init(_ s: String, precision: CLong) {
-        let scientific = s.stringByReplacingOccurrencesOfString(" E", withString: "E")
-        let decimalNumber = NSDecimalNumber(string: scientific)
-        
-        if decimalNumber == NSDecimalNumber.notANumber() {
-            self.init(0.0, precision: precision)
-        } else {
-            self.init(decimalNumber.doubleValue, precision: precision)
-        }
+        mpfr_set_str (&mpfr, s, 10, MPFR_RNDN)
     }
     
 
@@ -187,12 +179,23 @@ class Gmp {
             s1 += "0"
         }
         
+        // do we have a simple doule that can written in decimal notation?
+        let doubleDigits = s1.characters.first == "-" ? 7:6
+        if s1.characters.count < doubleDigits && abs(expptr) < 10 {
+            let d = mpfr_get_d(&mpfr, MPFR_RNDN)
+            return String(d)
+        }
+        
         if s1.characters.first == "-" {
             s1.insert(".", atIndex: s1.startIndex.advancedBy(2))
         } else {
             s1.insert(".", atIndex: s1.startIndex.advancedBy(1))
         }
-        s1 += "e"+String(expptr-1)
+        
+        // if exponent is 0, drop it
+        if expptr-1 != 0 {
+            s1 += "e"+String(expptr-1)
+        }
 
         return s1
     }

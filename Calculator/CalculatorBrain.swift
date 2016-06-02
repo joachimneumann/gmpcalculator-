@@ -13,7 +13,7 @@ private var internalProgram = [AnyObject]()
 class CalculatorBrain {
     
     init() {
-        accumulator = Gmp(0.0, precision: nBits)
+        accumulator = Gmp("0.0", precision: nBits)
     }
     private var accumulator: Gmp
 
@@ -33,7 +33,7 @@ class CalculatorBrain {
     
     func reset() {
         internalProgram.removeAll()
-        accumulator = Gmp(0.0, precision: nBits)
+        accumulator = Gmp("0.0", precision: nBits)
         isPending = false
     }
     
