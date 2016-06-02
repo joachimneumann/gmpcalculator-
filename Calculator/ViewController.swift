@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     private var brain = CalculatorBrain()
     private var screenWidth:CGFloat = 300.0
     private var screenHeight:CGFloat = 300.0
-
+    private var pendingButton: UIButton?
     private var displayValue: Gmp
     var currentDeviceOrientation: UIDeviceOrientation = .Unknown
 
@@ -350,8 +350,16 @@ class ViewController: UIViewController {
             userIsInTheMiddleOfTyping = false
         }
         if let mathematicalSymbol = sender.currentTitle {
-            if mathematicalSymbol == "AC" {
-                brain.reset()
+            let pendingOperations = Set(["x^y", "x↑↑y"])
+            let cancelPendingOperations = Set(["C", "="])
+            if pendingOperations.contains(mathematicalSymbol) {
+                sender.backgroundColor = UIColor(red: 255.0/255.0, green: 232.0/255.0, blue: 205.0/255.0, alpha: 1.0)
+                pendingButton = sender
+            }
+            if cancelPendingOperations.contains(mathematicalSymbol) {
+                if let b = pendingButton {
+                    b.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+                }
             }
             brain.performOperation(mathematicalSymbol)
         }
