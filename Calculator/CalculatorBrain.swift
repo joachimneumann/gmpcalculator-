@@ -62,23 +62,23 @@ class CalculatorBrain {
     
     private var operations: Dictionary<String, Operation> = [
         "C": Operation.Reset,
-        "±": Operation.UnaryOperation(changeSign),
-        "π": Operation.UnaryOperation(π),
-        "e": Operation.UnaryOperation(e),
-        "γ": Operation.UnaryOperation(γ),
-        "1/x": Operation.UnaryOperation(rez),
-        "x!": Operation.UnaryOperation(fac),
-        "ln": Operation.UnaryOperation(ln),
-        "log10": Operation.UnaryOperation(log10),
-        "√": Operation.UnaryOperation(sqrt),
-        "3√": Operation.UnaryOperation(sqrt3),
-        "sin": Operation.UnaryOperation(sin),
-        "cos": Operation.UnaryOperation(cos),
-        "tan": Operation.UnaryOperation(tan),
-        "x^2": Operation.UnaryOperation(pow_x_2),
-        "x^3": Operation.UnaryOperation(pow_x_3),
-        "e^x": Operation.UnaryOperation(pow_e_x),
-        "10^x": Operation.UnaryOperation(pow_10_x),
+        "±": Operation.InPlaceOperation(changeSign),
+        "π": Operation.InPlaceOperation(π),
+        "e": Operation.InPlaceOperation(e),
+        "γ": Operation.InPlaceOperation(γ),
+        "1/x": Operation.InPlaceOperation(rez),
+        "x!": Operation.InPlaceOperation(fac),
+        "ln": Operation.InPlaceOperation(ln),
+        "log10": Operation.InPlaceOperation(log10),
+        "√": Operation.InPlaceOperation(sqrt),
+        "3√": Operation.InPlaceOperation(sqrt3),
+        "sin": Operation.InPlaceOperation(sin),
+        "cos": Operation.InPlaceOperation(cos),
+        "tan": Operation.InPlaceOperation(tan),
+        "x^2": Operation.InPlaceOperation(pow_x_2),
+        "x^3": Operation.InPlaceOperation(pow_x_3),
+        "e^x": Operation.InPlaceOperation(pow_e_x),
+        "10^x": Operation.InPlaceOperation(pow_10_x),
         "×": Operation.BinaryOperation(*),
         "+": Operation.BinaryOperation(+),
         "−": Operation.BinaryOperation(-),
@@ -89,8 +89,7 @@ class CalculatorBrain {
     ]
     
     private enum Operation {
-        case Constant(Gmp)
-        case UnaryOperation((Gmp) -> Gmp)
+        case InPlaceOperation((Gmp) -> ())
         case BinaryOperation((Gmp, Gmp) -> (Gmp))
         case Equals
         case Reset
@@ -115,11 +114,8 @@ class CalculatorBrain {
         internalProgram.append(symbol)
         if let operation = operations[symbol] {
             switch operation {
-            case .Constant(let value):
-                accumulator = value
-                isPending = false
-            case .UnaryOperation(let f):
-                accumulator = f(accumulator)
+            case .InPlaceOperation(let f):
+                f(accumulator)
                 isPending = false
             case .BinaryOperation(let f):
                 if (pending != nil) {

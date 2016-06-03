@@ -51,28 +51,23 @@ func x_double_up_arrow_y(base: Gmp, exponent: Gmp) -> Gmp {
     return base
 }
 
-func changeSign(left: Gmp) -> Gmp {
+func changeSign(left: Gmp) {
     mpfr_neg(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
 
-func π(left: Gmp) -> Gmp {
+func π(left: Gmp) {
     mpfr_const_pi(&left.mpfr, MPFR_RNDN)
-    return left
 }
-func sqrt(left: Gmp) -> Gmp {
+func sqrt(left: Gmp) {
     mpfr_sqrt(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func sqrt3(left: Gmp) -> Gmp {
+func sqrt3(left: Gmp) {
     mpfr_cbrt(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func rez(left: Gmp) -> Gmp {
+func rez(left: Gmp) {
     mpfr_ui_div(&left.mpfr, 1, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func fac(left: Gmp) -> Gmp {
+func fac(left: Gmp) {
     let n = mpfr_get_si(&left.mpfr, MPFR_RNDN)
     if n >= 0 {
         let un = UInt(n)
@@ -80,55 +75,43 @@ func fac(left: Gmp) -> Gmp {
     } else {
         mpfr_set_d(&left.mpfr, 0.0, MPFR_RNDN)
     }
-    return left
 }
-func ln(left: Gmp) -> Gmp {
+func ln(left: Gmp) {
     mpfr_log(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func log10(left: Gmp) -> Gmp {
+func log10(left: Gmp) {
     mpfr_log10(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func sin(left: Gmp) -> Gmp {
+func sin(left: Gmp) {
     mpfr_sin(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func cos(left: Gmp) -> Gmp {
+func cos(left: Gmp) {
     mpfr_cos(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func tan(left: Gmp) -> Gmp {
+func tan(left: Gmp) {
     mpfr_tan(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func e(left: Gmp) -> Gmp {
+func e(left: Gmp) {
     var one: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     mpfr_init2 (&one, mpfr_get_prec(&left.mpfr))
     mpfr_set_d(&one, 1.0, MPFR_RNDN)
     mpfr_exp(&left.mpfr, &one, MPFR_RNDN); // Strangely, this returns a status of -1
     mpfr_clear(&one);
-    return left
 }
-func γ(left: Gmp) -> Gmp {
+func γ(left: Gmp) {
     mpfr_const_euler(&left.mpfr, MPFR_RNDN)
-    return left
 }
-func pow_x_2(left: Gmp) -> Gmp {
+func pow_x_2(left: Gmp) {
     mpfr_sqr(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func pow_x_3(left: Gmp) -> Gmp {
+func pow_x_3(left: Gmp) {
     mpfr_pow_ui(&left.mpfr, &left.mpfr, 3, MPFR_RNDN)
-    return left
 }
-func pow_e_x(left: Gmp) -> Gmp {
+func pow_e_x(left: Gmp) {
     mpfr_exp(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
-func pow_10_x(left: Gmp) -> Gmp {
+func pow_10_x(left: Gmp) {
     mpfr_exp10(&left.mpfr, &left.mpfr, MPFR_RNDN)
-    return left
 }
 
 class Gmp {
