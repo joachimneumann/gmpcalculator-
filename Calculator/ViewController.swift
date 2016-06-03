@@ -30,6 +30,7 @@ class ViewController: UIViewController {
     private var displayValue: Gmp
     var currentDeviceOrientation: UIDeviceOrientation = .Unknown
 
+    let defaultPrecision = 250
     
     private var savedProgram: CalculatorBrain.PropertyList?
     
@@ -80,6 +81,17 @@ class ViewController: UIViewController {
         }
     }
     
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeRight, .LandscapeLeft:
+            setPrecisionKeysBackgroundColor()
+        case .Portrait, .PortraitUpsideDown:
+            brain.nBits = defaultPrecision
+            updateDisplay()
+        default: ()
+        }
+    }
+
     func deviceDidRotate(notification: NSNotification) {
         switch UIDevice.currentDevice().orientation {
         case .LandscapeRight:
@@ -282,12 +294,6 @@ class ViewController: UIViewController {
         }
     }
 
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        layout()
-    }
-//    override func didRotateFromInterfaceOrientation(fromInterfaceOrientation: UIInterfaceOrientation) {
-//        keyFontSize()
-//    }
     
     @IBAction func loadProgram() {
         if savedProgram != nil {
@@ -320,26 +326,27 @@ class ViewController: UIViewController {
         displayValue = Gmp(display.text!, precision: brain.nBits)
     }
 
-    @IBAction func setBits(sender: AnyObject) {
+    func setPrecisionKeysBackgroundColor() {
         for subview in precisionStack.subviews {
             if let b = subview as? UIButton {
-                b.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
-                b.setTitleColor(UIColor.blackColor(), forState: .Normal)
+                if b.titleLabel!.text == String(brain.nBits) {
+                    b.backgroundColor = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+                    b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                } else {
+                    b.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+                    b.setTitleColor(UIColor.blackColor(), forState: .Normal)
+                }
             }
         }
-        if let b = sender as? UIButton {
-            b.backgroundColor = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
-            b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        }
-        let bits = Int(sender.currentTitle ?? "100") ?? 100
+    }
+    @IBAction func setBits(sender: AnyObject) {
+        let bits = Int(sender.currentTitle ?? String(defaultPrecision)) ?? defaultPrecision
         brain.nBits = bits
+        setPrecisionKeysBackgroundColor()
+        updateDisplay()
         layout()
-        displayValue = Gmp("0.0", precision: brain.nBits)
-        if bits == 53 {
-            display.text = "precision set double"
-        } else {
-            display.text = "precision set to \(bits) bits"
-        }
+//        displayValue = Gmp("0.0", precision: brain.nBits)
+//        display.text = "precision set to \(bits) bits"
         userIsInTheMiddleOfTyping = false
     }
     

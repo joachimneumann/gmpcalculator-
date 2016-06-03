@@ -17,10 +17,9 @@ class CalculatorBrain {
     }
     private var accumulator: Gmp
 
-    // we start with the IEEE double spec
-    var nBits: Int = 53 {
+    var nBits: Int = 250 {
         didSet {
-            reset()
+            accumulator.setPrecisionTo(nBits)
         }
     }
     

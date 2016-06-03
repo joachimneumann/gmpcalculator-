@@ -122,13 +122,24 @@ class Gmp {
     // there is only ine initialzer that takes a string.
     // Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
     init(_ s: String, precision: CLong) {
+        let s1 = s.stringByReplacingOccurrencesOfString(" E", withString: "e")
         mpfr_init2 (&mpfr, precision)
-        mpfr_set_str (&mpfr, s, 10, MPFR_RNDN)
+        mpfr_set_str (&mpfr, s1, 10, MPFR_RNDN)
     }
     
 
     func setPrecisionTo(nBits: CLong) {
+        // mpfr_set_prec sets the value to NaN, but we want to preserve the value
+        
+        var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
+        mpfr_init2 (&temp, nBits)
+        mpfr_set(&temp, &mpfr, MPFR_RNDN)
+        
         mpfr_set_prec (&mpfr, nBits)
+        
+        mpfr_set(&mpfr, &temp, MPFR_RNDN)
+        
+        mpfr_clear(&temp)
     }
 
     
@@ -152,18 +163,27 @@ class Gmp {
         mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
         
         guard var s1 = String.fromCString(charArray)
-            else { return "can not converted to string" }
+            else { return "not a number" }
 
         while s1.characters.last == "0" {
             s1 = String(s1.characters.dropLast())
         }
 
+        // is it an Integer?
+        if expptr > 0 && s1.characters.count <= expptr {
+            // add zeroes again
+            while s1.characters.count < expptr {
+                s1 += "0"
+            }
+            return s1
+        }
+        
         // make sure, the string is at least 2 characters long
         while s1.characters.count < 2 {
             s1 += "0"
         }
         
-        // do we have a simple doule that can written in decimal notation?
+        // do we have a simple double that can written in decimal notation?
         let doubleDigits = s1.characters.first == "-" ? 7:6
         if s1.characters.count < doubleDigits && abs(expptr) < 10 {
             let d = mpfr_get_d(&mpfr, MPFR_RNDN)
@@ -178,7 +198,7 @@ class Gmp {
         
         // if exponent is 0, drop it
         if expptr-1 != 0 {
-            s1 += "e"+String(expptr-1)
+            s1 += " E"+String(expptr-1)
         }
 
         return s1
