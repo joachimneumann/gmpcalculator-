@@ -170,7 +170,7 @@ class Gmp {
         }
 
         // is it an Integer?
-        if expptr > 0 && s1.characters.count <= expptr {
+        if expptr > 0 && s1.characters.count <= expptr && expptr < significantBytesEstimate {
             // add zeroes again
             while s1.characters.count < expptr {
                 s1 += "0"
