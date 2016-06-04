@@ -12,6 +12,18 @@
 
 import Foundation
 
+
+extension String {
+    
+    subscript (i: Int) -> Character {
+        return self[self.startIndex.advancedBy(i)]
+    }
+    
+    subscript (i: Int) -> String {
+        return String(self[i] as Character)
+    }
+}
+
 var dummyUnsignedLongInt: CUnsignedLong = 0
 
 func + (left: Gmp, right: Gmp) -> Gmp {
@@ -159,49 +171,62 @@ class Gmp {
         
         let significantBytesEstimate = Int(round(0.3 * Double(mpfr_get_prec(&mpfr))))
         var expptr: mpfr_exp_t = 0
-        var charArray: Array<CChar> = Array(count: significantBytesEstimate+10, repeatedValue: 32) // plus 10 just to be safe because I am lazy
+        var charArray: Array<CChar> = Array(count: significantBytesEstimate+2, repeatedValue: 0) // +2 because: one for a possible - and one for zero termination
         mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
         
-        guard var s1 = String.fromCString(charArray)
-            else { return "not a number" }
-
-        while s1.characters.last == "0" {
-            s1 = String(s1.characters.dropLast())
-        }
-
-        // is it an Integer?
-        if expptr > 0 && s1.characters.count <= expptr && expptr < significantBytesEstimate {
-            // add zeroes again
-            while s1.characters.count < expptr {
-                s1 += "0"
-            }
-            return s1
+        // for speed, we work a bit with the charArray before using swift string
+        
+        // negative?
+        var negative = false
+        if charArray[0] == 45 {
+            charArray.removeFirst()
+            negative = true
         }
         
-        // make sure, the string is at least 2 characters long
-        while s1.characters.count < 2 {
-            s1 += "0"
+        // find last significant digit
+        var lastSignificantDigit = charArray.count-1
+        while (charArray[lastSignificantDigit] == 0 || charArray[lastSignificantDigit] == 48) && lastSignificantDigit > 0 { lastSignificantDigit -= 1 }
+
+        // is it an Integer?
+        if expptr > 0 && lastSignificantDigit <= expptr && expptr < significantBytesEstimate {
+            charArray[expptr] = 0
+            guard let integerString = String.fromCString(charArray)
+                else { return "not a number" }
+            if negative {
+                return "-"+integerString
+            } else {
+                return integerString
+            }
         }
         
         // do we have a simple double that can written in decimal notation?
-        let doubleDigits = s1.characters.first == "-" ? 7:6
-        if s1.characters.count < doubleDigits && abs(expptr) < 10 {
+        let doubleDigits = 6
+        if lastSignificantDigit < doubleDigits && abs(expptr) < 10 {
             let d = mpfr_get_d(&mpfr, MPFR_RNDN)
             return String(d)
         }
+
         
-        if s1.characters.first == "-" {
-            s1.insert(".", atIndex: s1.startIndex.advancedBy(2))
-        } else {
-            s1.insert(".", atIndex: s1.startIndex.advancedBy(1))
-        }
+        lastSignificantDigit += 1
+        charArray[lastSignificantDigit] = 0
+
+        guard var floatString = String.fromCString(charArray)
+            else { return "not a number" }
+        
+        
+        
+        floatString.insert(".", atIndex: floatString.startIndex.advancedBy(1))
         
         // if exponent is 0, drop it
         if expptr-1 != 0 {
-            s1 += " E"+String(expptr-1)
+            floatString += " E"+String(expptr-1)
         }
 
-        return s1
+        if negative {
+            return "-"+floatString
+        } else {
+            return floatString
+        }
     }
 
     func isNull() -> Bool {

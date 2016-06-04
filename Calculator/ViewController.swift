@@ -16,7 +16,6 @@ struct ColorPalette {
 class ViewController: UIViewController {
 
     @IBOutlet weak var display: UITextView!
-    @IBOutlet weak var displayDescription: UILabel!
     @IBOutlet weak var scienceStack: UIStackView!
     @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysStack: UIStackView!
@@ -31,16 +30,14 @@ class ViewController: UIViewController {
     private var screenWidth:CGFloat = 300.0
     private var screenHeight:CGFloat = 300.0
     private var pendingButton: UIButton?
-    private var displayValue: Gmp
     var currentDeviceOrientation: UIDeviceOrientation = .Unknown
 
-    let defaultPrecision = 250
+    let defaultPrecision = 75
     
     private var savedProgram: CalculatorBrain.PropertyList?
     
    
     required init?(coder aDecoder: NSCoder) {
-        displayValue = Gmp("0.0", precision: brain.nBits)
         super.init(coder: aDecoder)
     }
     
@@ -90,8 +87,10 @@ class ViewController: UIViewController {
         case .LandscapeRight, .LandscapeLeft:
             setPrecisionKeysBackgroundColor()
         case .Portrait, .PortraitUpsideDown:
-            brain.nBits = defaultPrecision
-            updateDisplay()
+            if brain.digits != defaultPrecision {
+                brain.digits = defaultPrecision
+                updateDisplay()
+            }
         default: ()
         }
     }
@@ -125,7 +124,6 @@ class ViewController: UIViewController {
             screenHeight = temp
         }
         scienceStackWidthConstraint.constant = screenHeight*0.6-1
-        displayDescription.hidden = true
         
         
         for stack in keysStack.subviews {
@@ -197,8 +195,7 @@ class ViewController: UIViewController {
     }
     
     func updateDisplay() {
-        display!.text = displayValue.toString()
-        displayDescription.text = brain.description
+        display!.text = brain.result.toString()
     }
     
     
@@ -211,7 +208,7 @@ class ViewController: UIViewController {
         case .LandscapeLeft, .LandscapeRight:
             scienceStack.hidden = false
             keysStackWidthConstraint.constant = screenHeight*0.4
-            if brain.nBits < 100 {
+            if brain.digits < 50 {
                 displayHeightConstraint.constant =  screenWidth * 0.2
             } else {
                 displayHeightConstraint.constant =  screenWidth * 0.4
@@ -219,7 +216,7 @@ class ViewController: UIViewController {
         case .Portrait, .PortraitUpsideDown:
             scienceStack.hidden = true
             keysStackWidthConstraint.constant = screenWidth
-            if brain.nBits < 100 {
+            if brain.digits < 50 {
                 displayHeightConstraint.constant =  screenHeight * 0.2
             } else {
                 displayHeightConstraint.constant =  screenHeight * 0.3
@@ -302,9 +299,7 @@ class ViewController: UIViewController {
     @IBAction func loadProgram() {
         if savedProgram != nil {
             brain.program = savedProgram!
-            displayValue = brain.result
             updateDisplay()
-//            displayDescription.text = brain.description
         }
     }
     
@@ -326,14 +321,12 @@ class ViewController: UIViewController {
                 userIsInTheMiddleOfTyping = true
             }
         }
-//        displayDescription.text = brain.description
-        displayValue = Gmp(display.text!, precision: brain.nBits)
     }
 
     func setPrecisionKeysBackgroundColor() {
         for subview in precisionStack.subviews {
             if let b = subview as? UIButton {
-                if b.titleLabel!.text == String(brain.nBits) {
+                if b.titleLabel!.text == String(brain.digits) {
                     b.backgroundColor = ColorPalette.Orange
                     b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                 } else {
@@ -344,20 +337,26 @@ class ViewController: UIViewController {
         }
     }
     @IBAction func setBits(sender: AnyObject) {
-        let bits = Int(sender.currentTitle ?? String(defaultPrecision)) ?? defaultPrecision
-        brain.nBits = bits
-        setPrecisionKeysBackgroundColor()
-        updateDisplay()
-        layout()
-//        displayValue = Gmp("0.0", precision: brain.nBits)
-//        display.text = "precision set to \(bits) bits"
-        userIsInTheMiddleOfTyping = false
+        if let digits = Int(sender.currentTitle!!) {
+            if digits != brain.digits {
+                if digits <= brain.digits {
+                    brain.digits = digits
+                } else {
+                    // more digits --> reset
+                    brain.digits = digits
+                    brain.reset()
+                }
+                setPrecisionKeysBackgroundColor()
+                updateDisplay()
+                layout()
+                userIsInTheMiddleOfTyping = false
+            }
+        }
     }
     
     @IBAction private func performOperation(sender: UIButton) {
         if (userIsInTheMiddleOfTyping) {
-            displayValue = Gmp(display.text!, precision: brain.nBits)
-            brain.setOperand(displayValue)
+            brain.setOperand(display.text)
             userIsInTheMiddleOfTyping = false
         }
         if let mathematicalSymbol = sender.currentTitle {
@@ -374,7 +373,6 @@ class ViewController: UIViewController {
             }
             brain.performOperation(mathematicalSymbol)
         }
-        displayValue = brain.result
         updateDisplay()
     }
 }

@@ -16,16 +16,25 @@ class CalculatorBrain {
         accumulator = Gmp("0.0", precision: nBits)
     }
     private var accumulator: Gmp
-
-    var nBits: Int = 250 {
-        didSet {
+    private var nBits = 250
+    var digits: Int {
+        set {
+            nBits = Int(round(Double(newValue) / 0.3))
             accumulator.setPrecisionTo(nBits)
+        }
+        get {
+            return Int(round(Double(nBits) * 0.3))
         }
     }
     
     var isPending: Bool = false
     
-    func setOperand(operand: Gmp) {
+    func setOperand(operand: String) {
+        let value = Gmp(operand, precision: nBits)
+        setOperand(value)
+    }
+
+    private func setOperand(operand: Gmp) {
         internalProgram.append(operand)
         accumulator = operand
     }

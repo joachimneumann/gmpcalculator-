@@ -19,16 +19,6 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFG-GG-QFG" userLabel="DisplayView">
                                 <rect key="frame" x="0.0" y="20" width="600" height="165"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="971-I4-WdW" userLabel="Description">
-                                        <rect key="frame" x="0.0" y="165" width="580" height="0.0"/>
-                                        <color key="backgroundColor" red="0.12549019607843137" green="0.12549019607843137" blue="0.12549019607843137" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" id="lhU-ce-vi5"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="50"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" text="0" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="wd0-pp-5pX">
                                         <rect key="frame" x="5" y="0.0" width="585" height="165"/>
                                         <color key="backgroundColor" white="0.13" alpha="1" colorSpace="calibratedWhite"/>
@@ -43,11 +33,8 @@
                                     <constraint firstAttribute="bottom" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="EJc-G1-ZQF"/>
                                     <constraint firstItem="wd0-pp-5pX" firstAttribute="top" secondItem="gFG-GG-QFG" secondAttribute="top" id="Fru-S3-yM4"/>
                                     <constraint firstAttribute="trailing" secondItem="wd0-pp-5pX" secondAttribute="trailing" constant="10" id="KE7-s0-Mo1"/>
-                                    <constraint firstAttribute="bottom" secondItem="971-I4-WdW" secondAttribute="bottom" id="MeT-8j-gd9"/>
-                                    <constraint firstItem="971-I4-WdW" firstAttribute="top" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="UlN-2d-HGW"/>
                                     <constraint firstAttribute="height" constant="165" id="hua-1L-Lr1"/>
-                                    <constraint firstItem="971-I4-WdW" firstAttribute="leading" secondItem="gFG-GG-QFG" secondAttribute="leading" id="tZC-oZ-nEB"/>
-                                    <constraint firstAttribute="trailing" secondItem="971-I4-WdW" secondAttribute="trailing" constant="20" id="ygq-Nc-9SQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="lQL-VY-Toz"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -500,7 +487,7 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="94" height="82"/>
                                                         <color key="backgroundColor" red="0.96470588239999999" green="0.56078431370000004" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="28"/>
-                                                        <state key="normal" title="250">
+                                                        <state key="normal" title="75">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
@@ -511,7 +498,7 @@
                                                         <rect key="frame" x="95" y="0.0" width="94" height="82"/>
                                                         <color key="backgroundColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="28"/>
-                                                        <state key="normal" title="800">
+                                                        <state key="normal" title="250">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
@@ -522,7 +509,7 @@
                                                         <rect key="frame" x="189" y="0.0" width="94" height="82"/>
                                                         <color key="backgroundColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="28"/>
-                                                        <state key="normal" title="10000">
+                                                        <state key="normal" title="1000">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
@@ -591,7 +578,6 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="display" destination="wd0-pp-5pX" id="UfJ-3K-lK7"/>
-                        <outlet property="displayDescription" destination="971-I4-WdW" id="RN3-qr-pH1"/>
                         <outlet property="displayHeightConstraint" destination="hua-1L-Lr1" id="BRs-No-FFz"/>
                         <outlet property="displayLabel" destination="gFG-GG-QFG" id="DcA-XJ-wA2"/>
                         <outlet property="keysStack" destination="AhE-3y-TZV" id="6R5-gI-rXp"/>
