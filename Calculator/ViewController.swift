@@ -8,6 +8,10 @@
 
 import UIKit
 
+struct ColorPalette {
+    static let Orange = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+    static let Gray = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+}
 
 class ViewController: UIViewController {
 
@@ -330,10 +334,10 @@ class ViewController: UIViewController {
         for subview in precisionStack.subviews {
             if let b = subview as? UIButton {
                 if b.titleLabel!.text == String(brain.nBits) {
-                    b.backgroundColor = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+                    b.backgroundColor = ColorPalette.Orange
                     b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                 } else {
-                    b.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+                    b.backgroundColor = ColorPalette.Gray
                     b.setTitleColor(UIColor.blackColor(), forState: .Normal)
                 }
             }
@@ -360,12 +364,12 @@ class ViewController: UIViewController {
             let pendingOperations = Set(["x^y", "x↑↑y"])
             let cancelPendingOperations = Set(["C", "="])
             if pendingOperations.contains(mathematicalSymbol) {
-                sender.backgroundColor = UIColor(red: 255.0/255.0, green: 232.0/255.0, blue: 205.0/255.0, alpha: 1.0)
+                sender.backgroundColor = ColorPalette.Orange
                 pendingButton = sender
             }
             if cancelPendingOperations.contains(mathematicalSymbol) {
                 if let b = pendingButton {
-                    b.backgroundColor = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+                    b.backgroundColor = ColorPalette.Gray
                 }
             }
             brain.performOperation(mathematicalSymbol)
