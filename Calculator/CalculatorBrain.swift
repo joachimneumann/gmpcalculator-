@@ -42,6 +42,7 @@ class CalculatorBrain {
     func reset() {
         internalProgram.removeAll()
         accumulator = Gmp("0.0", precision: nBits)
+        pending = nil;
         isPending = false
     }
     
@@ -129,7 +130,7 @@ class CalculatorBrain {
                 if (pending != nil) {
                     executePendingOperation()
                 }
-                pending = PendingBinaryOperationInfo(binaryFunction: f, firstOperand: accumulator)
+                pending = PendingBinaryOperationInfo(binaryFunction: f, firstOperand: accumulator.copy())
                 isPending = true // isPending is set false in executePendingOperation
             case .Equals:
                 if (pending != nil) {

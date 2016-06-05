@@ -138,8 +138,13 @@ class Gmp {
         mpfr_init2 (&mpfr, precision)
         mpfr_set_str (&mpfr, s1, 10, MPFR_RNDN)
     }
-    
 
+    func copy() -> Gmp {
+        let ret = Gmp("0.0", precision: mpfr_get_prec(&mpfr))
+        mpfr_set(&ret.mpfr, &mpfr, MPFR_RNDN)
+        return ret
+    }
+    
     func setPrecisionTo(nBits: CLong) {
         // mpfr_set_prec sets the value to NaN, but we want to preserve the value
         
@@ -213,7 +218,8 @@ class Gmp {
         guard var floatString = String.fromCString(charArray)
             else { return "not a number" }
         
-        
+        // make sure the lenfth of the float string is at least two characters
+        while floatString.characters.count < 2 { floatString += "0" }
         
         floatString.insert(".", atIndex: floatString.startIndex.advancedBy(1))
         
