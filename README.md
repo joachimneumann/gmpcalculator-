@@ -1,5 +1,6 @@
 # high precision calculator app
 
+Inspired by the Numberphile YouTube channel
 ### license ###
 
 The app uses libGmp (https://gmplib.org/). The statically linked libraries can be found in the folder libGmp
