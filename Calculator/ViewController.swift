@@ -9,8 +9,16 @@
 import UIKit
 
 struct ColorPalette {
-    static let Orange = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
-    static let Gray = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+//    static let BasicOperation = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
+//    static let DarkBasicOperation = UIColor(red: 226.0/255.0, green: 123.0/255.0, blue: 23.0/255.0, alpha: 1.0)
+//    static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
+//    static let Operation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+//    static let Digits = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
+    static let BasicOperation = UIColor(red: 192.0/255.0, green: 203.0/255.0, blue: 156.0/255.0, alpha: 1.0)
+    static let DarkBasicOperation = UIColor(red: 172.0/255.0, green: 183.0/255.0, blue: 136.0/255.0, alpha: 1.0)
+    static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
+    static let Operation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
+    static let Digits = UIColor(red: 217.0/255.0, green: 184.0/255.0, blue: 160.0/255.0, alpha: 1.0)
 }
 
 class ViewController: UIViewController {
@@ -278,13 +286,18 @@ class ViewController: UIViewController {
                     if let titleLabel = b.titleLabel {
                         if b.tag == 1 {
                             titleLabel.font = largeButtonFont
+                            b.backgroundColor = ColorPalette.Digits
                         } else {
+                            b.backgroundColor = ColorPalette.BasicOperation
                             titleLabel.font = buttonFont
                         }
                         if let titleText = titleLabel.text {
                             switch titleText {
                             case "1/x", "±":
                                 b.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
+                                b.backgroundColor = ColorPalette.Operation
+                            case "C":
+                                b.backgroundColor = ColorPalette.Operation
                             default: ()
                             }
                         }
@@ -307,7 +320,20 @@ class ViewController: UIViewController {
         savedProgram = brain.program
     }
     
+    @IBAction func basicOperationTouchDown(sender: UIButton) {
+        sender.backgroundColor = ColorPalette.DarkBasicOperation
+    }
+    @IBAction func functionTouchDown(sender: UIButton) {
+        sender.backgroundColor = ColorPalette.DarkOperation
+    }
+    @IBAction func digitTouchDown(sender: UIButton) {
+        sender.backgroundColor = ColorPalette.Operation
+    }
+    
     @IBAction private func touchDigit(sender: UIButton) {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+            sender.backgroundColor = ColorPalette.Digits
+            }, completion: nil)
         var digit = sender.currentTitle!
         let currentText = display.text!
         // zeros at the beginning (display is "0") are ignored
@@ -327,15 +353,48 @@ class ViewController: UIViewController {
         for subview in precisionStack.subviews {
             if let b = subview as? UIButton {
                 if b.titleLabel!.text == String(brain.digits) {
-                    b.backgroundColor = ColorPalette.Orange
+                    b.backgroundColor = ColorPalette.BasicOperation
                     b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
                 } else {
-                    b.backgroundColor = ColorPalette.Gray
+                    b.backgroundColor = ColorPalette.Operation
                     b.setTitleColor(UIColor.blackColor(), forState: .Normal)
                 }
             }
         }
     }
+    
+    @IBAction private func performOperation(sender: UIButton) {
+        if let mathematicalSymbol = sender.currentTitle {
+            let basicOperations = Set(["÷", "×", "−", "+", "="])
+            if basicOperations.contains(mathematicalSymbol) {
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                    sender.backgroundColor = ColorPalette.BasicOperation
+                    }, completion: nil)
+            } else {
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                    sender.backgroundColor = ColorPalette.Operation
+                    }, completion: nil)
+            }
+            if (userIsInTheMiddleOfTyping) {
+                brain.setOperand(display.text)
+                userIsInTheMiddleOfTyping = false
+            }
+            let pendingOperations = Set(["x^y", "x↑↑y"])
+            let cancelPendingOperations = Set(["C", "="])
+            if pendingOperations.contains(mathematicalSymbol) {
+                sender.backgroundColor = ColorPalette.BasicOperation
+                pendingButton = sender
+            }
+            if cancelPendingOperations.contains(mathematicalSymbol) {
+                if let b = pendingButton {
+                    b.backgroundColor = ColorPalette.Operation
+                }
+            }
+            brain.performOperation(mathematicalSymbol)
+        }
+        updateDisplay()
+    }
+    
     @IBAction func setBits(sender: AnyObject) {
         if let digits = Int(sender.currentTitle!!) {
             if digits != brain.digits {
@@ -346,33 +405,11 @@ class ViewController: UIViewController {
                     brain.digits = digits
                     brain.reset()
                 }
-                setPrecisionKeysBackgroundColor()
                 updateDisplay()
                 layout()
                 userIsInTheMiddleOfTyping = false
             }
+            setPrecisionKeysBackgroundColor()
         }
-    }
-    
-    @IBAction private func performOperation(sender: UIButton) {
-        if (userIsInTheMiddleOfTyping) {
-            brain.setOperand(display.text)
-            userIsInTheMiddleOfTyping = false
-        }
-        if let mathematicalSymbol = sender.currentTitle {
-            let pendingOperations = Set(["x^y", "x↑↑y"])
-            let cancelPendingOperations = Set(["C", "="])
-            if pendingOperations.contains(mathematicalSymbol) {
-                sender.backgroundColor = ColorPalette.Orange
-                pendingButton = sender
-            }
-            if cancelPendingOperations.contains(mathematicalSymbol) {
-                if let b = pendingButton {
-                    b.backgroundColor = ColorPalette.Gray
-                }
-            }
-            brain.performOperation(mathematicalSymbol)
-        }
-        updateDisplay()
     }
 }
