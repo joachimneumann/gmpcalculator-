@@ -14,6 +14,7 @@ struct ColorPalette {
     static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
     static let Operation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     static let Digits = UIColor(red: 217.0/255.0, green: 184.0/255.0, blue: 160.0/255.0, alpha: 1.0)
+    static let DarkDigits = UIColor(red: 197.0/255.0, green: 164.0/255.0, blue: 140.0/255.0, alpha: 1.0)
 }
 
 class ViewController: UIViewController {
@@ -327,7 +328,7 @@ class ViewController: UIViewController {
         sender.backgroundColor = ColorPalette.DarkOperation
     }
     @IBAction func digitTouchDown(sender: UIButton) {
-        sender.backgroundColor = ColorPalette.Operation
+        sender.backgroundColor = ColorPalette.DarkDigits
     }
     
     @IBAction private func touchDigit(sender: UIButton) {
