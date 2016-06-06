@@ -9,11 +9,6 @@
 import UIKit
 
 struct ColorPalette {
-//    static let BasicOperation = UIColor(red: 246.0/255.0, green: 143.0/255.0, blue: 43.0/255.0, alpha: 1.0)
-//    static let DarkBasicOperation = UIColor(red: 226.0/255.0, green: 123.0/255.0, blue: 23.0/255.0, alpha: 1.0)
-//    static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
-//    static let Operation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
-//    static let Digits = UIColor(red: 242.0/255.0, green: 242.0/255.0, blue: 242.0/255.0, alpha: 1.0)
     static let BasicOperation = UIColor(red: 192.0/255.0, green: 203.0/255.0, blue: 156.0/255.0, alpha: 1.0)
     static let DarkBasicOperation = UIColor(red: 172.0/255.0, green: 183.0/255.0, blue: 136.0/255.0, alpha: 1.0)
     static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
@@ -30,6 +25,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var precisionStack: UIStackView!
     
+    @IBOutlet weak var precisionTextView: UITextView!
     @IBOutlet weak var displayLabel: UIView!
     @IBOutlet weak var displayHeightConstraint: NSLayoutConstraint!
     private var userIsInTheMiddleOfTyping = false
@@ -67,6 +63,9 @@ class ViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        precisionTextView.text = "\(defaultPrecision) digits"
+        precisionTextView.textContainerInset = UIEdgeInsetsZero;
+        precisionTextView.textContainer.lineFragmentPadding = 0;
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
         
@@ -97,6 +96,7 @@ class ViewController: UIViewController {
         case .Portrait, .PortraitUpsideDown:
             if brain.digits != defaultPrecision {
                 brain.digits = defaultPrecision
+                precisionTextView.text = "\(defaultPrecision) digits"
                 updateDisplay()
             }
         default: ()
@@ -405,6 +405,7 @@ class ViewController: UIViewController {
                     brain.digits = digits
                     brain.reset()
                 }
+                precisionTextView.text = "\(digits) digits"
                 updateDisplay()
                 layout()
                 userIsInTheMiddleOfTyping = false
