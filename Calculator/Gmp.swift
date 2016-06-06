@@ -189,9 +189,10 @@ class Gmp {
         }
         
         // find last significant digit
-        var lastSignificantDigit = charArray.count-1
-        while (charArray[lastSignificantDigit] == 0 || charArray[lastSignificantDigit] == 48) && lastSignificantDigit > 0 { lastSignificantDigit -= 1 }
-
+        var lastSignificantIndex = charArray.count-1
+        while (charArray[lastSignificantIndex] == 0 || charArray[lastSignificantIndex] == 48) && lastSignificantIndex > 0 { lastSignificantIndex -= 1 }
+        let lastSignificantDigit = lastSignificantIndex + 1
+        
         // is it an Integer?
         if expptr > 0 && lastSignificantDigit <= expptr && expptr < significantBytesEstimate {
             charArray[expptr] = 0
@@ -211,8 +212,6 @@ class Gmp {
             return String(d)
         }
 
-        
-        lastSignificantDigit += 1
         charArray[lastSignificantDigit] = 0
 
         guard var floatString = String.fromCString(charArray)
