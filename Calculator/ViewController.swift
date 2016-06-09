@@ -400,6 +400,11 @@ class ViewController: UIViewController {
         if let digits = Int(sender.currentTitle!!) {
             if digits != brain.digits {
                 if digits <= brain.digits {
+                    // make sure that the value in the display is used, even if the user has still been in the middle of typing
+                    if (userIsInTheMiddleOfTyping) {
+                        brain.setOperand(display.text)
+                        userIsInTheMiddleOfTyping = false
+                    }
                     brain.digits = digits
                 } else {
                     // more digits --> reset
