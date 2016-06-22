@@ -20,15 +20,26 @@ struct ColorPalette {
 class ViewController: UIViewController {
 
     @IBOutlet weak var display: UITextView!
-    @IBOutlet weak var scienceStack: UIStackView!
-    @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var keysStack: UIStackView!
-    @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var precisionStack: UIStackView!
-    
     @IBOutlet weak var precisionTextView: UITextView!
     @IBOutlet weak var displayLabel: UIView!
+
+    @IBOutlet weak var scienceStack: UIStackView!
+    @IBOutlet weak var science1Stack: UIStackView!
+    @IBOutlet weak var science2Stack: UIStackView!
+    @IBOutlet weak var science3Stack: UIStackView!
+    @IBOutlet weak var science4Stack: UIStackView!
+    @IBOutlet weak var precisionStack: UIStackView!
+    @IBOutlet weak var keysStack: UIStackView!
+    @IBOutlet weak var ACStack: UIStackView!
+    @IBOutlet weak var _789Stack: UIStackView!
+    @IBOutlet weak var _456Stack: UIStackView!
+    @IBOutlet weak var _123Stack: UIStackView!
+    @IBOutlet weak var _0Stack: UIStackView!
+    
+    @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var displayHeightConstraint: NSLayoutConstraint!
+    
     private var userIsInTheMiddleOfTyping = false
     private let fmt = NSNumberFormatter()
     private var brain = CalculatorBrain()
@@ -70,6 +81,18 @@ class ViewController: UIViewController {
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
         
+        scienceStack.spacing = 0.5
+        science1Stack.spacing = 0.5
+        science2Stack.spacing = 0.5
+        science3Stack.spacing = 0.5
+        science4Stack.spacing = 0.5
+        precisionStack.spacing = 0.5
+        keysStack.spacing = 0.5
+        ACStack.spacing = 0.5
+        _789Stack.spacing = 0.5
+        _456Stack.spacing = 0.5
+        _123Stack.spacing = 0.5
+        _0Stack.spacing = 0.5
         // Initial device orientation
         switch UIDevice.currentDevice().orientation {
         case .LandscapeRight:
@@ -132,7 +155,7 @@ class ViewController: UIViewController {
             screenWidth = screenHeight
             screenHeight = temp
         }
-        scienceStackWidthConstraint.constant = screenHeight*0.6-1
+        scienceStackWidthConstraint.constant = screenHeight*0.6 - 0.5
         
         
         for stack in keysStack.subviews {
