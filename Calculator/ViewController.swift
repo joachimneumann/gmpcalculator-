@@ -81,6 +81,7 @@ class ViewController: UIViewController {
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
         
+        // I was not able to set the spacing to 0.5 in the Xcode Interfeace Builder
         scienceStack.spacing = 0.5
         science1Stack.spacing = 0.5
         science2Stack.spacing = 0.5
