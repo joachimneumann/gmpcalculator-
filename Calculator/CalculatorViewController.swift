@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculatorViewController.swift
 //  Calculator
 //
 //  Created by Joachim Neumann on 09/05/2016.
@@ -17,7 +17,7 @@ struct ColorPalette {
     static let DarkDigits = UIColor(red: 197.0/255.0, green: 164.0/255.0, blue: 140.0/255.0, alpha: 1.0)
 }
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 
     @IBOutlet weak var display: UITextView!
     @IBOutlet weak var precisionTextView: UITextView!
@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         precisionTextView.textContainerInset = UIEdgeInsetsZero;
         precisionTextView.textContainer.lineFragmentPadding = 0;
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
         
         // I was not able to set the spacing to 0.5 in the Xcode Interfeace Builder
         scienceStack.spacing = 0.5
