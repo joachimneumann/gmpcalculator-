@@ -17,10 +17,18 @@ struct ColorPalette {
     static let DarkDigits = UIColor(red: 197.0/255.0, green: 164.0/255.0, blue: 140.0/255.0, alpha: 1.0)
 }
 
+let basicOperations = Set(["÷", "×", "−", "+", "="]) // for key colors
+let pendingOperations = Set(["x^y", "x↑↑y"])
+let cancelPendingOperations = Set(["C", "="])
+let smallerScienceKeys = Set(["x^2", "x^3", "x^y", "e^x", "10^x", "√", "3√", "x↑↑y"])
+let smallerBasicKeys = Set(["1/x", "±"])
+let basicOperationKeys = Set(["1/x", "±", "C"])
+
 class CalculatorViewController: UIViewController {
 
     @IBOutlet weak var display: UITextView!
     @IBOutlet weak var precisionTextView: UITextView!
+    @IBOutlet weak var programTextView: UITextView!
     @IBOutlet weak var displayLabel: UIView!
 
     @IBOutlet weak var scienceStack: UIStackView!
@@ -78,6 +86,11 @@ class CalculatorViewController: UIViewController {
         precisionTextView.text = "\(defaultPrecision) digits"
         precisionTextView.textContainerInset = UIEdgeInsetsZero;
         precisionTextView.textContainer.lineFragmentPadding = 0;
+        
+        programTextView.text = "xxx"
+        programTextView.textContainerInset = UIEdgeInsetsZero;
+        programTextView.textContainer.lineFragmentPadding = 0;
+        
         UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
         
@@ -229,6 +242,7 @@ class CalculatorViewController: UIViewController {
     
     func updateDisplay() {
         display!.text = brain.result.toString()
+        programTextView.text = brain.programDescription
     }
     
     
@@ -295,10 +309,8 @@ class CalculatorViewController: UIViewController {
                     if let titleLabel = b.titleLabel {
                         titleLabel.font = buttonFont
                         if let titleText = titleLabel.text {
-                            switch titleText {
-                            case "x^2", "x^3", "x^y", "e^x", "10^x", "√", "3√", "x↑↑y":
+                            if smallerScienceKeys.contains(titleText) {
                                 b.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
-                            default: ()
                             }
                         }
                     }
@@ -317,13 +329,11 @@ class CalculatorViewController: UIViewController {
                             titleLabel.font = buttonFont
                         }
                         if let titleText = titleLabel.text {
-                            switch titleText {
-                            case "1/x", "±":
+                            if smallerBasicKeys.contains(titleText) {
                                 b.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
+                            }
+                            if basicOperationKeys.contains(titleText) {
                                 b.backgroundColor = ColorPalette.Operation
-                            case "C":
-                                b.backgroundColor = ColorPalette.Operation
-                            default: ()
                             }
                         }
                     }
@@ -334,13 +344,13 @@ class CalculatorViewController: UIViewController {
     }
 
     
-    @IBAction func loadProgram() {
-        if savedProgram != nil {
-            brain.program = savedProgram!
-            updateDisplay()
-        }
-    }
-    
+//    @IBAction func loadProgram() {
+//        if savedProgram != nil {
+//            brain.program = savedProgram!
+//            updateDisplay()
+//        }
+//    }
+//    
     @IBAction func saveProgram() {
         savedProgram = brain.program
     }
@@ -359,9 +369,11 @@ class CalculatorViewController: UIViewController {
         UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
             sender.backgroundColor = ColorPalette.Digits
             }, completion: nil)
+
         var digit = sender.currentTitle!
         let currentText = display.text!
-        // zeros at the beginning (display is "0") are ignored
+        
+        // zeros at the beginning (display is "0") shall be ignored
         if !(digit == "0" && currentText == "0") {
             if userIsInTheMiddleOfTyping {
                 digit = (digit == "." && currentText.rangeOfString(".") != nil) ? "" : digit
@@ -390,7 +402,6 @@ class CalculatorViewController: UIViewController {
     
     @IBAction private func performOperation(sender: UIButton) {
         if let mathematicalSymbol = sender.currentTitle {
-            let basicOperations = Set(["÷", "×", "−", "+", "="])
             if basicOperations.contains(mathematicalSymbol) {
                 UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
                     sender.backgroundColor = ColorPalette.BasicOperation
@@ -404,8 +415,6 @@ class CalculatorViewController: UIViewController {
                 brain.setOperand(display.text)
                 userIsInTheMiddleOfTyping = false
             }
-            let pendingOperations = Set(["x^y", "x↑↑y"])
-            let cancelPendingOperations = Set(["C", "="])
             if pendingOperations.contains(mathematicalSymbol) {
                 sender.backgroundColor = ColorPalette.BasicOperation
                 pendingButton = sender

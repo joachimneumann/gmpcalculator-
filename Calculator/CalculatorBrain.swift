@@ -8,7 +8,7 @@
 
 import Foundation
 
-private var internalProgram = [AnyObject]()
+private var internalProgram = [String]()
 
 class CalculatorBrain {
     
@@ -30,12 +30,12 @@ class CalculatorBrain {
     var isPending: Bool = false
     
     func setOperand(operand: String) {
+        internalProgram.append(operand)
         let value = Gmp(operand, precision: nBits)
         setOperand(value)
     }
 
     private func setOperand(operand: Gmp) {
-        internalProgram.append(operand)
         accumulator = operand
     }
     
@@ -47,24 +47,25 @@ class CalculatorBrain {
     }
     
     typealias PropertyList = AnyObject
+    
     var program: PropertyList {
         get {
             return internalProgram
         }
-        set {
-            reset()
-            // Do I need to test if newValue =!= nil ???
-            if let steps = newValue as? [AnyObject] {
-                for step in steps {
-                    if let d = step as? Gmp {
-                        setOperand((d))
-                    }
-                    if let op = step as? String {
-                        performOperation(op)
-                    }
-                }
-            }
-        }
+//        set {
+//            reset()
+//            // Do I need to test if newValue =!= nil ???
+//            if let steps = newValue as? [AnyObject] {
+//                for step in steps {
+//                    if let d = step as? Gmp {
+//                        setOperand((d))
+//                    }
+//                    if let op = step as? String {
+//                        performOperation(op)
+//                    }
+//                }
+//            }
+//        }
     }
     
 
@@ -104,20 +105,11 @@ class CalculatorBrain {
         case Reset
     }
     
-    var description: String = ""/*{
+    var programDescription: String {
         get {
-            var s = ""
-            for step in internalProgram {
-                if let d = step as? Gmp {
-                    s += d.toString(DisplayMode.simple)
-                }
-                if let op = step as? String {
-                    s += op
-                }
-            }
-            return s
+            return internalProgram.joinWithSeparator(" ")
         }
-    }*/
+    }
 
     func performOperation(symbol: String) {
         internalProgram.append(symbol)
@@ -138,7 +130,6 @@ class CalculatorBrain {
                 } else {
                     // there was no operation pending, delete the program
                     internalProgram.removeAll()
-                    internalProgram.append(result)
                 }
             case .Reset:
                 reset()
