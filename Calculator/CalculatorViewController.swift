@@ -87,7 +87,7 @@ class CalculatorViewController: UIViewController {
         precisionTextView.textContainerInset = UIEdgeInsetsZero;
         precisionTextView.textContainer.lineFragmentPadding = 0;
         
-        programTextView.text = "xxx"
+        programTextView.text = ""
         programTextView.textContainerInset = UIEdgeInsetsZero;
         programTextView.textContainer.lineFragmentPadding = 0;
         
@@ -344,16 +344,6 @@ class CalculatorViewController: UIViewController {
     }
 
     
-//    @IBAction func loadProgram() {
-//        if savedProgram != nil {
-//            brain.program = savedProgram!
-//            updateDisplay()
-//        }
-//    }
-//    
-    @IBAction func saveProgram() {
-        savedProgram = brain.program
-    }
     
     @IBAction func basicOperationTouchDown(sender: UIButton) {
         sender.backgroundColor = ColorPalette.DarkBasicOperation
@@ -365,27 +355,6 @@ class CalculatorViewController: UIViewController {
         sender.backgroundColor = ColorPalette.DarkDigits
     }
     
-    @IBAction private func touchDigit(sender: UIButton) {
-        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
-            sender.backgroundColor = ColorPalette.Digits
-            }, completion: nil)
-
-        var digit = sender.currentTitle!
-        let currentText = display.text!
-        
-        // zeros at the beginning (display is "0") shall be ignored
-        if !(digit == "0" && currentText == "0") {
-            if userIsInTheMiddleOfTyping {
-                digit = (digit == "." && currentText.rangeOfString(".") != nil) ? "" : digit
-                display.text = currentText + digit
-            } else {
-                digit = (digit == ".") ? "0." : digit
-                display.text = digit
-                userIsInTheMiddleOfTyping = true
-            }
-        }
-    }
-
     func setPrecisionKeysBackgroundColor() {
         for subview in precisionStack.subviews {
             if let b = subview as? UIButton {
@@ -399,7 +368,31 @@ class CalculatorViewController: UIViewController {
             }
         }
     }
-    
+  
+    @IBAction private func touchDigit(sender: UIButton) {
+        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+            sender.backgroundColor = ColorPalette.Digits
+            }, completion: nil)
+
+        var digit = sender.currentTitle!
+        let currentText = display.text!
+        
+        // zeros at the beginning (display is "0") shall be ignored
+        if !(digit == "0" && currentText == "0") {
+            if userIsInTheMiddleOfTyping {
+                digit = (digit == "." && currentText.rangeOfString(".") != nil) ? "" : digit
+                display.text = currentText + digit
+                brain.setDigit(display.text)
+            } else {
+                digit = (digit == ".") ? "0." : digit
+                display.text = digit
+                userIsInTheMiddleOfTyping = true
+                brain.newDigit(display.text)
+            }
+        }
+        programTextView.text = brain.programDescription
+    }
+  
     @IBAction private func performOperation(sender: UIButton) {
         if let mathematicalSymbol = sender.currentTitle {
             if basicOperations.contains(mathematicalSymbol) {

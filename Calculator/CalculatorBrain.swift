@@ -29,6 +29,15 @@ class CalculatorBrain {
     
     var isPending: Bool = false
     
+    func newDigit(digit: String) {
+        internalProgram.append(digit)
+    }
+    
+    func setDigit(digit: String) {
+        internalProgram.removeLast()
+        newDigit(digit)
+    }
+    
     func setOperand(operand: String) {
         internalProgram.append(operand)
         let value = Gmp(operand, precision: nBits)
