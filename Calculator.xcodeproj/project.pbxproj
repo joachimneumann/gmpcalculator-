@@ -149,7 +149,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = "VISAMED IT";
+				ORGANIZATIONNAME = "mindo software S.L";
 				TargetAttributes = {
 					AAE9DA861CE0BBE400C44198 = {
 						CreatedOnToolsVersion = 7.3;

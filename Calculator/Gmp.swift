@@ -3,7 +3,7 @@
 //  Calculator
 //
 //  Created by Joachim Neumann on 24/05/16.
-//  Copyright © 2016 VISAMED IT. All rights reserved.
+//  Copyright © 2016 mindo software S.L. All rights reserved.
 //
 
 
