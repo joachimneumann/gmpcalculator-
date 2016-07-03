@@ -74,88 +74,7 @@ class CalculatorViewController: UIViewController {
         return UIInterfaceOrientationMask.All
     }
     
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        layout()
-    }
-    
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        precisionTextView.text = "\(defaultPrecision) digits"
-        precisionTextView.textContainerInset = UIEdgeInsetsZero;
-        precisionTextView.textContainer.lineFragmentPadding = 0;
-        
-        programTextView.text = ""
-        programTextView.textContainerInset = UIEdgeInsetsZero;
-        programTextView.textContainer.lineFragmentPadding = 0;
-        
-        UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
-        
-        // I was not able to set the spacing to 0.5 in the Xcode Interfeace Builder
-        scienceStack.spacing = 0.5
-        science1Stack.spacing = 0.5
-        science2Stack.spacing = 0.5
-        science3Stack.spacing = 0.5
-        science4Stack.spacing = 0.5
-        precisionStack.spacing = 0.5
-        keysStack.spacing = 0.5
-        ACStack.spacing = 0.5
-        _789Stack.spacing = 0.5
-        _456Stack.spacing = 0.5
-        _123Stack.spacing = 0.5
-        _0Stack.spacing = 0.5
-        // Initial device orientation
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeRight:
-            self.currentDeviceOrientation = .LandscapeRight
-        case .LandscapeLeft:
-            self.currentDeviceOrientation = .LandscapeLeft
-        default:
-            self.currentDeviceOrientation = .Portrait
-        }
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        if UIDevice.currentDevice().generatesDeviceOrientationNotifications {
-            UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
-        }
-    }
-    
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeRight, .LandscapeLeft:
-            setPrecisionKeysBackgroundColor()
-        case .Portrait, .PortraitUpsideDown:
-            if brain.digits != defaultPrecision {
-                brain.digits = defaultPrecision
-                precisionTextView.text = "\(defaultPrecision) digits"
-                updateDisplay()
-            }
-        default: ()
-        }
-    }
-
-    func deviceDidRotate(notification: NSNotification) {
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeRight:
-            self.currentDeviceOrientation = .LandscapeRight
-        case .LandscapeLeft:
-            self.currentDeviceOrientation = .LandscapeLeft
-        case .Portrait:
-            self.currentDeviceOrientation = .Portrait
-        case .PortraitUpsideDown:
-            self.currentDeviceOrientation = .PortraitUpsideDown
-        default: ()
-        }
-        layout()
-    }
-    
+    // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -237,6 +156,93 @@ class CalculatorViewController: UIViewController {
                     }
                 }
             }
+        }
+        precisionTextView.textContainerInset = UIEdgeInsetsZero;
+        precisionTextView.textContainer.lineFragmentPadding = 0;
+        programTextView.textContainerInset = UIEdgeInsetsZero;
+        programTextView.textContainer.lineFragmentPadding = 0;
+
+        // thinner lines between the keys
+        // Note: I was not able to set the spacing to 0.5 
+        //       in the Xcode Interfeace Builder
+        scienceStack.spacing = 0.5
+        science1Stack.spacing = 0.5
+        science2Stack.spacing = 0.5
+        science3Stack.spacing = 0.5
+        science4Stack.spacing = 0.5
+        precisionStack.spacing = 0.5
+        keysStack.spacing = 0.5
+        ACStack.spacing = 0.5
+        _789Stack.spacing = 0.5
+        _456Stack.spacing = 0.5
+        _123Stack.spacing = 0.5
+        _0Stack.spacing = 0.5
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        layout()
+    }
+    
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        precisionTextView.text = "\(defaultPrecision) digits"
+        
+        programTextView.text = ""
+        
+        UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        
+        // Initial device orientation
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeRight:
+            self.currentDeviceOrientation = .LandscapeRight
+        case .LandscapeLeft:
+            self.currentDeviceOrientation = .LandscapeLeft
+        default:
+            self.currentDeviceOrientation = .Portrait
+        }
+    }
+    
+    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeRight, .LandscapeLeft:
+            setPrecisionKeysBackgroundColor()
+        case .Portrait, .PortraitUpsideDown:
+            if brain.digits != defaultPrecision {
+                brain.digits = defaultPrecision
+                precisionTextView.text = "\(defaultPrecision) digits"
+                updateDisplay()
+            }
+        default: ()
+        }
+    }
+
+    func deviceDidRotate(notification: NSNotification) {
+        switch UIDevice.currentDevice().orientation {
+        case .LandscapeRight:
+            self.currentDeviceOrientation = .LandscapeRight
+        case .LandscapeLeft:
+            self.currentDeviceOrientation = .LandscapeLeft
+        case .Portrait:
+            self.currentDeviceOrientation = .Portrait
+        case .PortraitUpsideDown:
+            self.currentDeviceOrientation = .PortraitUpsideDown
+        default: ()
+        }
+        layout()
+    }
+    
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        if UIDevice.currentDevice().generatesDeviceOrientationNotifications {
+            UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
         }
     }
     
