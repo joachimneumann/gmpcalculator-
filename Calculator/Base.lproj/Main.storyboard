@@ -103,7 +103,7 @@
                                                         <rect key="frame" x="104.5" y="0.0" width="52.5" height="82"/>
                                                         <color key="backgroundColor" white="0.84999999999999998" alpha="1" colorSpace="calibratedWhite"/>
                                                         <inset key="contentEdgeInsets" minX="0.0" minY="7" maxX="0.0" maxY="6"/>
-                                                        <state key="normal" title="1/x">
+                                                        <state key="normal" title="1\x">
                                                             <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                         </state>
                                                         <connections>

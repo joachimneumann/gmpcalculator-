@@ -85,7 +85,7 @@ class CalculatorBrain {
         "π": Operation.InPlaceOperation(π),
         "e": Operation.InPlaceOperation(e),
         "γ": Operation.InPlaceOperation(γ),
-        "1/x": Operation.InPlaceOperation(rez),
+        "1\\x": Operation.InPlaceOperation(rez),
         "x!": Operation.InPlaceOperation(fac),
         "ln": Operation.InPlaceOperation(ln),
         "log10": Operation.InPlaceOperation(log10),
