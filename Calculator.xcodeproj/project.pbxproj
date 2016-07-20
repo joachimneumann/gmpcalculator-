@@ -489,6 +489,7 @@
 				BE147A9D1D338ED200D10F74 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
