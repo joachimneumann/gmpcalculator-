@@ -204,9 +204,11 @@
 					AAE9DA861CE0BBE400C44198 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 8A4DL788W9;
+						LastSwiftMigration = 0800;
 					};
 					BE147A941D338ED200D10F74 = {
 						CreatedOnToolsVersion = 7.3;
+						LastSwiftMigration = 0800;
 						TestTargetID = AAE9DA861CE0BBE400C44198;
 					};
 				};
@@ -412,6 +414,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 			};
 			name = Debug;
@@ -435,6 +438,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
+				SWIFT_VERSION = 2.3;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 			};
 			name = Release;
@@ -446,6 +450,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.mindo.calcUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = Calculator;
 			};
 			name = Debug;
@@ -457,6 +462,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = io.mindo.calcUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 2.3;
 				TEST_TARGET_NAME = Calculator;
 			};
 			name = Release;
