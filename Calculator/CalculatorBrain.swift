@@ -15,8 +15,8 @@ class CalculatorBrain {
     init() {
         accumulator = Gmp("0.0", precision: nBits)
     }
-    private var accumulator: Gmp
-    private var nBits = 250
+    fileprivate var accumulator: Gmp
+    fileprivate var nBits = 250
     var digits: Int {
         set {
             nBits = Int(round(Double(newValue) / 0.3))
@@ -29,22 +29,22 @@ class CalculatorBrain {
     
     var isPending: Bool = false
     
-    func newDigit(digit: String) {
+    func newDigit(_ digit: String) {
         internalProgram.append(digit)
     }
     
-    func setDigit(digit: String) {
+    func setDigit(_ digit: String) {
         internalProgram.removeLast()
         newDigit(digit)
     }
     
-    func setOperand(operand: String) {
+    func setOperand(_ operand: String) {
         internalProgram.append(operand)
         let value = Gmp(operand, precision: nBits)
         setOperand(value)
     }
 
-    private func setOperand(operand: Gmp) {
+    fileprivate func setOperand(_ operand: Gmp) {
         accumulator = operand
     }
     
@@ -59,7 +59,7 @@ class CalculatorBrain {
     
     var program: PropertyList {
         get {
-            return internalProgram
+            return internalProgram as CalculatorBrain.PropertyList
         }
 //        set {
 //            reset()
@@ -79,82 +79,82 @@ class CalculatorBrain {
     
 
     
-    private var operations: Dictionary<String, Operation> = [
-        "C": Operation.Reset,
-        "±": Operation.InPlaceOperation(changeSign),
-        "π": Operation.InPlaceOperation(π),
-        "e": Operation.InPlaceOperation(e),
-        "γ": Operation.InPlaceOperation(γ),
-        "1\\x": Operation.InPlaceOperation(rez),
-        "x!": Operation.InPlaceOperation(fac),
-        "ln": Operation.InPlaceOperation(ln),
-        "log10": Operation.InPlaceOperation(log10),
-        "√": Operation.InPlaceOperation(sqrt),
-        "3√": Operation.InPlaceOperation(sqrt3),
-        "sin": Operation.InPlaceOperation(sin),
-        "cos": Operation.InPlaceOperation(cos),
-        "tan": Operation.InPlaceOperation(tan),
-        "x^2": Operation.InPlaceOperation(pow_x_2),
-        "x^3": Operation.InPlaceOperation(pow_x_3),
-        "e^x": Operation.InPlaceOperation(pow_e_x),
-        "10^x": Operation.InPlaceOperation(pow_10_x),
-        "×": Operation.BinaryOperation(*),
-        "+": Operation.BinaryOperation(+),
-        "−": Operation.BinaryOperation(-),
-        "÷": Operation.BinaryOperation(/),
-        "x^y": Operation.BinaryOperation(pow_x_y),
-        "x↑↑y": Operation.BinaryOperation(x_double_up_arrow_y),
-        "=": Operation.Equals
+    fileprivate var operations: Dictionary<String, Operation> = [
+        "C": Operation.reset,
+        "±": Operation.inPlaceOperation(changeSign),
+        "π": Operation.inPlaceOperation(π),
+        "e": Operation.inPlaceOperation(e),
+        "γ": Operation.inPlaceOperation(γ),
+        "1\\x": Operation.inPlaceOperation(rez),
+        "x!": Operation.inPlaceOperation(fac),
+        "ln": Operation.inPlaceOperation(ln),
+        "log10": Operation.inPlaceOperation(log10),
+        "√": Operation.inPlaceOperation(sqrt),
+        "3√": Operation.inPlaceOperation(sqrt3),
+        "sin": Operation.inPlaceOperation(sin),
+        "cos": Operation.inPlaceOperation(cos),
+        "tan": Operation.inPlaceOperation(tan),
+        "x^2": Operation.inPlaceOperation(pow_x_2),
+        "x^3": Operation.inPlaceOperation(pow_x_3),
+        "e^x": Operation.inPlaceOperation(pow_e_x),
+        "10^x": Operation.inPlaceOperation(pow_10_x),
+        "×": Operation.binaryOperation(*),
+        "+": Operation.binaryOperation(+),
+        "−": Operation.binaryOperation(-),
+        "÷": Operation.binaryOperation(/),
+        "x^y": Operation.binaryOperation(pow_x_y),
+        "x↑↑y": Operation.binaryOperation(x_double_up_arrow_y),
+        "=": Operation.equals
     ]
     
-    private enum Operation {
-        case InPlaceOperation((Gmp) -> ())
-        case BinaryOperation((Gmp, Gmp) -> (Gmp))
-        case Equals
-        case Reset
+    fileprivate enum Operation {
+        case inPlaceOperation((Gmp) -> ())
+        case binaryOperation((Gmp, Gmp) -> (Gmp))
+        case equals
+        case reset
     }
     
     var programDescription: String {
         get {
-            return internalProgram.joinWithSeparator(" ")
+            return internalProgram.joined(separator: " ")
         }
     }
 
-    func performOperation(symbol: String) {
+    func performOperation(_ symbol: String) {
         internalProgram.append(symbol)
         if let operation = operations[symbol] {
             switch operation {
-            case .InPlaceOperation(let f):
+            case .inPlaceOperation(let f):
                 f(accumulator)
                 isPending = false
-            case .BinaryOperation(let f):
+            case .binaryOperation(let f):
                 if (pending != nil) {
                     executePendingOperation()
                 }
                 pending = PendingBinaryOperationInfo(binaryFunction: f, firstOperand: accumulator.copy())
                 isPending = true // isPending is set false in executePendingOperation
-            case .Equals:
+            case .equals:
                 if (pending != nil) {
                     executePendingOperation()
                 } else {
                     // there was no operation pending, delete the program
                     internalProgram.removeAll()
                 }
-            case .Reset:
+            case .reset:
                 reset()
             }
         }
     }
 
-    private func executePendingOperation() {
+    fileprivate func executePendingOperation() {
         accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
         pending = nil;
         isPending = false
     }
     
-    private var pending: PendingBinaryOperationInfo?
+    fileprivate var pending: PendingBinaryOperationInfo?
 
-    private struct PendingBinaryOperationInfo {
+    fileprivate struct PendingBinaryOperationInfo {
         var binaryFunction: (Gmp, Gmp) -> (Gmp)
         var firstOperand: Gmp
     }

@@ -48,37 +48,37 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var displayHeightConstraint: NSLayoutConstraint!
     
-    private var userIsInTheMiddleOfTyping = false
-    private let fmt = NSNumberFormatter()
-    private var brain = CalculatorBrain()
-    private var screenWidth:CGFloat = 300.0
-    private var screenHeight:CGFloat = 300.0
-    private var pendingButton: UIButton?
-    var currentDeviceOrientation: UIDeviceOrientation = .Unknown
+    fileprivate var userIsInTheMiddleOfTyping = false
+    fileprivate let fmt = NumberFormatter()
+    fileprivate var brain = CalculatorBrain()
+    fileprivate var screenWidth:CGFloat = 300.0
+    fileprivate var screenHeight:CGFloat = 300.0
+    fileprivate var pendingButton: UIButton?
+    var currentDeviceOrientation: UIDeviceOrientation = .unknown
 
     let defaultPrecision = 75
     
-    private var savedProgram: CalculatorBrain.PropertyList?
+    fileprivate var savedProgram: CalculatorBrain.PropertyList?
     
    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         return true
     }
     
    
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.All
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.all
     }
     
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        display.indicatorStyle = UIScrollViewIndicatorStyle.White
+        display.indicatorStyle = UIScrollViewIndicatorStyle.white
         fmt.usesSignificantDigits = false
         fmt.maximumSignificantDigits = 10
         screenWidth = view.frame.size.width
@@ -96,8 +96,8 @@ class CalculatorViewController: UIViewController {
                     if let titleLabel = b.titleLabel {
                         if let titleText = titleLabel.text {
                             if let image = UIImage(named: titleText) {
-                                b.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-                                b.setImage(image, forState: UIControlState.Normal)
+                                b.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+                                b.setImage(image, for: UIControlState())
                             }
                         }
                     }
@@ -109,8 +109,8 @@ class CalculatorViewController: UIViewController {
                         if let titleLabel = b.titleLabel {
                             if let titleText = titleLabel.text {
                                 if let image = UIImage(named: titleText) {
-                                    b.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
-                                    b.setImage(image, forState: UIControlState.Normal)
+                                    b.imageView?.contentMode = UIViewContentMode.scaleAspectFit
+                                    b.setImage(image, for: UIControlState())
                                 }
                             }
                         }
@@ -118,9 +118,9 @@ class CalculatorViewController: UIViewController {
                 }
             }
         }
-        precisionTextView.textContainerInset = UIEdgeInsetsZero;
+        precisionTextView.textContainerInset = UIEdgeInsets.zero;
         precisionTextView.textContainer.lineFragmentPadding = 0;
-        programTextView.textContainerInset = UIEdgeInsetsZero;
+        programTextView.textContainerInset = UIEdgeInsets.zero;
         programTextView.textContainer.lineFragmentPadding = 0;
 
         // thinner lines between the keys
@@ -147,32 +147,32 @@ class CalculatorViewController: UIViewController {
     
     
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         precisionTextView.text = "\(defaultPrecision) digits"
         
         programTextView.text = ""
         
-        UIDevice.currentDevice().beginGeneratingDeviceOrientationNotifications()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: UIDeviceOrientationDidChangeNotification, object: nil)
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
         // Initial device orientation
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeRight:
-            self.currentDeviceOrientation = .LandscapeRight
-        case .LandscapeLeft:
-            self.currentDeviceOrientation = .LandscapeLeft
+        switch UIDevice.current.orientation {
+        case .landscapeRight:
+            self.currentDeviceOrientation = .landscapeRight
+        case .landscapeLeft:
+            self.currentDeviceOrientation = .landscapeLeft
         default:
-            self.currentDeviceOrientation = .Portrait
+            self.currentDeviceOrientation = .portrait
         }
     }
     
-    override func willRotateToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeRight, .LandscapeLeft:
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        switch UIDevice.current.orientation {
+        case .landscapeRight, .landscapeLeft:
             setPrecisionKeysBackgroundColor()
-        case .Portrait, .PortraitUpsideDown:
+        case .portrait, .portraitUpsideDown:
             if brain.digits != defaultPrecision {
                 brain.digits = defaultPrecision
                 precisionTextView.text = "\(defaultPrecision) digits"
@@ -182,28 +182,28 @@ class CalculatorViewController: UIViewController {
         }
     }
 
-    func deviceDidRotate(notification: NSNotification) {
-        switch UIDevice.currentDevice().orientation {
-        case .LandscapeRight:
-            self.currentDeviceOrientation = .LandscapeRight
-        case .LandscapeLeft:
-            self.currentDeviceOrientation = .LandscapeLeft
-        case .Portrait:
-            self.currentDeviceOrientation = .Portrait
-        case .PortraitUpsideDown:
-            self.currentDeviceOrientation = .PortraitUpsideDown
+    func deviceDidRotate(_ notification: Notification) {
+        switch UIDevice.current.orientation {
+        case .landscapeRight:
+            self.currentDeviceOrientation = .landscapeRight
+        case .landscapeLeft:
+            self.currentDeviceOrientation = .landscapeLeft
+        case .portrait:
+            self.currentDeviceOrientation = .portrait
+        case .portraitUpsideDown:
+            self.currentDeviceOrientation = .portraitUpsideDown
         default: ()
         }
         layout()
     }
     
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-        if UIDevice.currentDevice().generatesDeviceOrientationNotifications {
-            UIDevice.currentDevice().endGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.removeObserver(self)
+        if UIDevice.current.isGeneratingDeviceOrientationNotifications {
+            UIDevice.current.endGeneratingDeviceOrientationNotifications()
         }
     }
     
@@ -213,22 +213,22 @@ class CalculatorViewController: UIViewController {
     }
     
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         return true;
     }
     
     func layout() {
         switch self.currentDeviceOrientation {
-        case .LandscapeLeft, .LandscapeRight:
-            scienceStack.hidden = false
+        case .landscapeLeft, .landscapeRight:
+            scienceStack.isHidden = false
             keysStackWidthConstraint.constant = screenHeight*0.4
             if brain.digits < 50 {
                 displayHeightConstraint.constant =  screenWidth * 0.2
             } else {
                 displayHeightConstraint.constant =  screenWidth * 0.4
             }
-        case .Portrait, .PortraitUpsideDown:
-            scienceStack.hidden = true
+        case .portrait, .portraitUpsideDown:
+            scienceStack.isHidden = true
             keysStackWidthConstraint.constant = screenWidth
             if brain.digits < 50 {
                 displayHeightConstraint.constant =  screenHeight * 0.2
@@ -251,11 +251,11 @@ class CalculatorViewController: UIViewController {
         var largeButtonFontSize: CGFloat
         var inset: CGFloat
         switch self.currentDeviceOrientation {
-        case .LandscapeLeft, .LandscapeRight:
+        case .landscapeLeft, .landscapeRight:
             buttonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.45)
             largeButtonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.6)
             inset = buttonFontSize / 10
-        case .Portrait, .PortraitUpsideDown:
+        case .portrait, .portraitUpsideDown:
             buttonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.35)
             largeButtonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.5)
             inset = buttonFontSize / 3
@@ -312,13 +312,13 @@ class CalculatorViewController: UIViewController {
 
     
     
-    @IBAction func basicOperationTouchDown(sender: UIButton) {
+    @IBAction func basicOperationTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.DarkBasicOperation
     }
-    @IBAction func functionTouchDown(sender: UIButton) {
+    @IBAction func functionTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.DarkOperation
     }
-    @IBAction func digitTouchDown(sender: UIButton) {
+    @IBAction func digitTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.DarkDigits
     }
     
@@ -327,17 +327,17 @@ class CalculatorViewController: UIViewController {
             if let b = subview as? UIButton {
                 if b.titleLabel!.text == String(brain.digits) {
                     b.backgroundColor = ColorPalette.BasicOperation
-                    b.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+                    b.setTitleColor(UIColor.white, for: UIControlState())
                 } else {
                     b.backgroundColor = ColorPalette.Operation
-                    b.setTitleColor(UIColor.blackColor(), forState: .Normal)
+                    b.setTitleColor(UIColor.black, for: UIControlState())
                 }
             }
         }
     }
   
-    @IBAction private func touchDigit(sender: UIButton) {
-        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+    @IBAction fileprivate func touchDigit(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
             sender.backgroundColor = ColorPalette.Digits
             }, completion: nil)
 
@@ -347,7 +347,7 @@ class CalculatorViewController: UIViewController {
         // zeros at the beginning (display is "0") shall be ignored
         if !(digit == "0" && currentText == "0") {
             if userIsInTheMiddleOfTyping {
-                digit = (digit == "." && currentText.rangeOfString(".") != nil) ? "" : digit
+                digit = (digit == "." && currentText.range(of: ".") != nil) ? "" : digit
                 display.text = currentText + digit
                 brain.setDigit(display.text)
             } else {
@@ -360,14 +360,14 @@ class CalculatorViewController: UIViewController {
         programTextView.text = brain.programDescription
     }
   
-    @IBAction private func performOperation(sender: UIButton) {
+    @IBAction fileprivate func performOperation(_ sender: UIButton) {
         if let mathematicalSymbol = sender.currentTitle {
             if basicOperations.contains(mathematicalSymbol) {
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                     sender.backgroundColor = ColorPalette.BasicOperation
                     }, completion: nil)
             } else {
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions.AllowUserInteraction, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                     sender.backgroundColor = ColorPalette.Operation
                     }, completion: nil)
             }
@@ -389,7 +389,7 @@ class CalculatorViewController: UIViewController {
         updateDisplay()
     }
     
-    @IBAction func setBits(sender: AnyObject) {
+    @IBAction func setBits(_ sender: AnyObject) {
         if let digits = Int(sender.currentTitle!!) {
             if digits != brain.digits {
                 if digits <= brain.digits {

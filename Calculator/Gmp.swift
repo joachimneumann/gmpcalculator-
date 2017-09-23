@@ -16,7 +16,7 @@ import Foundation
 extension String {
     
     subscript (i: Int) -> Character {
-        return self[self.startIndex.advancedBy(i)]
+        return self[self.characters.index(self.startIndex, offsetBy: i)]
     }
     
     subscript (i: Int) -> String {
@@ -45,11 +45,11 @@ func * (left: Gmp, right: Gmp) -> Gmp {
     return left
 }
 
-func pow_x_y(base: Gmp, exponent: Gmp) -> Gmp {
+func pow_x_y(_ base: Gmp, exponent: Gmp) -> Gmp {
     mpfr_pow(&base.mpfr, &base.mpfr, &exponent.mpfr, MPFR_RNDN)
     return base
 }
-func x_double_up_arrow_y(left: Gmp, right: Gmp) -> Gmp {
+func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
     var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     mpfr_init2 (&temp, mpfr_get_prec(&left.mpfr))
     mpfr_set(&temp, &left.mpfr, MPFR_RNDN)
@@ -63,23 +63,23 @@ func x_double_up_arrow_y(left: Gmp, right: Gmp) -> Gmp {
     return left
 }
 
-func changeSign(me: Gmp) {
+func changeSign(_ me: Gmp) {
     mpfr_neg(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
 
-func π(me: Gmp) {
+func π(_ me: Gmp) {
     mpfr_const_pi(&me.mpfr, MPFR_RNDN)
 }
-func sqrt(me: Gmp) {
+func sqrt(_ me: Gmp) {
     mpfr_sqrt(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func sqrt3(me: Gmp) {
+func sqrt3(_ me: Gmp) {
     mpfr_cbrt(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func rez(me: Gmp) {
+func rez(_ me: Gmp) {
     mpfr_ui_div(&me.mpfr, 1, &me.mpfr, MPFR_RNDN)
 }
-func fac(me: Gmp) {
+func fac(_ me: Gmp) {
     let n = mpfr_get_si(&me.mpfr, MPFR_RNDN)
     if n >= 0 {
         let un = UInt(n)
@@ -88,53 +88,53 @@ func fac(me: Gmp) {
         mpfr_set_d(&me.mpfr, 0.0, MPFR_RNDN)
     }
 }
-func ln(me: Gmp) {
+func ln(_ me: Gmp) {
     mpfr_log(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func log10(me: Gmp) {
+func log10(_ me: Gmp) {
     mpfr_log10(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func sin(me: Gmp) {
+func sin(_ me: Gmp) {
     mpfr_sin(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func cos(me: Gmp) {
+func cos(_ me: Gmp) {
     mpfr_cos(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func tan(me: Gmp) {
+func tan(_ me: Gmp) {
     mpfr_tan(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func e(me: Gmp) {
+func e(_ me: Gmp) {
     var one: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     mpfr_init2 (&one, mpfr_get_prec(&me.mpfr))
     mpfr_set_d(&one, 1.0, MPFR_RNDN)
     mpfr_exp(&me.mpfr, &one, MPFR_RNDN); // Strangely, this returns a status of -1
     mpfr_clear(&one);
 }
-func γ(me: Gmp) {
+func γ(_ me: Gmp) {
     mpfr_const_euler(&me.mpfr, MPFR_RNDN)
 }
-func pow_x_2(me: Gmp) {
+func pow_x_2(_ me: Gmp) {
     mpfr_sqr(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func pow_x_3(me: Gmp) {
+func pow_x_3(_ me: Gmp) {
     mpfr_pow_ui(&me.mpfr, &me.mpfr, 3, MPFR_RNDN)
 }
-func pow_e_x(me: Gmp) {
+func pow_e_x(_ me: Gmp) {
     mpfr_exp(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
-func pow_10_x(me: Gmp) {
+func pow_10_x(_ me: Gmp) {
     mpfr_exp10(&me.mpfr, &me.mpfr, MPFR_RNDN)
 }
 
 class Gmp {
     // Swift requires me to initialize the mpfr_t struc
     // I do this will zeros. The struct will be initialized correctly in mpfr_init2
-    private var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
+    fileprivate var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     
     // there is only ine initialzer that takes a string.
     // Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
     init(_ s: String, precision: CLong) {
-        let s1 = s.stringByReplacingOccurrencesOfString(" E", withString: "e")
+        let s1 = s.replacingOccurrences(of: " E", with: "e")
         mpfr_init2 (&mpfr, precision)
         mpfr_set_str (&mpfr, s1, 10, MPFR_RNDN)
     }
@@ -145,7 +145,7 @@ class Gmp {
         return ret
     }
     
-    func setPrecisionTo(nBits: CLong) {
+    func setPrecisionTo(_ nBits: CLong) {
         // mpfr_set_prec sets the value to NaN, but we want to preserve the value
         
         var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
@@ -176,7 +176,7 @@ class Gmp {
         
         let significantBytesEstimate = Int(round(0.3 * Double(mpfr_get_prec(&mpfr))))
         var expptr: mpfr_exp_t = 0
-        var charArray: Array<CChar> = Array(count: significantBytesEstimate+2, repeatedValue: 0) // +2 because: one for a possible - and one for zero termination
+        var charArray: Array<CChar> = Array(repeating: 0, count: significantBytesEstimate+2) // +2 because: one for a possible - and one for zero termination
         mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
         
         // for speed, we work a bit with the charArray before using swift string
@@ -196,7 +196,7 @@ class Gmp {
         // is it an Integer?
         if expptr > 0 && lastSignificantDigit <= expptr && expptr < significantBytesEstimate {
             charArray[expptr] = 0
-            guard let integerString = String.fromCString(charArray)
+            guard let integerString = String(validatingUTF8: charArray)
                 else { return "not a number" }
             if negative {
                 return "-"+integerString
@@ -214,13 +214,13 @@ class Gmp {
 
         charArray[lastSignificantDigit] = 0
 
-        guard var floatString = String.fromCString(charArray)
+        guard var floatString = String(validatingUTF8: charArray)
             else { return "not a number" }
         
         // make sure the lenfth of the float string is at least two characters
         while floatString.characters.count < 2 { floatString += "0" }
         
-        floatString.insert(".", atIndex: floatString.startIndex.advancedBy(1))
+        floatString.insert(".", at: floatString.characters.index(floatString.startIndex, offsetBy: 1))
         
         // if exponent is 0, drop it
         if expptr-1 != 0 {
