@@ -182,7 +182,7 @@ class CalculatorViewController: UIViewController {
         }
     }
 
-    @objc func deviceDidRotate(_ notification: Notification) {
+    func deviceDidRotate(_ notification: Notification) {
         switch UIDevice.current.orientation {
         case .landscapeRight:
             self.currentDeviceOrientation = .landscapeRight
