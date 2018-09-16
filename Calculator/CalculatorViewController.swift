@@ -182,7 +182,7 @@ class CalculatorViewController: UIViewController {
         }
     }
 
-    func deviceDidRotate(_ notification: Notification) {
+    @objc func deviceDidRotate(_ notification: Notification) {
         switch UIDevice.current.orientation {
         case .landscapeRight:
             self.currentDeviceOrientation = .landscapeRight
@@ -270,7 +270,7 @@ class CalculatorViewController: UIViewController {
         for stack in scienceStack.subviews {
             for key in stack.subviews {
                 if let b = key as? UIButton {
-                    b.titleLabel?.bounds.height
+//                    b.titleLabel?.bounds.height
                     b.titleLabel!.font = buttonFont
                     b.titleLabel!.adjustsFontSizeToFitWidth = true
                     if let titleLabel = b.titleLabel {

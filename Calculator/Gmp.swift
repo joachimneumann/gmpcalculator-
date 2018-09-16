@@ -16,7 +16,7 @@ import Foundation
 extension String {
     
     subscript (i: Int) -> Character {
-        return self[self.characters.index(self.startIndex, offsetBy: i)]
+        return self[self.index(self.startIndex, offsetBy: i)]
     }
     
     subscript (i: Int) -> String {
@@ -218,9 +218,9 @@ class Gmp {
             else { return "not a number" }
         
         // make sure the lenfth of the float string is at least two characters
-        while floatString.characters.count < 2 { floatString += "0" }
+        while floatString.count < 2 { floatString += "0" }
         
-        floatString.insert(".", at: floatString.characters.index(floatString.startIndex, offsetBy: 1))
+        floatString.insert(".", at: floatString.index(floatString.startIndex, offsetBy: 1))
         
         // if exponent is 0, drop it
         if expptr-1 != 0 {
