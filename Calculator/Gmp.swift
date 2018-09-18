@@ -27,26 +27,26 @@ extension String {
 var dummyUnsignedLongInt: CUnsignedLong = 0
 
 func + (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_add(&left.mpfr, &left.mpfr, &right.mpfr, MPFR_RNDN)
+    mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
 
 func / (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_div(&left.mpfr, &left.mpfr, &right.mpfr, MPFR_RNDN)
+    mpfr_div(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
 
 func - (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_sub(&left.mpfr, &left.mpfr, &right.mpfr, MPFR_RNDN)
+    mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
 func * (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_mul(&left.mpfr, &left.mpfr, &right.mpfr, MPFR_RNDN)
+    mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
 
 func pow_x_y(_ base: Gmp, exponent: Gmp) -> Gmp {
-    mpfr_pow(&base.mpfr, &base.mpfr, &exponent.mpfr, MPFR_RNDN)
+    mpfr_pow(&base.mpfr, &base.copy().mpfr, &exponent.mpfr, MPFR_RNDN)
     return base
 }
 func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
@@ -64,17 +64,17 @@ func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
 }
 
 func changeSign(_ me: Gmp) {
-    mpfr_neg(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_neg(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 
 func π(_ me: Gmp) {
     mpfr_const_pi(&me.mpfr, MPFR_RNDN)
 }
 func sqrt(_ me: Gmp) {
-    mpfr_sqrt(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_sqrt(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func sqrt3(_ me: Gmp) {
-    mpfr_cbrt(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_cbrt(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func rez(_ me: Gmp) {
     mpfr_ui_div(&me.mpfr, 1, &me.mpfr, MPFR_RNDN)

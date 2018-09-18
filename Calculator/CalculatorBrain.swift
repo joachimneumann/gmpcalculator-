@@ -147,7 +147,8 @@ class CalculatorBrain {
     }
 
     fileprivate func executePendingOperation() {
-        accumulator = pending!.binaryFunction(pending!.firstOperand, accumulator)
+        let temp = pending!.binaryFunction(pending!.firstOperand, accumulator)
+        accumulator = temp
         pending = nil;
         isPending = false
     }
