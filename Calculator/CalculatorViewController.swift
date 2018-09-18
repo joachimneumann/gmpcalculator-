@@ -9,11 +9,11 @@
 import UIKit
 
 struct ColorPalette {
-    static let BasicOperation = UIColor(red: 192.0/255.0, green: 203.0/255.0, blue: 156.0/255.0, alpha: 1.0)
-    static let DarkBasicOperation = UIColor(red: 172.0/255.0, green: 183.0/255.0, blue: 136.0/255.0, alpha: 1.0)
+    static let BasicOperation = UIColor(red: 0.0/255.0, green: 163.0/255.0, blue: 136.0/255.0, alpha: 1.0)
+    static let PressedBasicOperation = UIColor(red: 51/255.0, green: 213.0/255.0, blue: 187.0/255.0, alpha: 1.0)
     static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
-    static let Operation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
-    static let Digits = UIColor(red: 217.0/255.0, green: 184.0/255.0, blue: 160.0/255.0, alpha: 1.0)
+    static let Operation = UIColor(red: 164.0/255.0, green: 164.0/255.0, blue: 164.0/255.0, alpha: 1.0)
+    static let Digits = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 1.0)
     static let DarkDigits = UIColor(red: 197.0/255.0, green: 164.0/255.0, blue: 140.0/255.0, alpha: 1.0)
 }
 
@@ -123,21 +123,6 @@ class CalculatorViewController: UIViewController {
         programTextView.textContainerInset = UIEdgeInsets.zero;
         programTextView.textContainer.lineFragmentPadding = 0;
 
-        // thinner lines between the keys
-        // Note: I was not able to set the spacing to 0.5 
-        //       in the Xcode Interfeace Builder
-        scienceStack.spacing = 0.5
-        science1Stack.spacing = 0.5
-        science2Stack.spacing = 0.5
-        science3Stack.spacing = 0.5
-        science4Stack.spacing = 0.5
-        precisionStack.spacing = 0.5
-        keysStack.spacing = 0.5
-        ACStack.spacing = 0.5
-        _789Stack.spacing = 0.5
-        _456Stack.spacing = 0.5
-        _123Stack.spacing = 0.5
-        _0Stack.spacing = 0.5
     }
     
     override func viewWillLayoutSubviews() {
@@ -218,6 +203,40 @@ class CalculatorViewController: UIViewController {
     }
     
     func layout() {
+        let sizeX = keysStack.frame.size.width / 4
+        let sizeY = keysStack.frame.size.height / 5
+        let size = min(sizeX, sizeY) * 0.89
+        let deltaX = size * 0.0115
+        let deltaY = size * 0.0115
+        let radius = size / 2
+        for stack in keysStack.subviews {
+            for key in stack.subviews {
+                if let b = key as? UIButton {
+                    b.frame.size.width = size
+                    b.frame.origin.x += deltaX
+                    b.frame.size.height = size
+                    b.frame.origin.y += deltaY
+                    b.layer.cornerRadius = radius
+                }
+            }
+            for key in stack.subviews {
+                if let b = key as? UIButton {
+                    if b.tag == 2 { // 0
+                        b.frame.size.width = size + keysStack.frame.size.width / 4
+                    }
+                }
+            }
+        }
+        for stack in scienceStack.subviews {
+            for key in stack.subviews {
+                if let b = key as? UIButton {
+                    b.frame.size = CGSize(width: sizeY, height: size)
+                    b.layer.cornerRadius = radius
+                }
+            }
+        }
+        
+        
         switch self.currentDeviceOrientation {
         case .landscapeLeft, .landscapeRight:
             scienceStack.isHidden = false
@@ -244,33 +263,32 @@ class CalculatorViewController: UIViewController {
     }
     
     func keyFontSize() {
+        let sizeX = keysStack.frame.size.width / 4
+        let sizeY = keysStack.frame.size.height / 5
+        let size = min(sizeX, sizeY) * 0.89
         var buttonFont: UIFont
-        var largeButtonFont: UIFont
+        var largerButtonFont: UIFont
         var displayFont: UIFont
-        var buttonFontSize: CGFloat
-        var largeButtonFontSize: CGFloat
+        var fontSize: CGFloat
         var inset: CGFloat
         switch self.currentDeviceOrientation {
         case .landscapeLeft, .landscapeRight:
-            buttonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.45)
-            largeButtonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.6)
-            inset = buttonFontSize / 10
+            fontSize = round(keysStack.bounds.size.height * 0.07)
+            inset = fontSize / 10
         case .portrait, .portraitUpsideDown:
-            buttonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.35)
-            largeButtonFontSize = round(keysStack.bounds.size.height * 0.2 * 0.5)
-            inset = buttonFontSize / 3
+            fontSize = round(keysStack.bounds.size.height * 0.07)
+            inset = fontSize / 3
         default:
             // do nothing
             return
         }
-        let displayFontSize = min(buttonFontSize, 30)
-        buttonFont = UIFont(name: "HelveticaNeue-Thin", size: buttonFontSize)!
-        largeButtonFont = UIFont(name: "HelveticaNeue-Thin", size: largeButtonFontSize)!
-        displayFont = UIFont(name: "HelveticaNeue-Thin", size: displayFontSize)!
+        let displayFontSize = min(fontSize, 30)
+        buttonFont = UIFont.systemFont(ofSize: fontSize)
+        largerButtonFont = UIFont.systemFont(ofSize: fontSize*1.2)
+        displayFont = UIFont.systemFont(ofSize: displayFontSize)
         for stack in scienceStack.subviews {
             for key in stack.subviews {
                 if let b = key as? UIButton {
-//                    b.titleLabel?.bounds.height
                     b.titleLabel!.font = buttonFont
                     b.titleLabel!.adjustsFontSizeToFitWidth = true
                     if let titleLabel = b.titleLabel {
@@ -288,11 +306,26 @@ class CalculatorViewController: UIViewController {
             for key in stack.subviews {
                 if let b = key as? UIButton {
                     if let titleLabel = b.titleLabel {
+                        // tag 1: digits 1 to 9
+                        // tag 2: 0
+                        // tag 3: / x - + =
+                        // tag 0: all other
                         if b.tag == 1 {
-                            titleLabel.font = largeButtonFont
+                            b.setTitleColor(UIColor.white, for: UIControlState())
+                            titleLabel.font = buttonFont
                             b.backgroundColor = ColorPalette.Digits
-                        } else {
+                        } else if b.tag == 2 {
+                            b.setTitleColor(UIColor.white, for: UIControlState())
+                            titleLabel.font = buttonFont
+                            b.backgroundColor = ColorPalette.Digits
+                            b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: size*0.38, bottom: 0, right: -size*0.38)
+                        } else if b.tag == 3 {
+                            b.setTitleColor(UIColor.white, for: UIControlState())
+                            titleLabel.font = largerButtonFont
                             b.backgroundColor = ColorPalette.BasicOperation
+                            b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
+                        } else {
+                            b.setTitleColor(UIColor.black, for: UIControlState())
                             titleLabel.font = buttonFont
                         }
                         if let titleText = titleLabel.text {
@@ -313,7 +346,7 @@ class CalculatorViewController: UIViewController {
     
     
     @IBAction func basicOperationTouchDown(_ sender: UIButton) {
-        sender.backgroundColor = ColorPalette.DarkBasicOperation
+        sender.backgroundColor = ColorPalette.PressedBasicOperation
     }
     @IBAction func functionTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.DarkOperation
@@ -327,10 +360,8 @@ class CalculatorViewController: UIViewController {
             if let b = subview as? UIButton {
                 if b.titleLabel!.text == String(brain.digits) {
                     b.backgroundColor = ColorPalette.BasicOperation
-                    b.setTitleColor(UIColor.white, for: UIControlState())
                 } else {
                     b.backgroundColor = ColorPalette.Operation
-                    b.setTitleColor(UIColor.black, for: UIControlState())
                 }
             }
         }

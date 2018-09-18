@@ -77,7 +77,7 @@ func sqrt3(_ me: Gmp) {
     mpfr_cbrt(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func rez(_ me: Gmp) {
-    mpfr_ui_div(&me.mpfr, 1, &me.mpfr, MPFR_RNDN)
+    mpfr_ui_div(&me.mpfr, 1, &me.copy().mpfr, MPFR_RNDN)
 }
 func fac(_ me: Gmp) {
     let n = mpfr_get_si(&me.mpfr, MPFR_RNDN)
