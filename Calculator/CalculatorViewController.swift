@@ -11,10 +11,10 @@ import UIKit
 struct ColorPalette {
     static let BasicOperation = UIColor(red: 0.0/255.0, green: 163.0/255.0, blue: 136.0/255.0, alpha: 1.0)
     static let PressedBasicOperation = UIColor(red: 51/255.0, green: 213.0/255.0, blue: 187.0/255.0, alpha: 1.0)
-    static let DarkOperation = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
     static let Operation = UIColor(red: 164.0/255.0, green: 164.0/255.0, blue: 164.0/255.0, alpha: 1.0)
+    static let PressedOperation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     static let Digits = UIColor(red: 52.0/255.0, green: 52.0/255.0, blue: 52.0/255.0, alpha: 1.0)
-    static let DarkDigits = UIColor(red: 197.0/255.0, green: 164.0/255.0, blue: 140.0/255.0, alpha: 1.0)
+    static let PressedDigits = UIColor(red: 115.0/255.0, green: 115.0/255.0, blue: 115.0/255.0, alpha: 1.0)
 }
 
 let basicOperations = Set(["÷", "×", "−", "+", "="]) // for key colors
@@ -26,27 +26,34 @@ let basicOperationKeys = Set(["1\\x", "±", "C"])
 
 class CalculatorViewController: UIViewController {
 
+    @IBOutlet weak var displayView: UIView!
     @IBOutlet weak var display: UITextView!
-    @IBOutlet weak var precisionTextView: UITextView!
-    @IBOutlet weak var programTextView: UITextView!
-    @IBOutlet weak var displayLabel: UIView!
 
+    @IBOutlet weak var keysView: UIView!
     @IBOutlet weak var scienceStack: UIStackView!
     @IBOutlet weak var science1Stack: UIStackView!
     @IBOutlet weak var science2Stack: UIStackView!
     @IBOutlet weak var science3Stack: UIStackView!
     @IBOutlet weak var science4Stack: UIStackView!
     @IBOutlet weak var precisionStack: UIStackView!
+
     @IBOutlet weak var keysStack: UIStackView!
     @IBOutlet weak var ACStack: UIStackView!
     @IBOutlet weak var _789Stack: UIStackView!
     @IBOutlet weak var _456Stack: UIStackView!
     @IBOutlet weak var _123Stack: UIStackView!
     @IBOutlet weak var _0Stack: UIStackView!
+    @IBOutlet weak var numberOfDigitsControl: UISegmentedControl!
+    @IBOutlet weak var sizeControl: UISegmentedControl!
+    
+    
     
     @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var displayHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var keysStackHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var keyStackTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var keyStackTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var keyStackBottomConstraint: NSLayoutConstraint!
     
     fileprivate var userIsInTheMiddleOfTyping = false
     fileprivate let fmt = NumberFormatter()
@@ -55,9 +62,10 @@ class CalculatorViewController: UIViewController {
     fileprivate var screenHeight:CGFloat = 300.0
     fileprivate var pendingButton: UIButton?
     var currentDeviceOrientation: UIDeviceOrientation = .unknown
-
-    let defaultPrecision = 75
     
+    var displayNotExpanded = true
+    var tapGestureRecognizer: UITapGestureRecognizer?
+
     fileprivate var savedProgram: CalculatorBrain.PropertyList?
     
    
@@ -69,7 +77,22 @@ class CalculatorViewController: UIViewController {
         return true
     }
     
-   
+    @objc func displayTouched() {
+        if displayNotExpanded {
+            keysView.isHidden = true
+            numberOfDigitsControl.isHidden = true
+            numberOfDigitsControl.isHidden = true
+            sizeControl.isHidden = false
+            displayNotExpanded = false
+        } else {
+            keysView.isHidden = false
+            numberOfDigitsControl.isHidden = false
+            displayNotExpanded = true
+            numberOfDigitsControl.isHidden = false
+            sizeControl.isHidden = true
+        }
+    }
+    
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.all
     }
@@ -77,19 +100,22 @@ class CalculatorViewController: UIViewController {
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        sizeControl.isHidden = true
+        tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(displayTouched))
+        tapGestureRecognizer!.numberOfTapsRequired = 1
+        display.addGestureRecognizer(tapGestureRecognizer!)
+        
         // Do any additional setup after loading the view, typically from a nib.
         display.indicatorStyle = UIScrollViewIndicatorStyle.white
         fmt.usesSignificantDigits = false
         fmt.maximumSignificantDigits = 10
-        screenWidth = view.frame.size.width
-        screenHeight = view.frame.size.height
-        if (screenWidth > screenHeight) {
-            let temp:CGFloat = screenWidth
-            screenWidth = screenHeight
-            screenHeight = temp
-        }
-        scienceStackWidthConstraint.constant = screenHeight*0.6 - 0.5
-        
+        keysView.backgroundColor = UIColor.black
+        displayView.backgroundColor = UIColor.black
+        display.backgroundColor = UIColor.black
+
+        let titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16.0)]
+        numberOfDigitsControl.setTitleTextAttributes(titleTextAttributes, for: .normal)
+        numberOfDigitsControl.setTitleTextAttributes(titleTextAttributes, for: .selected)
         for stack in keysStack.subviews {
             for key in stack.subviews {
                 if let b = key as? UIButton {
@@ -118,68 +144,27 @@ class CalculatorViewController: UIViewController {
                 }
             }
         }
-        precisionTextView.textContainerInset = UIEdgeInsets.zero;
-        precisionTextView.textContainer.lineFragmentPadding = 0;
-        programTextView.textContainerInset = UIEdgeInsets.zero;
-        programTextView.textContainer.lineFragmentPadding = 0;
-
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        layout()
+//        layout()
     }
-    
+
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        precisionTextView.text = "\(defaultPrecision) digits"
-        
-        programTextView.text = ""
-        
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        
-        // Initial device orientation
-        switch UIDevice.current.orientation {
-        case .landscapeRight:
-            self.currentDeviceOrientation = .landscapeRight
-        case .landscapeLeft:
-            self.currentDeviceOrientation = .landscapeLeft
-        default:
-            self.currentDeviceOrientation = .portrait
-        }
-    }
-    
-    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        switch UIDevice.current.orientation {
-        case .landscapeRight, .landscapeLeft:
-            setPrecisionKeysBackgroundColor()
-        case .portrait, .portraitUpsideDown:
-            if brain.digits != defaultPrecision {
-                brain.digits = defaultPrecision
-                precisionTextView.text = "\(defaultPrecision) digits"
-                updateDisplay()
-            }
-        default: ()
-        }
     }
 
     @objc func deviceDidRotate(_ notification: Notification) {
-        switch UIDevice.current.orientation {
-        case .landscapeRight:
-            self.currentDeviceOrientation = .landscapeRight
-        case .landscapeLeft:
-            self.currentDeviceOrientation = .landscapeLeft
-        case .portrait:
-            self.currentDeviceOrientation = .portrait
-        case .portraitUpsideDown:
-            self.currentDeviceOrientation = .portraitUpsideDown
-        default: ()
+        if self.currentDeviceOrientation != UIDevice.current.orientation {
+            self.currentDeviceOrientation = UIDevice.current.orientation
+            layout()
         }
-        layout()
     }
     
 
@@ -194,7 +179,6 @@ class CalculatorViewController: UIViewController {
     
     func updateDisplay() {
         display!.text = brain.result.toString()
-        programTextView.text = brain.programDescription
     }
     
     
@@ -203,69 +187,67 @@ class CalculatorViewController: UIViewController {
     }
     
     func layout() {
-        let sizeX = keysStack.frame.size.width / 4
-        let sizeY = keysStack.frame.size.height / 5
-        let size = min(sizeX, sizeY) * 0.89
-        let deltaX = size * 0.0115
-        let deltaY = size * 0.0115
-        let radius = size / 2
-        for stack in keysStack.subviews {
-            for key in stack.subviews {
-                if let b = key as? UIButton {
-                    b.frame.size.width = size
-                    b.frame.origin.x += deltaX
-                    b.frame.size.height = size
-                    b.frame.origin.y += deltaY
-                    b.layer.cornerRadius = radius
-                }
-            }
-            for key in stack.subviews {
-                if let b = key as? UIButton {
-                    if b.tag == 2 { // 0
-                        b.frame.size.width = size + keysStack.frame.size.width / 4
-                    }
-                }
-            }
-        }
-        for stack in scienceStack.subviews {
-            for key in stack.subviews {
-                if let b = key as? UIButton {
-                    b.frame.size = CGSize(width: sizeY, height: size)
-                    b.layer.cornerRadius = radius
-                }
-            }
-        }
+        let spacing:CGFloat = 20
         
-        
+        screenWidth = view.frame.size.width
+        screenHeight = view.frame.size.height
+        if (screenWidth > screenHeight) {
+            let temp:CGFloat = screenWidth
+            screenWidth = screenHeight
+            screenHeight = temp
+        }
+        scienceStackWidthConstraint.constant = screenHeight*0.6 - 0.5
+        keyStackTrailingConstraint.constant = spacing
+        keyStackTopConstraint.constant = spacing
+        keyStackBottomConstraint.constant = spacing
+
         switch self.currentDeviceOrientation {
         case .landscapeLeft, .landscapeRight:
             scienceStack.isHidden = false
             keysStackWidthConstraint.constant = screenHeight*0.4
-            if brain.digits < 50 {
-                displayHeightConstraint.constant =  screenWidth * 0.2
-            } else {
-                displayHeightConstraint.constant =  screenWidth * 0.4
-            }
+            keysStack.layoutIfNeeded()
+//            if brain.digits < 50 {
+//                displayViewHeightConstraint.constant =  screenWidth * 0.2
+//                display.layoutIfNeeded()
+//            } else {
+//                displayViewHeightConstraint.constant =  screenWidth * 0.4
+//                display.layoutIfNeeded()
+//            }
         case .portrait, .portraitUpsideDown:
             scienceStack.isHidden = true
-            keysStackWidthConstraint.constant = screenWidth
-            if brain.digits < 50 {
-                displayHeightConstraint.constant =  screenHeight * 0.2
-            } else {
-                displayHeightConstraint.constant =  screenHeight * 0.3
-            }
+            
+            // set the keyboard width and height
+            keysStackWidthConstraint.constant = (screenWidth-2*spacing)
+            keysStackHeightConstraint.constant = keysStackWidthConstraint.constant / 4 * 5
+            keysStack.layoutIfNeeded()
         default:
             // do nothing
             return
         }
-        view.layoutIfNeeded()
-        keyFontSize()
-    }
-    
-    func keyFontSize() {
-        let sizeX = keysStack.frame.size.width / 4
-        let sizeY = keysStack.frame.size.height / 5
-        let size = min(sizeX, sizeY) * 0.89
+
+        keysStack.spacing = spacing
+        ACStack.spacing = spacing
+        _0Stack.spacing = spacing
+        _123Stack.spacing = spacing
+        _456Stack.spacing = spacing
+        _789Stack.spacing = spacing
+
+        let sizeX = (keysStack.frame.size.width-3*spacing) / 4
+        let sizeY = (keysStack.frame.size.height-4*spacing) / 5
+        let radius = min(sizeX, sizeY) / 2
+        for stack in keysStack.subviews {
+            for key in stack.subviews {
+                if let b = key as? UIButton {
+                    b.layer.cornerRadius = radius
+//                    if b.tag == 2 { // 0
+//                        b.frame.size.width = size + keysStack.frame.size.width / 4
+//                    }
+                }
+            }
+        }
+        
+
+        // font size
         var buttonFont: UIFont
         var largerButtonFont: UIFont
         var displayFont: UIFont
@@ -277,7 +259,7 @@ class CalculatorViewController: UIViewController {
             inset = fontSize / 10
         case .portrait, .portraitUpsideDown:
             fontSize = round(keysStack.bounds.size.height * 0.07)
-            inset = fontSize / 3
+            inset = 0//fontSize / 3
         default:
             // do nothing
             return
@@ -286,22 +268,6 @@ class CalculatorViewController: UIViewController {
         buttonFont = UIFont.systemFont(ofSize: fontSize)
         largerButtonFont = UIFont.systemFont(ofSize: fontSize*1.2)
         displayFont = UIFont.systemFont(ofSize: displayFontSize)
-        for stack in scienceStack.subviews {
-            for key in stack.subviews {
-                if let b = key as? UIButton {
-                    b.titleLabel!.font = buttonFont
-                    b.titleLabel!.adjustsFontSizeToFitWidth = true
-                    if let titleLabel = b.titleLabel {
-                        titleLabel.font = buttonFont
-                        if let titleText = titleLabel.text {
-                            if smallerScienceKeys.contains(titleText) {
-                                b.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
-                            }
-                        }
-                    }
-                }
-            }
-        }
         for stack in keysStack.subviews {
             for key in stack.subviews {
                 if let b = key as? UIButton {
@@ -318,11 +284,14 @@ class CalculatorViewController: UIViewController {
                             b.setTitleColor(UIColor.white, for: UIControlState())
                             titleLabel.font = buttonFont
                             b.backgroundColor = ColorPalette.Digits
-                            b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: size*0.38, bottom: 0, right: -size*0.38)
+                            // shift the 0 a bit to the right so that it aligns with the other digits
+//                            b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: size*0.38, bottom: 0, right: -size*0.38)
                         } else if b.tag == 3 {
-                            b.setTitleColor(UIColor.white, for: UIControlState())
+                            b.setTitleColor(UIColor.white, for: UIControlState.normal)
+                            b.setTitleColor(UIColor.white, for: UIControlState.highlighted)
                             titleLabel.font = largerButtonFont
                             b.backgroundColor = ColorPalette.BasicOperation
+                            // lift the symbols up a bit
                             b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
                         } else {
                             b.setTitleColor(UIColor.black, for: UIControlState())
@@ -349,10 +318,10 @@ class CalculatorViewController: UIViewController {
         sender.backgroundColor = ColorPalette.PressedBasicOperation
     }
     @IBAction func functionTouchDown(_ sender: UIButton) {
-        sender.backgroundColor = ColorPalette.DarkOperation
+        sender.backgroundColor = ColorPalette.PressedOperation
     }
     @IBAction func digitTouchDown(_ sender: UIButton) {
-        sender.backgroundColor = ColorPalette.DarkDigits
+        sender.backgroundColor = ColorPalette.PressedDigits
     }
     
     func setPrecisionKeysBackgroundColor() {
@@ -388,7 +357,6 @@ class CalculatorViewController: UIViewController {
                 brain.newDigit(display.text)
             }
         }
-        programTextView.text = brain.programDescription
     }
   
     @IBAction fileprivate func performOperation(_ sender: UIButton) {
@@ -420,8 +388,9 @@ class CalculatorViewController: UIViewController {
         updateDisplay()
     }
     
-    @IBAction func setBits(_ sender: AnyObject) {
-        if let digits = Int(sender.currentTitle!!) {
+    @IBAction func digitsControlChanged(_ sender: UISegmentedControl) {
+        let digitsString = sender.titleForSegment(at: sender.selectedSegmentIndex)!
+        if let digits = Int(digitsString.replacingOccurrences(of: ",", with: "")) {
             if digits != brain.digits {
                 if digits <= brain.digits {
                     // make sure that the value in the display is used, even if the user has still been in the middle of typing
@@ -435,12 +404,11 @@ class CalculatorViewController: UIViewController {
                     brain.digits = digits
                     brain.reset()
                 }
-                precisionTextView.text = "\(digits) digits"
                 updateDisplay()
-                layout()
                 userIsInTheMiddleOfTyping = false
             }
             setPrecisionKeysBackgroundColor()
         }
     }
 }
+
