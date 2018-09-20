@@ -17,6 +17,12 @@ struct ColorPalette {
     static let PressedDigits = UIColor(red: 115.0/255.0, green: 115.0/255.0, blue: 115.0/255.0, alpha: 1.0)
 }
 
+struct DisplayFont {
+    static let Tiny = UIFont.systemFont(ofSize: 10)
+    static let Small = UIFont.systemFont(ofSize: 20)
+    static let Normal = UIFont.systemFont(ofSize: 35)
+}
+
 let basicOperations = Set(["÷", "×", "−", "+", "="]) // for key colors
 let pendingOperations = Set(["x^y", "x↑↑y"])
 let cancelPendingOperations = Set(["C", "="])
@@ -77,6 +83,7 @@ class CalculatorViewController: UIViewController {
         return true
     }
     
+    
     @objc func displayTouched() {
         if displayNotExpanded {
             keysView.isHidden = true
@@ -101,6 +108,8 @@ class CalculatorViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sizeControl.isHidden = true
+        sizeControl.selectedSegmentIndex = 2
+        display.font = DisplayFont.Normal
         tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(displayTouched))
         tapGestureRecognizer!.numberOfTapsRequired = 1
         display.addGestureRecognizer(tapGestureRecognizer!)
@@ -386,6 +395,27 @@ class CalculatorViewController: UIViewController {
             brain.performOperation(mathematicalSymbol)
         }
         updateDisplay()
+    }
+    
+    var oldFontSize = 2
+
+    @IBAction func sizeChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 3 {
+            UIPasteboard.general.string = display.text
+
+            sender.selectedSegmentIndex = oldFontSize
+        }
+        oldFontSize = sender.selectedSegmentIndex
+        switch sender.selectedSegmentIndex {
+        case 0:
+            display.font = DisplayFont.Tiny
+        case 1:
+            display.font = DisplayFont.Small
+        case 2:
+            display.font = DisplayFont.Normal
+        default:
+            display.font = DisplayFont.Normal
+        }
     }
     
     @IBAction func digitsControlChanged(_ sender: UISegmentedControl) {
