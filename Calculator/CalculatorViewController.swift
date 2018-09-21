@@ -11,6 +11,7 @@ import UIKit
 struct ColorPalette {
     static let BasicOperation = UIColor(red: 0.0/255.0, green: 163.0/255.0, blue: 136.0/255.0, alpha: 1.0)
     static let PressedBasicOperation = UIColor(red: 51/255.0, green: 213.0/255.0, blue: 187.0/255.0, alpha: 1.0)
+    static let PendingOperation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     static let Operation = UIColor(red: 164.0/255.0, green: 164.0/255.0, blue: 164.0/255.0, alpha: 1.0)
     static let PressedOperation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     static let ExtendedOperation = UIColor(red: 33.0/255.0, green: 33.0/255.0, blue: 33.0/255.0, alpha: 1.0)
@@ -25,10 +26,10 @@ struct DisplayFont {
     static let Normal = UIFont.monospacedDigitSystemFont(ofSize: 35, weight: UIFont.Weight.medium)
 }
 
-let basicOperations = Set(["÷", "×", "−", "+", "="]) // for key colors
+//let basicOperations = Set(["÷", "×", "−", "+", "="])
 let pendingOperations = Set(["x^y", "x↑↑y"])
 let cancelPendingOperations = Set(["C", "="])
-let smallerScienceKeys = Set(["x^2", "x^3", "x^y", "e^x", "10^x", "√", "3√", "x↑↑y"])
+//let smallerScienceKeys = Set(["x^2", "x^3", "x^y", "e^x", "10^x", "√", "3√", "x↑↑y"])
 let smallerBasicKeys = Set(["1/x", "±"])
 let basicOperationKeys = Set(["1\\x", "±", "C"])
 
@@ -259,6 +260,60 @@ class CalculatorViewController: UIViewController {
         controlViewWidthConstraint.constant = screenWidth
     }
 
+    func backgroundForKey(button: UIButton, fontSize: CGFloat) {
+        var inset: CGFloat
+        switch self.currentDeviceOrientation {
+        case .landscapeLeft, .landscapeRight:
+            inset = fontSize / 10
+        case .portrait, .portraitUpsideDown:
+            inset = 0//fontSize / 3
+        default:
+            // do nothing
+            return
+        }
+        if let titleLabel = button.titleLabel {
+            switch button.tag {
+            case 0: // C +/- 1/x
+                button.setTitleColor(UIColor.black, for: UIControlState())
+                titleLabel.font = buttonFont
+                button.backgroundColor = ColorPalette.Operation
+            case 1: // digits 1 to 9
+                button.setTitleColor(UIColor.white, for: UIControlState())
+                titleLabel.font = buttonFont
+                button.backgroundColor = ColorPalette.Digits
+            case 2: // 0
+                button.setTitleColor(UIColor.white, for: UIControlState())
+                titleLabel.font = buttonFont
+                button.backgroundColor = ColorPalette.Digits
+                // shift the 0 a bit to the right so that it aligns with the other digits
+                // b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: size*0.38, bottom: 0, right: -size*0.38)
+            case 3: // / x - + =
+                button.setTitleColor(UIColor.white, for: UIControlState())
+                titleLabel.font = largerButtonFont
+                button.backgroundColor = ColorPalette.BasicOperation
+                // lift the symbols up a bit
+                button.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
+            case 4: // X^2 sin etc
+                button.setTitleColor(UIColor.white, for: UIControlState())
+                titleLabel.font = buttonFont
+                button.backgroundColor = ColorPalette.ExtendedOperation
+                // lift the symbols up a bit
+                button.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
+            default:
+                button.setTitleColor(UIColor.black, for: UIControlState())
+                titleLabel.font = buttonFont
+            }
+            if let titleText = titleLabel.text {
+                if smallerBasicKeys.contains(titleText) {
+                    button.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
+                }
+                if basicOperationKeys.contains(titleText) {
+                    button.backgroundColor = ColorPalette.Operation
+                }
+            }
+        }
+    }
+
     func layout() {
         // screenHeight is ALWAYS larger than screenWidth
         screenWidth = view.frame.size.width
@@ -330,14 +385,11 @@ class CalculatorViewController: UIViewController {
         
         // font size
         var fontSize: CGFloat
-        var inset: CGFloat
         switch self.currentDeviceOrientation {
         case .landscapeLeft, .landscapeRight:
             fontSize = round(keysStack.bounds.size.height * 0.07)
-            inset = fontSize / 10
         case .portrait, .portraitUpsideDown:
             fontSize = round(keysStack.bounds.size.height * 0.07)
-            inset = 0//fontSize / 3
         default:
             // do nothing
             return
@@ -361,55 +413,7 @@ class CalculatorViewController: UIViewController {
             for stack in v.subviews {
                 for key in stack.subviews {
                     if let b = key as? UIButton {
-                        if let titleLabel = b.titleLabel {
-                            // tag 0: C +/- 1/x
-                            // tag 1: digits 1 to 9
-                            // tag 2: 0
-                            // tag 3: / x - + =
-                            // tag 4: X^2 sin etc
-                            // tag 0: all other
-                            switch b.tag {
-                            case 0:
-                                b.setTitleColor(UIColor.black, for: UIControlState())
-                                titleLabel.font = buttonFont
-                                b.backgroundColor = ColorPalette.Operation
-                            case 1:
-                                b.setTitleColor(UIColor.white, for: UIControlState())
-                                titleLabel.font = buttonFont
-                                b.backgroundColor = ColorPalette.Digits
-                            case 2:
-                                b.setTitleColor(UIColor.white, for: UIControlState())
-                                titleLabel.font = buttonFont
-                                b.backgroundColor = ColorPalette.Digits
-                                // shift the 0 a bit to the right so that it aligns with the other digits
-    //                            b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: size*0.38, bottom: 0, right: -size*0.38)
-                            case 3:
-                                b.setTitleColor(UIColor.white, for: UIControlState.normal)
-                                b.setTitleColor(UIColor.white, for: UIControlState.highlighted)
-                                titleLabel.font = largerButtonFont
-                                b.backgroundColor = ColorPalette.BasicOperation
-                                // lift the symbols up a bit
-                                b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
-                            case 4:
-                                b.setTitleColor(UIColor.white, for: UIControlState.normal)
-                                b.setTitleColor(UIColor.white, for: UIControlState.highlighted)
-                                titleLabel.font = buttonFont
-                                b.backgroundColor = ColorPalette.ExtendedOperation
-                                // lift the symbols up a bit
-                                b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
-                            default:
-                                b.setTitleColor(UIColor.black, for: UIControlState())
-                                titleLabel.font = buttonFont
-                            }
-                            if let titleText = titleLabel.text {
-                                if smallerBasicKeys.contains(titleText) {
-                                    b.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
-                                }
-                                if basicOperationKeys.contains(titleText) {
-                                    b.backgroundColor = ColorPalette.Operation
-                                }
-                            }
-                        }
+                        backgroundForKey(button: b, fontSize: fontSize)
                     }
                 }
             }
@@ -417,8 +421,7 @@ class CalculatorViewController: UIViewController {
         for v in controlKeysView.subviews {
             for stack in v.subviews {
                 if let b = stack as? UIButton {
-                    b.setTitleColor(UIColor.white, for: UIControlState.normal)
-                    b.setTitleColor(UIColor.white, for: UIControlState.highlighted)
+                    b.setTitleColor(UIColor.white, for: UIControlState())
                     b.backgroundColor = ColorPalette.BasicOperation
                     // lift the symbols up a bit
                     b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
@@ -434,9 +437,14 @@ class CalculatorViewController: UIViewController {
         sender.backgroundColor = ColorPalette.PressedBasicOperation
     }
     @IBAction func functionTouchDown(_ sender: UIButton) {
-        if sender.tag == 3 {
+        switch sender.tag {
+        case 0:
             sender.backgroundColor = ColorPalette.PressedOperation
-        } else {
+        case 3:
+            sender.backgroundColor = ColorPalette.PressedOperation
+        case 4:
+            sender.backgroundColor = ColorPalette.PressedExtendedOperation
+        default:
             sender.backgroundColor = ColorPalette.PressedExtendedOperation
         }
     }
@@ -471,6 +479,8 @@ class CalculatorViewController: UIViewController {
     @IBAction fileprivate func performOperation(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
             switch sender.tag {
+            case 0:
+                sender.backgroundColor = ColorPalette.Operation
             case 2:
                 sender.backgroundColor = ColorPalette.Operation
             case 3:
@@ -487,12 +497,13 @@ class CalculatorViewController: UIViewController {
                 userIsInTheMiddleOfTyping = false
             }
             if pendingOperations.contains(mathematicalSymbol) {
-                sender.backgroundColor = ColorPalette.BasicOperation
+                sender.backgroundColor = ColorPalette.PendingOperation
+                // TODO: failed to change the color of the button text to black
                 pendingButton = sender
             }
             if cancelPendingOperations.contains(mathematicalSymbol) {
                 if let b = pendingButton {
-                    b.backgroundColor = ColorPalette.Operation
+                    backgroundForKey(button: b, fontSize: 12)
                 }
             }
             brain.performOperation(mathematicalSymbol)
