@@ -20,9 +20,9 @@ struct ColorPalette {
 }
 
 struct DisplayFont {
-    static let Tiny = UIFont.systemFont(ofSize: 10)
-    static let Small = UIFont.systemFont(ofSize: 20)
-    static let Normal = UIFont.systemFont(ofSize: 35)
+    static let Tiny   = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: UIFont.Weight.medium)
+    static let Small  = UIFont.monospacedDigitSystemFont(ofSize: 20, weight: UIFont.Weight.medium)
+    static let Normal = UIFont.monospacedDigitSystemFont(ofSize: 35, weight: UIFont.Weight.medium)
 }
 
 let basicOperations = Set(["÷", "×", "−", "+", "="]) // for key colors
@@ -84,7 +84,6 @@ class CalculatorViewController: UIViewController {
     fileprivate var pendingButton: UIButton?
     fileprivate var buttonFont: UIFont?
     fileprivate var largerButtonFont: UIFont?
-    fileprivate var displayFont: UIFont?
     fileprivate var currentDeviceOrientation: UIDeviceOrientation = .unknown
     
     var displayNotExpanded = true
@@ -124,6 +123,7 @@ class CalculatorViewController: UIViewController {
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        display.text = "0"
         digitsStack.isHidden = false
         displayStack.isHidden = true
         display.font = DisplayFont.Normal
@@ -324,7 +324,6 @@ class CalculatorViewController: UIViewController {
         let displayFontSize = min(fontSize, 30)
         buttonFont = UIFont.systemFont(ofSize: fontSize)
         largerButtonFont = UIFont.systemFont(ofSize: fontSize*1.2)
-        displayFont = UIFont.systemFont(ofSize: displayFontSize)
         
         switch self.currentDeviceOrientation {
         case .landscapeLeft, .landscapeRight:
@@ -399,7 +398,6 @@ class CalculatorViewController: UIViewController {
                     }
                 }
             }
-            display.font = displayFont
         }
         for v in bottomView.subviews {
             for stack in v.subviews {
