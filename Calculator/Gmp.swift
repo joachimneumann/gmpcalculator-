@@ -57,7 +57,7 @@ func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
     let counter: CLong = mpfr_get_si(&right.mpfr, MPFR_RNDN) - 1
     guard counter > 0 else { return left }
     for _ in 0..<counter {
-        mpfr_pow(&left.mpfr, &temp, &left.mpfr, MPFR_RNDN)
+        mpfr_pow(&left.mpfr, &temp, &left.copy().mpfr, MPFR_RNDN)
     }
     mpfr_clear(&temp)
     return left

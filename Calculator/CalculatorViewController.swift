@@ -52,35 +52,44 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var _123Stack: UIStackView!
     @IBOutlet weak var _0Stack: UIStackView!
     
-    @IBOutlet weak var bottomView: UIView!
-    @IBOutlet weak var bottomViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomViewWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var bottomViewBottomConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var controlView: UIView!
+    @IBOutlet weak var controlKeysView: UIView!
+    @IBOutlet weak var controlKey100000: UIButton!
     
     @IBOutlet weak var digitsStack: UIStackView!
     @IBOutlet weak var displayStack: UIStackView!
     
+    @IBOutlet weak var controlViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var controlViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var controlViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var controlKeysViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var controlKeysViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var controlKeysViewTopConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var displayViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var scienceStackLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var scienceStackTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var displayViewBottomConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var keysViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysViewHeightConstraint: NSLayoutConstraint!
+
     @IBOutlet weak var keysStackTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysStackWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var keyStackTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var keyStackBottomConstraint: NSLayoutConstraint!
+
+    @IBOutlet weak var scienceStackWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scienceStackLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scienceStackTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var scienceStackBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var displayViewBottomConstraint: NSLayoutConstraint!
     
-    fileprivate let spacing:CGFloat = 20
+    fileprivate var spacing: CGFloat = 20
     fileprivate var userIsInTheMiddleOfTyping = false
     fileprivate let fmt = NumberFormatter()
     fileprivate var brain = CalculatorBrain()
-    fileprivate var screenWidth:CGFloat = 300.0
-    fileprivate var screenHeight:CGFloat = 300.0
+    fileprivate var screenWidth: CGFloat = 300.0
+    fileprivate var screenHeight :CGFloat = 300.0
     fileprivate var pendingButton: UIButton?
     fileprivate var buttonFont: UIFont?
     fileprivate var largerButtonFont: UIFont?
@@ -201,16 +210,19 @@ class CalculatorViewController: UIViewController {
     
     func landscaleLayout() {
         scienceStack.isHidden = false
-        let bottomViewHeight = 3*spacing+4*25
-        let bottomViewWidth:CGFloat = 90
-        bottomViewHeightConstraint.constant = bottomViewHeight
-        bottomViewBottomConstraint.constant = screenWidth/2 - bottomViewHeight/2
-        bottomViewLeadingConstraint.constant = spacing/2
-        bottomViewWidthConstraint.constant = bottomViewWidth
+        keysStack.layoutIfNeeded()
+        // control keys should have the same height as the normal keys
+        let controlHeight = (screenWidth*0.6-4*spacing)/5*4
+        let controlWidth = screenHeight*0.15
+        controlViewBottomConstraint.constant = (screenWidth-controlHeight)/2
+        controlViewHeightConstraint.constant = controlHeight
+        controlViewWidthConstraint.constant = controlWidth
+        controlKeysViewLeadingConstraint.constant = spacing/2
+        controlKeysViewTrailingConstraint.constant = 0
         digitsStack.axis = .vertical
         displayStack.axis = .vertical
-        keysViewLeadingConstraint.constant = bottomViewWidth+spacing/2
-        displayViewLeadingConstraint.constant = bottomViewWidth+spacing/2
+        keysViewLeadingConstraint.constant = controlWidth
+        displayViewLeadingConstraint.constant = controlWidth
         keysViewBottomConstraint.constant = 0
         keysViewBottomConstraint.constant = 0
         keysView.layoutIfNeeded()
@@ -226,20 +238,25 @@ class CalculatorViewController: UIViewController {
         scienceStackBottomConstraint.constant = spacing
     }
     func portraitLayout() {
+        controlViewBottomConstraint.constant = 0
         displayViewLeadingConstraint.constant = 0
-        bottomViewBottomConstraint.constant = 0
         scienceStack.isHidden = true
         digitsStack.axis = .horizontal
         displayStack.axis = .horizontal
-        keysViewBottomConstraint.constant = 40
+        let bottomHeight = screenHeight*0.08 // 8%
+        keysViewBottomConstraint.constant = bottomHeight
         keysViewLeadingConstraint.constant = 0
-        bottomViewLeadingConstraint.constant = spacing
-        bottomViewHeightConstraint.constant = 40
-        bottomViewWidthConstraint.constant = screenWidth-2*spacing
         keysStackWidthConstraint.constant = screenWidth-2*spacing
         keysStack.layoutIfNeeded()
-        keysViewHeightConstraint.constant = keysStackWidthConstraint.constant / 4 * 5
+        var w = keysStackWidthConstraint.constant / 4 * 5
+        if w > screenHeight * 0.6 {
+            w = screenHeight * 0.6
+        }
+        keysViewHeightConstraint.constant = w
         keysStack.layoutIfNeeded()
+        controlKeysViewLeadingConstraint.constant = spacing
+        controlViewHeightConstraint.constant = bottomHeight
+        controlViewWidthConstraint.constant = screenWidth
     }
 
     func layout() {
@@ -254,8 +271,10 @@ class CalculatorViewController: UIViewController {
         
         switch self.currentDeviceOrientation {
         case .landscapeLeft, .landscapeRight:
+            spacing = 0.02 * screenHeight
             landscaleLayout()
         case .portrait, .portraitUpsideDown:
+            spacing = 0.02 * screenHeight
             portraitLayout()
         default:
             // do nothing
@@ -279,9 +298,10 @@ class CalculatorViewController: UIViewController {
         science4Stack.spacing = spacing
         science5Stack.spacing = spacing
         displayStack.spacing = 0.5*spacing
-        digitsStack.spacing = 0.5*spacing
+        digitsStack.spacing = spacing
         
         keysView.layoutIfNeeded()
+        controlKeysView.layoutIfNeeded()
         
         for v in keysView.subviews {
             for stack in v.subviews {
@@ -295,7 +315,7 @@ class CalculatorViewController: UIViewController {
                 }
             }
         }
-        for v in bottomView.subviews {
+        for v in controlKeysView.subviews {
             for stack in v.subviews {
                 if let b = stack as? UIButton {
                     let sizeX = b.frame.size.width
@@ -306,7 +326,8 @@ class CalculatorViewController: UIViewController {
             }
         }
 
-
+        view.layoutIfNeeded()
+        
         // font size
         var fontSize: CGFloat
         var inset: CGFloat
@@ -321,30 +342,19 @@ class CalculatorViewController: UIViewController {
             // do nothing
             return
         }
-        let displayFontSize = min(fontSize, 30)
+        
+        var controlKeyFontSize: CGFloat
+        controlKeyFontSize = round(controlKey100000.frame.size.width * 0.2)
+
         buttonFont = UIFont.systemFont(ofSize: fontSize)
         largerButtonFont = UIFont.systemFont(ofSize: fontSize*1.2)
         
-        switch self.currentDeviceOrientation {
-        case .landscapeLeft, .landscapeRight:
-            for v in bottomView.subviews {
-                for stack in v.subviews {
-                    if let b = stack as? UIButton {
-                        b.titleLabel!.font = buttonFont
-                    }
+        for v in controlKeysView.subviews {
+            for stack in v.subviews {
+                if let b = stack as? UIButton {
+                    b.titleLabel!.font = UIFont.monospacedDigitSystemFont(ofSize: controlKeyFontSize, weight: UIFont.Weight.medium)
                 }
             }
-        case .portrait, .portraitUpsideDown:
-            for v in bottomView.subviews {
-                for stack in v.subviews {
-                    if let b = stack as? UIButton {
-                        b.titleLabel!.font = DisplayFont.Small
-                    }
-                }
-            }
-        default:
-            // do nothing
-            return
         }
 
         for v in keysView.subviews {
@@ -352,12 +362,17 @@ class CalculatorViewController: UIViewController {
                 for key in stack.subviews {
                     if let b = key as? UIButton {
                         if let titleLabel = b.titleLabel {
+                            // tag 0: C +/- 1/x
                             // tag 1: digits 1 to 9
                             // tag 2: 0
                             // tag 3: / x - + =
                             // tag 4: X^2 sin etc
                             // tag 0: all other
                             switch b.tag {
+                            case 0:
+                                b.setTitleColor(UIColor.black, for: UIControlState())
+                                titleLabel.font = buttonFont
+                                b.backgroundColor = ColorPalette.Operation
                             case 1:
                                 b.setTitleColor(UIColor.white, for: UIControlState())
                                 titleLabel.font = buttonFont
@@ -399,7 +414,7 @@ class CalculatorViewController: UIViewController {
                 }
             }
         }
-        for v in bottomView.subviews {
+        for v in controlKeysView.subviews {
             for stack in v.subviews {
                 if let b = stack as? UIButton {
                     b.setTitleColor(UIColor.white, for: UIControlState.normal)
@@ -492,11 +507,11 @@ class CalculatorViewController: UIViewController {
 
     @IBAction func sizeChanged(_ sender: UIButton) {
         switch sender.titleLabel?.text {
-        case "Tiny":
+        case "tiny":
             display.font = DisplayFont.Tiny
-        case "Small":
+        case "small":
             display.font = DisplayFont.Small
-        case "Normal":
+        case "normal":
             display.font = DisplayFont.Normal
         default:
             display.font = DisplayFont.Normal
