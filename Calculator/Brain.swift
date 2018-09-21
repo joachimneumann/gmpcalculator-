@@ -180,12 +180,18 @@ class Brain {
         } else {
             if twoParameterOp.keys.contains(symbol) {
                 // do I need to calculate pending things?
-                if n.count() > 1 && twoParameterOpStack.count() > 0 {
+                var conditionsMet = true
+                while conditionsMet {
+                    if n.count() <= 1 { conditionsMet = false }
+                    if twoParameterOpStack.count() == 0 { conditionsMet = false }
                     let op1 = symbol
-                    let op2 = twoParameterOpStack.peek()!
-                    let op1h = twoParameterOp[op1]!
-                    let op2h = twoParameterOp[op2]!
-                    if op2h >= op1h {
+                    if conditionsMet {
+                        let op2 = twoParameterOpStack.peek()!
+                        let op1h = twoParameterOp[op1]!
+                        let op2h = twoParameterOp[op2]!
+                        if op2h < op1h { conditionsMet = false }
+                    }
+                    if conditionsMet {
                         if let opName = twoParameterOpStack.pop() {
                             if let op = opDict[opName] {
                                 let n1 = n.pop()!
