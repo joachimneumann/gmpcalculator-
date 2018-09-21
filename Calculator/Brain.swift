@@ -10,7 +10,7 @@ import Foundation
 
 class Brain {
     
-    struct Stack {
+    struct OpStack {
         fileprivate var array: [String] = []
         mutating func push(_ element: String) {
             array.append(element)
@@ -28,11 +28,28 @@ class Brain {
             array.removeAll()
         }
     }
+    struct GmpStack {
+        fileprivate var array: [Gmp] = []
+        mutating func push(_ element: Gmp) {
+            array.append(element)
+        }
+        mutating func pop() -> Gmp? {
+            return array.popLast()
+        }
+        func peek() -> Gmp? {
+            return array.last
+        }
+        func count() -> Int {
+            return array.count
+        }
+        mutating func clean() {
+            array.removeAll()
+        }
+    }
 
-    var main: Gmp?
-    var second: Gmp?
-    var opStack = Stack()
-    
+    var twoParameterOpStack = OpStack()
+    var n = GmpStack()
+
     fileprivate var nBits = 10
     
     var precision: Int {
@@ -48,80 +65,138 @@ class Brain {
     init() {
         // User: 1
         setDigit("1")
-        assert(main! == Gmp("1", precision: nBits))
+        assert(n.peek()! == Gmp("1", precision: nBits))
         // User: 0
         setDigit("10")
-        assert(main! == Gmp("10", precision: nBits))
+        assert(n.peek()! == Gmp("10", precision: nBits))
         // User: 1/x
         operation("1\\x")
-        assert(main == Gmp("0.1", precision: 10))
+        assert(n.peek()! == Gmp("0.1", precision: 10))
 
         // User: C
         reset()
-        assert(main == nil)
-        assert(second == nil)
-        assert(opStack.count() == 0)
+        assert(n.peek() == nil)
+        assert(twoParameterOpStack.count() == 0)
         
         // User: 1
         setDigit("1")
-        assert(main! == Gmp("1", precision: nBits))
+        assert(n.peek() == Gmp("1", precision: nBits))
         // User: +
         operation("+")
         // User: 2
         setDigit("2")
         // User: +
         operation("+")
-        assert(main == Gmp("3", precision: 10))
+        assert(n.peek() == Gmp("3", precision: 10))
         // User: 5
         setDigit("5")
         // User: +
         operation("+")
-        assert(main == Gmp("8", precision: 10))
+        assert(n.peek() == Gmp("8", precision: 10))
+        // user: 2
         setDigit("2")
-        // User: +
+        // User: =
         operation("=")
-        assert(main == Gmp("10", precision: 10))
+        assert(n.peek() == Gmp("10", precision: 10))
+        // User: +
+        operation("+")
+        assert(n.peek() == Gmp("10", precision: 10))
+        // user: 4
+        setDigit("4")
+        // user: 1/x
+        operation("1\\x")
+        assert(n.peek() == Gmp("0.25", precision: 10))
+        // User: =
+        operation("=")
+        assert(n.peek() == Gmp("10.25", precision: 10))
+        
+        reset()
+        // User: 1
+        setDigit("1")
+        assert(n.peek() == Gmp("1", precision: nBits))
+        // User: +
+        operation("+")
+        // User: 2
+        setDigit("2")
+        // User: *
+        operation("*")
+        assert(n.peek() == Gmp("2", precision: 10))
+        // User: 5
+        setDigit("4")
+        assert(n.peek() == Gmp("4", precision: 10))
+        // User: =
+        operation("=")
+        assert(n.peek() == Gmp("9", precision: 10))
+        
+        reset()
+        // User: 1
+        setDigit("1")
+        assert(n.peek() == Gmp("1", precision: nBits))
+        // User: +
+        operation("+")
+        // User: 2
+        setDigit("2")
+        // User: *
+        operation("*")
+        assert(n.peek() == Gmp("2", precision: 10))
+        // User: 5
+        setDigit("4")
+        assert(n.peek() == Gmp("4", precision: 10))
+        // User: +
+        operation("+")
+        assert(n.peek() == Gmp("9", precision: 10))
+        // User: 100
+        setDigit("100")
+        assert(n.peek() == Gmp("100", precision: 10))
+        // User: =
+        operation("=")
+        assert(n.peek() == Gmp("109", precision: 10))
     }
     
     func reset() {
-        main = nil
-        second = nil
-        opStack.clean()
+        n.clean()
+        twoParameterOpStack.clean()
     }
     func setDigit(_ digit: String) {
-        if main != nil {
-            second = main
-        }
-        main = Gmp(digit, precision: nBits)
+        n.push(Gmp(digit, precision: nBits))
     }
 
     func operation(_ symbol: String) {
         if symbol == "=" {
-            if second != nil && main != nil && opStack.count() > 0 {
-                if let opName = opStack.pop() {
-                    if let op = opDict[opName] {
-                        main = op(main!, second!)
-                        second = nil
-                    }
-                }
-            }
-        } else if twoParameterOp.contains(symbol) {
-            // do I need to calculate pending things?
-            if second != nil && main != nil && opStack.count() > 0 {
-                if let opName = opStack.pop() {
-                    if let op = opDict[opName] {
-                        main = op(main!, second!)
-                        second = nil
-                    }
-                }
-            } else {
-                opStack.push(symbol)
-                second = main
-                main = nil
+            while twoParameterOpStack.count() > 0 {
+                let n1 = n.pop()!
+                let n2 = n.pop()!
+                let opName = twoParameterOpStack.pop()!
+                let op = opDict[opName]!
+                let n3 = op(n1,n2)
+                n.push(n3)
             }
         } else if inplaceOp.contains(symbol) {
             if let op = inplaceDict[symbol] {
-                op(main!)
+                let n1 = n.pop()!
+                op(n1)
+                n.push( n1 )
+            }
+        } else {
+            if twoParameterOp.keys.contains(symbol) {
+                // do I need to calculate pending things?
+                if n.count() > 1 && twoParameterOpStack.count() > 0 {
+                    let op1 = symbol
+                    let op2 = twoParameterOpStack.peek()!
+                    let op1h = twoParameterOp[op1]!
+                    let op2h = twoParameterOp[op2]!
+                    if op2h >= op1h {
+                        if let opName = twoParameterOpStack.pop() {
+                            if let op = opDict[opName] {
+                                let n1 = n.pop()!
+                                let n2 = n.pop()!
+                                let n3 = op(n1, n2)
+                                n.push(n3)
+                            }
+                        }
+                    }
+                }
+                twoParameterOpStack.push(symbol)
             }
         }
     }
@@ -130,11 +205,16 @@ class Brain {
         "1\\x": rez
     ]
 
-    fileprivate let twoParameterOp = Set(["+"])
+    fileprivate let twoParameterOp: Dictionary < String, Int> = [
+        "+": 1,
+        "*": 2
+    ]
+    
     fileprivate let inplaceOp = Set(["1\\x"])
 
     fileprivate var opDict: Dictionary< String, (Gmp, Gmp) -> (Gmp) > = [
-        "+": add
+        "+": add,
+        "*": mul
     ]
 
 }

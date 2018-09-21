@@ -49,6 +49,10 @@ func * (left: Gmp, right: Gmp) -> Gmp {
     mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
+func mul (left: Gmp, right: Gmp) -> Gmp {
+    mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
+    return left
+}
 
 func pow_x_y(_ base: Gmp, exponent: Gmp) -> Gmp {
     mpfr_pow(&base.mpfr, &base.copy().mpfr, &exponent.mpfr, MPFR_RNDN)
