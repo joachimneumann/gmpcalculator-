@@ -31,6 +31,11 @@ func + (left: Gmp, right: Gmp) -> Gmp {
     return left
 }
 
+func add (left: Gmp, right: Gmp) -> Gmp {
+    mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
+    return left
+}
+
 func / (left: Gmp, right: Gmp) -> Gmp {
     mpfr_div(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
@@ -126,7 +131,7 @@ func pow_10_x(_ me: Gmp) {
     mpfr_exp10(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 
-class Gmp {
+class Gmp: CustomDebugStringConvertible {
     // Swift requires me to initialize the mpfr_t struc
     // I do this will zeros. The struct will be initialized correctly in mpfr_init2
     fileprivate var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
@@ -159,6 +164,9 @@ class Gmp {
         mpfr_clear(&temp)
     }
 
+    var debugDescription: String {
+        return toString()
+    }
     
     func toString() -> String {
         if mpfr_nan_p(&mpfr) != 0 {
@@ -240,5 +248,13 @@ class Gmp {
 
     func isNegtive() -> Bool {
         return mpfr_cmp_d(&mpfr, 0.0) < 0
+    }
+    
+    
+}
+
+extension Gmp: Equatable {
+    static func ==(lhs: Gmp, rhs: Gmp) -> Bool {
+        return lhs.toString() == rhs.toString()
     }
 }

@@ -17,7 +17,7 @@ class CalculatorBrain {
     }
     fileprivate var accumulator: Gmp
     fileprivate var nBits = 250
-    var digits: Int {
+    var precision: Int {
         set {
             nBits = Int(round(Double(newValue) / 0.3))
             accumulator.setPrecisionTo(nBits)
@@ -40,12 +40,11 @@ class CalculatorBrain {
     
     func setOperand(_ operand: String) {
         internalProgram.append(operand)
-        let value = Gmp(operand, precision: nBits)
-        setOperand(value)
+        setAccumulator(Gmp(operand, precision: nBits))
     }
 
-    fileprivate func setOperand(_ operand: Gmp) {
-        accumulator = operand
+    fileprivate func setAccumulator(_ accu: Gmp) {
+        accumulator = accu
     }
     
     func reset() {
@@ -61,22 +60,7 @@ class CalculatorBrain {
         get {
             return internalProgram as CalculatorBrain.PropertyList
         }
-//        set {
-//            reset()
-//            // Do I need to test if newValue =!= nil ???
-//            if let steps = newValue as? [AnyObject] {
-//                for step in steps {
-//                    if let d = step as? Gmp {
-//                        setOperand((d))
-//                    }
-//                    if let op = step as? String {
-//                        performOperation(op)
-//                    }
-//                }
-//            }
-//        }
     }
-    
 
     
     fileprivate var operations: Dictionary<String, Operation> = [

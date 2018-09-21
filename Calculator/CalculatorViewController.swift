@@ -531,18 +531,18 @@ class CalculatorViewController: UIViewController {
     
     @IBAction func digitsButtonPressed(_ sender: UIButton) {
         if let digitsString = sender.titleLabel?.text! {
-            if let digits = Int(digitsString.replacingOccurrences(of: ",", with: "")) {
-                if digits != brain.digits {
-                    if digits <= brain.digits {
+            if let precision = Int(digitsString.replacingOccurrences(of: ",", with: "")) {
+                if precision != brain.precision {
+                    if precision <= brain.precision {
                         // make sure that the value in the display is used, even if the user has still been in the middle of typing
                         if (userIsInTheMiddleOfTyping) {
                             brain.setOperand(display.text)
                             userIsInTheMiddleOfTyping = false
                         }
-                        brain.digits = digits
+                        brain.precision = precision
                     } else {
                         // more digits --> reset
-                        brain.digits = digits
+                        brain.precision = precision
                         brain.reset()
                     }
                     updateDisplay()
