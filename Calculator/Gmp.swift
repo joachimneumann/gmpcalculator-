@@ -89,19 +89,19 @@ func fac(_ me: Gmp) {
     }
 }
 func ln(_ me: Gmp) {
-    mpfr_log(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_log(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func log10(_ me: Gmp) {
-    mpfr_log10(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_log10(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func sin(_ me: Gmp) {
-    mpfr_sin(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_sin(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func cos(_ me: Gmp) {
-    mpfr_cos(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_cos(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func tan(_ me: Gmp) {
-    mpfr_tan(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_tan(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func e(_ me: Gmp) {
     var one: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
@@ -114,16 +114,16 @@ func γ(_ me: Gmp) {
     mpfr_const_euler(&me.mpfr, MPFR_RNDN)
 }
 func pow_x_2(_ me: Gmp) {
-    mpfr_sqr(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_sqr(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func pow_x_3(_ me: Gmp) {
-    mpfr_pow_ui(&me.mpfr, &me.mpfr, 3, MPFR_RNDN)
+    mpfr_pow_ui(&me.mpfr, &me.copy().mpfr, 3, MPFR_RNDN)
 }
 func pow_e_x(_ me: Gmp) {
-    mpfr_exp(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_exp(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 func pow_10_x(_ me: Gmp) {
-    mpfr_exp10(&me.mpfr, &me.mpfr, MPFR_RNDN)
+    mpfr_exp10(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 
 class Gmp {
