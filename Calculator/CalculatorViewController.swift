@@ -33,7 +33,7 @@ let cancelPendingOperations = Set(["C", "="])
 let smallerBasicKeys = Set(["1/x", "±"])
 let basicOperationKeys = Set(["1\\x", "±", "C"])
 
-class CalculatorViewController: UIViewController {
+class CalculatorViewController: UIViewController, BrainProtocol  {
 
     @IBOutlet weak var displayView: UIView!
     @IBOutlet weak var display: UITextView!
@@ -132,6 +132,8 @@ class CalculatorViewController: UIViewController {
         super.viewDidLoad()
 
         brain.precision = 75
+        brain.brainProtocolDelegate = self
+        
         display.text = "0"
         digitsStack.isHidden = false
         displayStack.isHidden = true
@@ -262,6 +264,39 @@ class CalculatorViewController: UIViewController {
         controlViewHeightConstraint.constant = bottomHeight
         controlViewWidthConstraint.constant = screenWidth
     }
+
+    func pendingOperator(name: String) {
+        for v in keysView.subviews {
+            for stack in v.subviews {
+                for key in stack.subviews {
+                    if let b = key as? UIButton {
+                        if let titleLabel = b.titleLabel {
+                            if titleLabel.text == name {
+                                b.backgroundColor = UIColor.red
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func endPendingOperator(name: String) {
+        for v in keysView.subviews {
+            for stack in v.subviews {
+                for key in stack.subviews {
+                    if let b = key as? UIButton {
+                        if let titleLabel = b.titleLabel {
+                            if titleLabel.text == name {
+                                b.backgroundColor = UIColor.yellow
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
 
     func backgroundForKey(button: UIButton, fontSize: CGFloat) {
         var inset: CGFloat
