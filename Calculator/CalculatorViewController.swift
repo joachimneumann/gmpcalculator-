@@ -11,7 +11,6 @@ import UIKit
 struct ColorPalette {
     static let BasicOperation = UIColor(red: 0.0/255.0, green: 163.0/255.0, blue: 136.0/255.0, alpha: 1.0)
     static let PressedBasicOperation = UIColor(red: 51/255.0, green: 213.0/255.0, blue: 187.0/255.0, alpha: 1.0)
-    static let PendingOperation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     static let Operation = UIColor(red: 164.0/255.0, green: 164.0/255.0, blue: 164.0/255.0, alpha: 1.0)
     static let PressedOperation = UIColor(red: 217.0/255.0, green: 217.0/255.0, blue: 217.0/255.0, alpha: 1.0)
     static let ExtendedOperation = UIColor(red: 33.0/255.0, green: 33.0/255.0, blue: 33.0/255.0, alpha: 1.0)
@@ -26,10 +25,6 @@ struct DisplayFont {
     static let Normal = UIFont.monospacedDigitSystemFont(ofSize: 35, weight: UIFont.Weight.medium)
 }
 
-//let basicOperations = Set(["÷", "×", "−", "+", "="])
-let pendingOperations = Set(["x^y", "x↑↑y"])
-let cancelPendingOperations = Set(["C", "="])
-//let smallerScienceKeys = Set(["x^2", "x^3", "x^y", "e^x", "10^x", "√", "3√", "x↑↑y"])
 let smallerBasicKeys = Set(["1/x", "±"])
 let basicOperationKeys = Set(["1\\x", "±", "C"])
 
@@ -91,7 +86,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     fileprivate var brain = Brain()
     fileprivate var screenWidth: CGFloat = 300.0
     fileprivate var screenHeight :CGFloat = 300.0
-    fileprivate var pendingButton: UIButton?
     fileprivate var buttonFont: UIFont?
     fileprivate var largerButtonFont: UIFont?
     fileprivate var currentDeviceOrientation: UIDeviceOrientation = .unknown
@@ -100,6 +94,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     var tapGestureRecognizer: UITapGestureRecognizer?
 
     required init?(coder aDecoder: NSCoder) {
+        potentiallyPending = [:]
         super.init(coder: aDecoder)
     }
     
@@ -107,6 +102,13 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         return true
     }
     
+    struct PotentiallyPendingOperator {
+        let b: UIButton
+        let normalBackgroundColor: UIColor
+        let highlightedBackgroundColor: UIColor
+    }
+    
+    var potentiallyPending: Dictionary<String,PotentiallyPendingOperator>
     
     @objc func displayTouched() {
         if displayNotExpanded {
@@ -130,7 +132,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         brain.precision = 75
         brain.brainProtocolDelegate = self
         
@@ -156,6 +158,48 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
                     if let b = key as? UIButton {
                         if let titleLabel = b.titleLabel {
                             if let titleText = titleLabel.text {
+                                if titleText == "+" {
+                                    potentiallyPending["+"] =
+                                        PotentiallyPendingOperator(
+                                            b: b,
+                                            normalBackgroundColor: ColorPalette.BasicOperation,
+                                            highlightedBackgroundColor: ColorPalette.PressedBasicOperation)
+                                }
+                                if titleText == "−" {
+                                    potentiallyPending["−"] =
+                                        PotentiallyPendingOperator(
+                                            b: b,
+                                            normalBackgroundColor: ColorPalette.BasicOperation,
+                                            highlightedBackgroundColor: ColorPalette.PressedBasicOperation)
+                                }
+                                if titleText == "×" {
+                                    potentiallyPending["×"] =
+                                        PotentiallyPendingOperator(
+                                            b: b,
+                                            normalBackgroundColor: ColorPalette.BasicOperation,
+                                            highlightedBackgroundColor: ColorPalette.PressedBasicOperation)
+                                }
+                                if titleText == "÷" {
+                                    potentiallyPending["÷"] =
+                                        PotentiallyPendingOperator(
+                                            b: b,
+                                            normalBackgroundColor: ColorPalette.BasicOperation,
+                                            highlightedBackgroundColor: ColorPalette.PressedBasicOperation)
+                                }
+                                if titleText == "x^y" {
+                                    potentiallyPending["x^y"] =
+                                        PotentiallyPendingOperator(
+                                            b: b,
+                                            normalBackgroundColor: ColorPalette.ExtendedOperation,
+                                            highlightedBackgroundColor: ColorPalette.PressedExtendedOperation)
+                                }
+                                if titleText == "x↑↑y" {
+                                    potentiallyPending["x↑↑y"] =
+                                        PotentiallyPendingOperator(
+                                            b: b,
+                                            normalBackgroundColor: ColorPalette.ExtendedOperation,
+                                            highlightedBackgroundColor: ColorPalette.PressedExtendedOperation)
+                                }
                                 if let beginUIImage = UIImage(named: titleText) {
                                     b.imageView?.contentMode = UIViewContentMode.scaleAspectFit
                                     b.setImage(beginUIImage, for: UIControlState())
@@ -266,38 +310,17 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
 
     func pendingOperator(name: String) {
-        for v in keysView.subviews {
-            for stack in v.subviews {
-                for key in stack.subviews {
-                    if let b = key as? UIButton {
-                        if let titleLabel = b.titleLabel {
-                            if titleLabel.text == name {
-                                b.backgroundColor = UIColor.red
-                            }
-                        }
-                    }
-                }
-            }
+        if let op = potentiallyPending[name] {
+            op.b.backgroundColor = op.highlightedBackgroundColor
         }
     }
     
     func endPendingOperator(name: String) {
-        for v in keysView.subviews {
-            for stack in v.subviews {
-                for key in stack.subviews {
-                    if let b = key as? UIButton {
-                        if let titleLabel = b.titleLabel {
-                            if titleLabel.text == name {
-                                b.backgroundColor = UIColor.yellow
-                            }
-                        }
-                    }
-                }
-            }
+        if let op = potentiallyPending[name] {
+            op.b.backgroundColor = op.normalBackgroundColor
         }
     }
     
-
     func backgroundForKey(button: UIButton, fontSize: CGFloat) {
         var inset: CGFloat
         switch self.currentDeviceOrientation {
@@ -474,6 +497,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBAction func basicOperationTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.PressedBasicOperation
     }
+    
     @IBAction func functionTouchDown(_ sender: UIButton) {
         switch sender.tag {
         case 0:
@@ -533,16 +557,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             if (userIsInTheMiddleOfTyping) {
                 brain.replaceDigit(display.text)
                 userIsInTheMiddleOfTyping = false
-            }
-            if pendingOperations.contains(mathematicalSymbol) {
-                sender.backgroundColor = ColorPalette.PendingOperation
-                // TODO: failed to change the color of the button text to black
-                pendingButton = sender
-            }
-            if cancelPendingOperations.contains(mathematicalSymbol) {
-                if let b = pendingButton {
-                    backgroundForKey(button: b, fontSize: 12)
-                }
             }
             brain.operation(mathematicalSymbol)
         }
