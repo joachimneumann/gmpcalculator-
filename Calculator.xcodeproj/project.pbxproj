@@ -13,7 +13,6 @@
 		AAE9DA901CE0BBE400C44198 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */; };
 		AAE9DA921CE0BBE400C44198 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA911CE0BBE400C44198 /* Assets.xcassets */; };
 		AAE9DA951CE0BBE400C44198 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */; };
-		AAE9DA9E1CE0D35000C44198 /* CalculatorBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA9D1CE0D35000C44198 /* CalculatorBrain.swift */; };
 		BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE153BB11CF4354900E53E4B /* Gmp.swift */; };
 		BE808DC91CF7705E00ECDBAF /* libmpfr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE808DC71CF7705E00ECDBAF /* libmpfr.a */; };
 		BE808DCA1CF7705E00ECDBAF /* libgmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE808DC81CF7705E00ECDBAF /* libgmp.a */; };
@@ -38,7 +37,6 @@
 		AAE9DA911CE0BBE400C44198 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AAE9DA941CE0BBE400C44198 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAE9DA961CE0BBE400C44198 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AAE9DA9D1CE0D35000C44198 /* CalculatorBrain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorBrain.swift; sourceTree = "<group>"; };
 		BE153BB11CF4354900E53E4B /* Gmp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gmp.swift; sourceTree = "<group>"; };
 		BE808DC71CF7705E00ECDBAF /* libmpfr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmpfr.a; path = libGmp/libmpfr.a; sourceTree = "<group>"; };
 		BE808DC81CF7705E00ECDBAF /* libgmp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmp.a; path = libGmp/libgmp.a; sourceTree = "<group>"; };
@@ -88,7 +86,6 @@
 				AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */,
 				BE153BB11CF4354900E53E4B /* Gmp.swift */,
 				AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */,
-				AAE9DA9D1CE0D35000C44198 /* CalculatorBrain.swift */,
 				AA43979C215554E0009F58D3 /* Brain.swift */,
 			);
 			path = Calculator;
@@ -204,7 +201,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE9DA9E1CE0D35000C44198 /* CalculatorBrain.swift in Sources */,
 				AAE9DA8D1CE0BBE400C44198 /* CalculatorViewController.swift in Sources */,
 				BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */,
 				AA43979D215554E0009F58D3 /* Brain.swift in Sources */,

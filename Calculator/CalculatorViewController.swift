@@ -88,7 +88,7 @@ class CalculatorViewController: UIViewController {
     fileprivate var spacing: CGFloat = 20
     fileprivate var userIsInTheMiddleOfTyping = false
     fileprivate let fmt = NumberFormatter()
-    fileprivate var brain = CalculatorBrain()
+    fileprivate var brain = Brain()
     fileprivate var screenWidth: CGFloat = 300.0
     fileprivate var screenHeight :CGFloat = 300.0
     fileprivate var pendingButton: UIButton?
@@ -99,9 +99,6 @@ class CalculatorViewController: UIViewController {
     var displayNotExpanded = true
     var tapGestureRecognizer: UITapGestureRecognizer?
 
-    fileprivate var savedProgram: CalculatorBrain.PropertyList?
-    
-   
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -133,6 +130,8 @@ class CalculatorViewController: UIViewController {
     // MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        brain.precision = 75
         display.text = "0"
         digitsStack.isHidden = false
         displayStack.isHidden = true
@@ -201,7 +200,11 @@ class CalculatorViewController: UIViewController {
     }
     
     func updateDisplay() {
-        display!.text = brain.result.toString()
+        if let number = brain.n.peek() {
+            display!.text = number.toString()
+        } else {
+            display!.text = "0"
+        }
     }
     
     
@@ -466,12 +469,12 @@ class CalculatorViewController: UIViewController {
             if userIsInTheMiddleOfTyping {
                 digit = (digit == "." && currentText.range(of: ".") != nil) ? "" : digit
                 display.text = currentText + digit
-                brain.setDigit(display.text)
+                brain.replaceDigit(display.text)
             } else {
                 digit = (digit == ".") ? "0." : digit
                 display.text = digit
                 userIsInTheMiddleOfTyping = true
-                brain.newDigit(display.text)
+                brain.setDigit(display.text)
             }
         }
     }
@@ -493,7 +496,7 @@ class CalculatorViewController: UIViewController {
         }, completion: nil)
         if let mathematicalSymbol = sender.currentTitle {
             if (userIsInTheMiddleOfTyping) {
-                brain.setOperand(display.text)
+                brain.replaceDigit(display.text)
                 userIsInTheMiddleOfTyping = false
             }
             if pendingOperations.contains(mathematicalSymbol) {
@@ -506,7 +509,7 @@ class CalculatorViewController: UIViewController {
                     backgroundForKey(button: b, fontSize: 12)
                 }
             }
-            brain.performOperation(mathematicalSymbol)
+            brain.operation(mathematicalSymbol)
         }
         updateDisplay()
     }
@@ -536,7 +539,7 @@ class CalculatorViewController: UIViewController {
                     if precision <= brain.precision {
                         // make sure that the value in the display is used, even if the user has still been in the middle of typing
                         if (userIsInTheMiddleOfTyping) {
-                            brain.setOperand(display.text)
+                            brain.operation(display.text)
                             userIsInTheMiddleOfTyping = false
                         }
                         brain.precision = precision

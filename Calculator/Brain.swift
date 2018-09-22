@@ -18,6 +18,9 @@ class Brain {
         mutating func pop() -> String? {
             return array.popLast()
         }
+        mutating func removeLast() {
+            array.removeLast()
+        }
         func peek() -> String? {
             return array.last
         }
@@ -35,6 +38,9 @@ class Brain {
         }
         mutating func pop() -> Gmp? {
             return array.popLast()
+        }
+        mutating func removeLast() {
+            array.removeLast()
         }
         func peek() -> Gmp? {
             return array.last
@@ -119,7 +125,7 @@ class Brain {
         // User: 2
         setDigit("2")
         // User: *
-        operation("*")
+        operation("×")
         assert(n.peek() == Gmp("2", precision: 10))
         // User: 5
         setDigit("4")
@@ -137,7 +143,7 @@ class Brain {
         // User: 2
         setDigit("2")
         // User: *
-        operation("*")
+        operation("×")
         assert(n.peek() == Gmp("2", precision: 10))
         // User: 5
         setDigit("4")
@@ -154,7 +160,7 @@ class Brain {
         
         reset()
         operation("π")
-        operation("*")
+        operation("×")
         setDigit("2")
         operation("=")
     }
@@ -166,15 +172,21 @@ class Brain {
     func setDigit(_ digit: String) {
         n.push(Gmp(digit, precision: nBits))
     }
+    func replaceDigit(_ digit: String) {
+        n.removeLast()
+        n.push(Gmp(digit, precision: nBits))
+    }
 
     func operation(_ symbol: String) {
-        if symbol == "=" {
+        if symbol == "C" {
+            reset()
+        } else if symbol == "=" {
             while twoParameterOpStack.count() > 0 {
                 let n1 = n.pop()!
                 let n2 = n.pop()!
                 let opName = twoParameterOpStack.pop()!
                 let op = opDict[opName]!
-                let n3 = op(n1,n2)
+                let n3 = op(n2,n1)
                 n.push(n3)
             }
         } else if inplaceDict.keys.contains(symbol) {
@@ -208,7 +220,7 @@ class Brain {
                             if let op = opDict[opName] {
                                 let n1 = n.pop()!
                                 let n2 = n.pop()!
-                                let n3 = op(n1, n2)
+                                let n3 = op(n2, n1)
                                 n.push(n3)
                             }
                         }
@@ -244,18 +256,18 @@ class Brain {
 
     fileprivate let twoParameterOp: Dictionary < String, Int> = [
         "+": 1,
-        "-": 1,
-        "*": 2,
-        "/": 2,
+        "−": 1,
+        "×": 2,
+        "÷": 2,
         "pow_x_y": 2,
         "x↑↑y": 2
     ]
     
     fileprivate var opDict: Dictionary< String, (Gmp, Gmp) -> (Gmp) > = [
         "+": add,
-        "-": min,
-        "*": mul,
-        "/": div,
+        "−": min,
+        "×": mul,
+        "÷": div,
         "pow_x_y": pow_x_y,
         "x↑↑y": x_double_up_arrow_y
     ]
