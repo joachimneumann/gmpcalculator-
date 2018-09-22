@@ -163,6 +163,15 @@ class Brain {
         operation("×")
         setDigit("2")
         operation("=")
+        
+        reset()
+        setDigit("2")
+        operation("pow_x_y")
+        setDigit("10")
+        operation("=")
+        assert(n.peek() == Gmp("1024", precision: 10))
+        reset()
+
     }
     
     func reset() {
@@ -259,6 +268,7 @@ class Brain {
         "−": 1,
         "×": 2,
         "÷": 2,
+        "x^y": 2,
         "pow_x_y": 2,
         "x↑↑y": 2
     ]
@@ -268,6 +278,7 @@ class Brain {
         "−": min,
         "×": mul,
         "÷": div,
+        "x^y": pow_x_y,
         "pow_x_y": pow_x_y,
         "x↑↑y": x_double_up_arrow_y
     ]
