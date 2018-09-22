@@ -9,7 +9,7 @@
 import Foundation
 
 class Brain {
-    
+
     struct OpStack {
         fileprivate var array: [String] = []
         mutating func push(_ element: String) {
@@ -151,6 +151,12 @@ class Brain {
         // User: =
         operation("=")
         assert(n.peek() == Gmp("109", precision: 10))
+        
+        reset()
+        operation("π")
+        operation("*")
+        setDigit("2")
+        operation("=")
     }
     
     func reset() {
@@ -171,9 +177,15 @@ class Brain {
                 let n3 = op(n1,n2)
                 n.push(n3)
             }
-        } else if inplaceOp.contains(symbol) {
+        } else if inplaceDict.keys.contains(symbol) {
             if let op = inplaceDict[symbol] {
                 let n1 = n.pop()!
+                op(n1)
+                n.push( n1 )
+            }
+        } else if constDict.keys.contains(symbol) {
+            if let op = constDict[symbol] {
+                let n1 = Gmp("0", precision: nBits)
                 op(n1)
                 n.push( n1 )
             }
@@ -208,19 +220,44 @@ class Brain {
     }
 
     fileprivate var inplaceDict: Dictionary< String, (Gmp) -> () > = [
-        "1\\x": rez
+        "±": changeSign,
+        "1\\x": rez,
+        "x!": fac,
+        "ln": ln,
+        "log10": log10,
+        "√": sqrt,
+        "3√": sqrt3,
+        "sin": sin,
+        "cos": cos,
+        "tan": tan,
+        "x^2": pow_x_2,
+        "x^3": pow_x_3,
+        "e^x": pow_e_x,
+        "10^x": pow_10_x
+    ]
+
+    fileprivate var constDict: Dictionary< String, (Gmp) -> () > = [
+        "π": π,
+        "e": e,
+        "γ": γ,
     ]
 
     fileprivate let twoParameterOp: Dictionary < String, Int> = [
         "+": 1,
-        "*": 2
+        "-": 1,
+        "*": 2,
+        "/": 2,
+        "pow_x_y": 2,
+        "x↑↑y": 2
     ]
     
-    fileprivate let inplaceOp = Set(["1\\x"])
-
     fileprivate var opDict: Dictionary< String, (Gmp, Gmp) -> (Gmp) > = [
         "+": add,
-        "*": mul
+        "-": min,
+        "*": mul,
+        "/": div,
+        "pow_x_y": pow_x_y,
+        "x↑↑y": x_double_up_arrow_y
     ]
 
 }

@@ -30,7 +30,6 @@ func + (left: Gmp, right: Gmp) -> Gmp {
     mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
-
 func add (left: Gmp, right: Gmp) -> Gmp {
     mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
@@ -40,11 +39,20 @@ func / (left: Gmp, right: Gmp) -> Gmp {
     mpfr_div(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
+func div (left: Gmp, right: Gmp) -> Gmp {
+    mpfr_div(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
+    return left
+}
 
 func - (left: Gmp, right: Gmp) -> Gmp {
     mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
+func min (left: Gmp, right: Gmp) -> Gmp {
+    mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
+    return left
+}
+
 func * (left: Gmp, right: Gmp) -> Gmp {
     mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
