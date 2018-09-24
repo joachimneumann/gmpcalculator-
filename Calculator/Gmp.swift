@@ -125,6 +125,15 @@ func cos(_ me: Gmp) {
 func tan(_ me: Gmp) {
     mpfr_tan(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
+func asin(_ me: Gmp) {
+    mpfr_asin(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
+}
+func acos(_ me: Gmp) {
+    mpfr_acos(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
+}
+func atan(_ me: Gmp) {
+    mpfr_atan(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
+}
 func e(_ me: Gmp) {
     var one: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     mpfr_init2 (&one, mpfr_get_prec(&me.mpfr))
@@ -197,9 +206,8 @@ class Gmp: CustomDebugStringConvertible {
         if mpfr_zero_p(&mpfr) != 0 {
             return "0"
         }
-
         
-        let significantBytesEstimate = Int(round(0.3 * Double(mpfr_get_prec(&mpfr))))
+        let significantBytesEstimate = Int(round(0.302 * Double(mpfr_get_prec(&mpfr))))+1
         var expptr: mpfr_exp_t = 0
         var charArray: Array<CChar> = Array(repeating: 0, count: significantBytesEstimate+2) // +2 because: one for a possible - and one for zero termination
         mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
@@ -242,7 +250,7 @@ class Gmp: CustomDebugStringConvertible {
         guard var floatString = String(validatingUTF8: charArray)
             else { return "not a number" }
         
-        // make sure the lenfth of the float string is at least two characters
+        // make sure the length of the float string is at least two characters
         while floatString.count < 2 { floatString += "0" }
         
         floatString.insert(".", at: floatString.index(floatString.startIndex, offsetBy: 1))

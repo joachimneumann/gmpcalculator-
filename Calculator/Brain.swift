@@ -84,14 +84,15 @@ class Brain {
     var twoParameterOpStack = OpStack()
     var n = GmpStack()
 
-    fileprivate var nBits = 10
+    fileprivate var nBits = 0
     
     var precision: Int {
+        // throwing in 20 addition bits, this helps with sin(asin) to result in identity
         set {
-            nBits = Int(round(Double(newValue) / 0.302))
+            nBits = Int(round(Double(newValue) / 0.302)) + 20
         }
         get {
-            return Int(round(Double(nBits) * 0.302))
+            return Int(round(Double(nBits-20) * 0.302))
         }
     }
     
@@ -104,7 +105,7 @@ class Brain {
         assert(n.peek()! == Gmp("10", precision: nBits))
         // User: 1/x
         operation("1\\x")
-        assert(n.peek()! == Gmp("0.1", precision: 10))
+        assert(n.peek()! == Gmp("0.1", precision: nBits))
         
         // User: C
         reset()
@@ -120,28 +121,28 @@ class Brain {
         setDigit("2")
         // User: +
         operation("+")
-        assert(n.peek() == Gmp("3", precision: 10))
+        assert(n.peek() == Gmp("3", precision: nBits))
         // User: 5
         setDigit("5")
         // User: +
         operation("+")
-        assert(n.peek() == Gmp("8", precision: 10))
+        assert(n.peek() == Gmp("8", precision: nBits))
         // user: 2
         setDigit("2")
         // User: =
         operation("=")
-        assert(n.peek() == Gmp("10", precision: 10))
+        assert(n.peek() == Gmp("10", precision: nBits))
         // User: +
         operation("+")
-        assert(n.peek() == Gmp("10", precision: 10))
+        assert(n.peek() == Gmp("10", precision: nBits))
         // user: 4
         setDigit("4")
         // user: 1/x
         operation("1\\x")
-        assert(n.peek() == Gmp("0.25", precision: 10))
+        assert(n.peek() == Gmp("0.25", precision: nBits))
         // User: =
         operation("=")
-        assert(n.peek() == Gmp("10.25", precision: 10))
+        assert(n.peek() == Gmp("10.25", precision: nBits))
         
         reset()
         // User: 1
@@ -153,13 +154,13 @@ class Brain {
         setDigit("2")
         // User: *
         operation("×")
-        assert(n.peek() == Gmp("2", precision: 10))
+        assert(n.peek() == Gmp("2", precision: nBits))
         // User: 5
         setDigit("4")
-        assert(n.peek() == Gmp("4", precision: 10))
+        assert(n.peek() == Gmp("4", precision: nBits))
         // User: =
         operation("=")
-        assert(n.peek() == Gmp("9", precision: 10))
+        assert(n.peek() == Gmp("9", precision: nBits))
         
         reset()
         // User: 1
@@ -171,19 +172,19 @@ class Brain {
         setDigit("2")
         // User: *
         operation("×")
-        assert(n.peek() == Gmp("2", precision: 10))
+        assert(n.peek() == Gmp("2", precision: nBits))
         // User: 5
         setDigit("4")
-        assert(n.peek() == Gmp("4", precision: 10))
+        assert(n.peek() == Gmp("4", precision: nBits))
         // User: +
         operation("+")
-        assert(n.peek() == Gmp("9", precision: 10))
+        assert(n.peek() == Gmp("9", precision: nBits))
         // User: 100
         setDigit("100")
-        assert(n.peek() == Gmp("100", precision: 10))
+        assert(n.peek() == Gmp("100", precision: nBits))
         // User: =
         operation("=")
-        assert(n.peek() == Gmp("109", precision: 10))
+        assert(n.peek() == Gmp("109", precision: nBits))
         
         reset()
         operation("π")
@@ -282,6 +283,9 @@ class Brain {
         "sin": sin,
         "cos": cos,
         "tan": tan,
+        "asin": asin,
+        "acos": acos,
+        "atan": atan,
         "x^2": pow_x_2,
         "x^3": pow_x_3,
         "e^x": pow_e_x,

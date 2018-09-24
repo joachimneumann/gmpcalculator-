@@ -48,7 +48,10 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBOutlet weak var _123Stack: UIStackView!
     @IBOutlet weak var _0Stack: UIStackView!
     
-    
+    @IBOutlet weak var sinKey: UIButton!
+    @IBOutlet weak var key_75: UIButton!
+    @IBOutlet weak var key_normal: UIButton!
+
     @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var controlKeysView: UIView!
     @IBOutlet weak var controlKey100000: UIButton!
@@ -59,10 +62,10 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBOutlet weak var controlViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var controlViewWidthConstraint: NSLayoutConstraint!
     @IBOutlet weak var controlViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var controlKeysViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var controlKeysViewTrailingConstraint: NSLayoutConstraint!
     @IBOutlet weak var controlKeysViewTopConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var controlsKeysViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var controlKeysViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var displayViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var displayViewHeightConstraint: NSLayoutConstraint!
     
@@ -90,7 +93,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     fileprivate var largerButtonFont: UIFont?
     fileprivate var currentDeviceOrientation: UIDeviceOrientation = .unknown
     
-    var displayNotExpanded = true
+    var displayExpanded = false
     var tapGestureRecognizer: UITapGestureRecognizer?
 
     required init?(coder aDecoder: NSCoder) {
@@ -111,6 +114,15 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     var potentiallyPending: Dictionary<String,PotentiallyPendingOperator>
     
     @objc func displayTouched() {
+        if displayExpanded {
+            displayExpanded = false
+        } else {
+            displayExpanded = true
+        }
+        setDisplay()
+    }
+
+    func setDisplay() {
         var bottomSpace: CGFloat = 0
         var allSpace: CGFloat = 0
         switch UIApplication.shared.statusBarOrientation {
@@ -122,23 +134,21 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             bottomSpace = 0
         default: break
         }
-        if displayNotExpanded {
+        if displayExpanded {
             keysView.isHidden = true
             digitsStack.isHidden = true
             displayStack.isHidden = true
             displayStack.isHidden = false
-            displayNotExpanded = false
             displayViewHeightConstraint.constant =
                 allSpace - bottomSpace
         } else {
             keysView.isHidden = false
             digitsStack.isHidden = false
             displayStack.isHidden = true
-            displayNotExpanded = true
             displayViewHeightConstraint.constant =
                 allSpace -
                 keysView.frame.size.height -
-                bottomSpace
+            bottomSpace
         }
     }
     
@@ -227,7 +237,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
                 }
             }
         }
-        layout()
     }
     
     
@@ -235,14 +244,20 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         super.viewWillAppear(animated)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        switch UIDevice.current.orientation {
-        case .landscapeLeft:
-            landscaleLayout()
-        case .landscapeRight:
-            landscaleLayout()
-        default:
-            portraitLayout()
+
+        // screenHeight is ALWAYS larger than screenWidth
+        screenWidth = view.frame.size.width
+        screenHeight = view.frame.size.height
+        if (screenWidth > screenHeight) {
+            let temp:CGFloat = screenWidth
+            screenWidth = screenHeight
+            screenHeight = temp
         }
+
+        layout()
+        
+        digitsButtonPressed(key_75)
+        sizeChanged(key_normal)
     }
 
     @objc func deviceDidRotate(_ notification: Notification) {
@@ -279,13 +294,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         scienceStack.isHidden = false
         keysStack.layoutIfNeeded()
         // control keys should have the same height as the normal keys
-        let controlHeight = (screenWidth*0.6-4*spacing)/5*4
         let controlWidth = screenHeight*0.15
-        controlViewBottomConstraint.constant = (screenWidth-controlHeight)/2
-        controlViewHeightConstraint.constant = controlHeight
-        controlViewWidthConstraint.constant = controlWidth
-        controlKeysViewLeadingConstraint.constant = spacing/2
-        controlKeysViewTrailingConstraint.constant = 0
         digitsStack.axis = .vertical
         displayStack.axis = .vertical
         keysViewLeadingConstraint.constant = controlWidth
@@ -304,9 +313,15 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         scienceStackBottomConstraint.constant = spacing
         keysView.layoutIfNeeded()
         displayViewHeightConstraint.constant = screenWidth - keysView.frame.size.height
+        let controlHeight = 4*sinKey.frame.size.height + 3 * spacing
+        controlsKeysViewTrailingConstraint.constant = 0
+        controlKeysViewLeadingConstraint.constant = spacing
+        controlViewBottomConstraint.constant = (screenWidth-controlHeight)/2
+        controlViewHeightConstraint.constant = controlHeight
+        controlViewWidthConstraint.constant = controlWidth
+        digitsStack.distribution = .fillEqually
     }
     func portraitLayout() {
-        displayView.backgroundColor = UIColor.yellow
         controlViewBottomConstraint.constant = 0
         displayViewLeadingConstraint.constant = 0
         scienceStack.isHidden = true
@@ -323,11 +338,13 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         }
         keysViewHeightConstraint.constant = w
         keysView.layoutIfNeeded()
+        controlsKeysViewTrailingConstraint.constant = spacing
         controlKeysViewLeadingConstraint.constant = spacing
         controlViewHeightConstraint.constant = controlHeight
         controlViewWidthConstraint.constant = screenWidth
         controlView.layoutIfNeeded()
         displayViewHeightConstraint.constant = screenHeight - keysView.frame.size.height - controlView.frame.size.height
+        digitsStack.distribution = .fillProportionally
     }
 
     func pendingOperator(name: String) {
@@ -397,15 +414,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
 
     func layout() {
-        // screenHeight is ALWAYS larger than screenWidth
-        screenWidth = view.frame.size.width
-        screenHeight = view.frame.size.height
-        if (screenWidth > screenHeight) {
-            let temp:CGFloat = screenWidth
-            screenWidth = screenHeight
-            screenHeight = temp
-        }
-        
         switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight:
             spacing = 0.02 * screenHeight
@@ -417,6 +425,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             // do nothing
             return
         }
+        setDisplay()
 
         keyStackTrailingConstraint.constant = spacing
         keyStackBottomConstraint.constant = spacing
@@ -477,20 +486,9 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             return
         }
         
-        var controlKeyFontSize: CGFloat
-        controlKeyFontSize = round(controlKey100000.frame.size.width * 0.2)
-
         buttonFont = UIFont.systemFont(ofSize: fontSize)
         largerButtonFont = UIFont.systemFont(ofSize: fontSize*1.2)
         
-        for v in controlKeysView.subviews {
-            for stack in v.subviews {
-                if let b = stack as? UIButton {
-                    b.titleLabel!.font = UIFont.monospacedDigitSystemFont(ofSize: controlKeyFontSize, weight: UIFont.Weight.medium)
-                }
-            }
-        }
-
         for v in keysView.subviews {
             for stack in v.subviews {
                 for key in stack.subviews {
@@ -504,16 +502,23 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             for stack in v.subviews {
                 if let b = stack as? UIButton {
                     b.setTitleColor(UIColor.white, for: UIControlState())
-                    b.backgroundColor = ColorPalette.BasicOperation
                     // lift the symbols up a bit
                     b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
                 }
             }
         }
+        controlView.layoutIfNeeded()
+        var controlKeyFontSize: CGFloat
+        controlKeyFontSize = round(controlKey100000.frame.size.width * 0.15)
+        for v in controlKeysView.subviews {
+            for stack in v.subviews {
+                if let b = stack as? UIButton {
+                    b.titleLabel!.font = UIFont.monospacedDigitSystemFont(ofSize: controlKeyFontSize, weight: UIFont.Weight.medium)
+                }
+            }
+        }
 
     }
-
-    
     
     @IBAction func basicOperationTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.PressedBasicOperation
@@ -584,11 +589,26 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
     
     @IBAction func copyToClipboard(_ sender: UIButton) {
+        let t = 0.1
+        UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
+            self.display.textColor = UIColor.orange
+        }, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5*t, execute: {
+            UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
+                self.display.textColor = UIColor.white
+            }, completion: nil)
+      })
         let pasteboard = UIPasteboard.general
         pasteboard.string = display.text
     }
 
     @IBAction func sizeChanged(_ sender: UIButton) {
+        for k in displayStack.subviews {
+            if let key = k as? UIButton {
+                key.backgroundColor = ColorPalette.Digits
+            }
+        }
+        sender.backgroundColor = ColorPalette.BasicOperation
         switch sender.titleLabel?.text {
         case "tiny":
             display.font = DisplayFont.Tiny
@@ -602,8 +622,17 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
     
     @IBAction func digitsButtonPressed(_ sender: UIButton) {
-        if let digitsString = sender.titleLabel?.text! {
-            if let precision = Int(digitsString.replacingOccurrences(of: ",", with: "")) {
+        // all digits buttons to not_active
+        for k in digitsStack.subviews {
+            if let key = k as? UIButton {
+                key.backgroundColor = ColorPalette.Digits
+            }
+        }
+        sender.backgroundColor = ColorPalette.BasicOperation
+        if let s1 = sender.titleLabel?.text! {
+            let s2 = s1.replacingOccurrences(of: ",", with: "")
+            let s3 = s2.replacingOccurrences(of: " ", with: "")
+            if let precision = Int(s3) {
                 if precision != brain.precision {
                     if precision <= brain.precision {
                         // make sure that the value in the display is used, even if the user has still been in the middle of typing
