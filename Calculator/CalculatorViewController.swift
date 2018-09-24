@@ -554,10 +554,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             }
         }, completion: nil)
         if let mathematicalSymbol = sender.currentTitle {
-            if (userIsInTheMiddleOfTyping) {
-                brain.replaceDigit(display.text)
-                userIsInTheMiddleOfTyping = false
-            }
+            brain.replaceDigit(display.text)
+            userIsInTheMiddleOfTyping = false
             brain.operation(mathematicalSymbol)
         }
         updateDisplay()

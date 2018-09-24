@@ -95,8 +95,7 @@ class Brain {
         }
     }
     
-    
-    init() {
+    func test() {
         // User: 1
         setDigit("1")
         assert(n.peek()! == Gmp("1", precision: nBits))
@@ -106,7 +105,7 @@ class Brain {
         // User: 1/x
         operation("1\\x")
         assert(n.peek()! == Gmp("0.1", precision: 10))
-
+        
         // User: C
         reset()
         assert(n.peek() == nil)
@@ -199,7 +198,10 @@ class Brain {
         operation("=")
         assert(n.peek() == Gmp("1024", precision: 10))
         reset()
-
+    }
+    
+    init() {
+//        test()
     }
     
     func reset() {
@@ -210,7 +212,7 @@ class Brain {
         n.push(Gmp(digit, precision: nBits))
     }
     func replaceDigit(_ digit: String) {
-        n.removeLast()
+        if n.count() > 0 { n.removeLast() }
         n.push(Gmp(digit, precision: nBits))
     }
 
