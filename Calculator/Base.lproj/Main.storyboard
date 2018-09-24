@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="landscape">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,19 +14,15 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="BYZ-38-t0r" customClass="CalculatorViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="CalculatorView">
                         <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gFG-GG-QFG" userLabel="DisplayView">
-                                <rect key="frame" x="0.0" y="0.0" width="667" height="375"/>
+                                <rect key="frame" x="0.0" y="0.0" width="667" height="100"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" text="1234567890" textAlignment="right" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wd0-pp-5pX">
-                                        <rect key="frame" x="5" y="0.0" width="652" height="375"/>
+                                        <rect key="frame" x="5" y="0.0" width="652" height="100"/>
                                         <color key="backgroundColor" red="0.12999999523162842" green="0.12999999523162842" blue="0.12999999523162842" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="30"/>
@@ -34,14 +31,15 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.12999999523162842" green="0.12999999523162842" blue="0.12999999523162842" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="1px-Uh-iJJ"/>
                                     <constraint firstItem="wd0-pp-5pX" firstAttribute="top" secondItem="gFG-GG-QFG" secondAttribute="top" id="8OM-bM-7LG"/>
-                                    <constraint firstAttribute="bottom" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="YRV-6T-VwU"/>
                                     <constraint firstItem="wd0-pp-5pX" firstAttribute="leading" secondItem="gFG-GG-QFG" secondAttribute="leading" constant="5" id="bnS-Ao-gzm"/>
+                                    <constraint firstAttribute="bottom" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="jdF-5C-RgU"/>
                                     <constraint firstAttribute="trailing" secondItem="wd0-pp-5pX" secondAttribute="trailing" constant="10" id="oOc-zE-AqX"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="e6y-4p-lNd" userLabel="KeysView">
-                                <rect key="frame" x="0.0" y="235" width="667" height="100"/>
+                                <rect key="frame" x="0.0" y="275" width="667" height="100"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="AhE-3y-TZV" userLabel="keysStack">
                                         <rect key="frame" x="477" y="0.0" width="190" height="100"/>
@@ -660,26 +658,16 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="gFG-GG-QFG" secondAttribute="trailing" id="3iI-dD-lPq"/>
-                            <constraint firstAttribute="trailing" secondItem="e6y-4p-lNd" secondAttribute="trailing" id="58e-0K-U6w"/>
-                            <constraint firstAttribute="bottom" secondItem="BSg-Rj-sqj" secondAttribute="bottom" id="7kF-51-JQk"/>
-                            <constraint firstItem="e6y-4p-lNd" firstAttribute="top" secondItem="gFG-GG-QFG" secondAttribute="bottom" id="ApN-lZ-wZ4"/>
-                            <constraint firstAttribute="trailing" secondItem="e6y-4p-lNd" secondAttribute="trailing" id="JTx-VA-glU"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="e6y-4p-lNd" secondAttribute="bottom" constant="40" id="NMc-Y6-8BU"/>
-                            <constraint firstItem="gFG-GG-QFG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Pxu-Fa-ieG"/>
-                            <constraint firstItem="e6y-4p-lNd" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Y5O-oC-Sz8"/>
-                            <constraint firstItem="BSg-Rj-sqj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bIW-x0-gfi"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="gFG-GG-QFG" secondAttribute="bottom" id="lLC-2Y-C3a"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="e6y-4p-lNd" secondAttribute="bottom" id="lUe-3H-dgv"/>
-                            <constraint firstItem="gFG-GG-QFG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="sxW-QF-OYh"/>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="gFG-GG-QFG" secondAttribute="trailing" id="3iI-dD-lPq"/>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="e6y-4p-lNd" secondAttribute="trailing" id="58e-0K-U6w"/>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="BSg-Rj-sqj" secondAttribute="bottom" id="7kF-51-JQk"/>
+                            <constraint firstItem="gFG-GG-QFG" firstAttribute="top" secondItem="y7k-dk-FLH" secondAttribute="top" id="Pxu-Fa-ieG"/>
+                            <constraint firstItem="e6y-4p-lNd" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="Y5O-oC-Sz8"/>
+                            <constraint firstItem="BSg-Rj-sqj" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="bIW-x0-gfi"/>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="e6y-4p-lNd" secondAttribute="bottom" id="gJp-aZ-NFE"/>
+                            <constraint firstItem="gFG-GG-QFG" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="sxW-QF-OYh"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="ApN-lZ-wZ4"/>
-                                <exclude reference="JTx-VA-glU"/>
-                                <exclude reference="lUe-3H-dgv"/>
-                            </mask>
-                        </variation>
+                        <viewLayoutGuide key="safeArea" id="y7k-dk-FLH"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
@@ -703,7 +691,7 @@
                         <outlet property="display" destination="wd0-pp-5pX" id="UfJ-3K-lK7"/>
                         <outlet property="displayStack" destination="F3C-Ea-hrR" id="Jv4-Hc-Ppy"/>
                         <outlet property="displayView" destination="gFG-GG-QFG" id="0OZ-YD-yOd"/>
-                        <outlet property="displayViewBottomConstraint" destination="YRV-6T-VwU" id="vys-h1-1ce"/>
+                        <outlet property="displayViewHeightConstraint" destination="1px-Uh-iJJ" id="rca-kN-3cm"/>
                         <outlet property="displayViewLeadingConstraint" destination="sxW-QF-OYh" id="pvI-Rd-C7v"/>
                         <outlet property="keyStackBottomConstraint" destination="0BY-Nt-IpV" id="J4h-uM-qFh"/>
                         <outlet property="keyStackTrailingConstraint" destination="A8r-1z-Jjz" id="FKi-1g-gQO"/>
@@ -711,7 +699,7 @@
                         <outlet property="keysStackTopConstraint" destination="2YZ-Zd-UPW" id="iBe-yr-FkF"/>
                         <outlet property="keysStackWidthConstraint" destination="bUf-CS-uHi" id="56r-mp-aHd"/>
                         <outlet property="keysView" destination="e6y-4p-lNd" id="k7K-k4-AiI"/>
-                        <outlet property="keysViewBottomConstraint" destination="NMc-Y6-8BU" id="5Zi-Q3-6ca"/>
+                        <outlet property="keysViewBottomConstraint" destination="gJp-aZ-NFE" id="IZp-i0-HtZ"/>
                         <outlet property="keysViewHeightConstraint" destination="dUZ-WR-piX" id="aBk-3d-XvV"/>
                         <outlet property="keysViewLeadingConstraint" destination="Y5O-oC-Sz8" id="aEJ-f8-iDi"/>
                         <outlet property="science1Stack" destination="NZP-Xp-Iig" id="55q-o8-Kls"/>

@@ -64,8 +64,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBOutlet weak var controlKeysViewTopConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var displayViewLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet weak var displayViewBottomConstraint: NSLayoutConstraint!
-
+    @IBOutlet weak var displayViewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var keysViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet weak var keysViewHeightConstraint: NSLayoutConstraint!
@@ -111,17 +111,34 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     var potentiallyPending: Dictionary<String,PotentiallyPendingOperator>
     
     @objc func displayTouched() {
+        var bottomSpace: CGFloat = 0
+        var allSpace: CGFloat = 0
+        switch UIApplication.shared.statusBarOrientation {
+        case .portrait, .portraitUpsideDown:
+            allSpace = screenHeight
+            bottomSpace = controlView.frame.size.height
+        case .landscapeLeft, .landscapeRight:
+            allSpace = screenWidth
+            bottomSpace = 0
+        default: break
+        }
         if displayNotExpanded {
             keysView.isHidden = true
             digitsStack.isHidden = true
             displayStack.isHidden = true
             displayStack.isHidden = false
             displayNotExpanded = false
+            displayViewHeightConstraint.constant =
+                allSpace - bottomSpace
         } else {
             keysView.isHidden = false
             digitsStack.isHidden = false
             displayStack.isHidden = true
             displayNotExpanded = true
+            displayViewHeightConstraint.constant =
+                allSpace -
+                keysView.frame.size.height -
+                bottomSpace
         }
     }
     
@@ -218,7 +235,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         super.viewWillAppear(animated)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
         NotificationCenter.default.addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
-        switch self.currentDeviceOrientation {
+        switch UIDevice.current.orientation {
         case .landscapeLeft:
             landscaleLayout()
         case .landscapeRight:
@@ -274,7 +291,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         keysViewLeadingConstraint.constant = controlWidth
         displayViewLeadingConstraint.constant = controlWidth
         keysViewBottomConstraint.constant = 0
-        keysViewBottomConstraint.constant = 0
         keysView.layoutIfNeeded()
         keysStackWidthConstraint.constant = keysView.frame.size.width*0.5-1.5*spacing
         keysStack.layoutIfNeeded()
@@ -286,27 +302,32 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         scienceStackLeadingConstraint.constant = spacing
         scienceStackTopConstraint.constant = spacing
         scienceStackBottomConstraint.constant = spacing
+        keysView.layoutIfNeeded()
+        displayViewHeightConstraint.constant = screenWidth - keysView.frame.size.height
     }
     func portraitLayout() {
+        displayView.backgroundColor = UIColor.yellow
         controlViewBottomConstraint.constant = 0
         displayViewLeadingConstraint.constant = 0
         scienceStack.isHidden = true
         digitsStack.axis = .horizontal
         displayStack.axis = .horizontal
-        let bottomHeight = screenHeight*0.08 // 8%
-        keysViewBottomConstraint.constant = bottomHeight
+        let controlHeight = screenHeight*0.08 // 8%
+        keysViewBottomConstraint.constant = controlHeight
         keysViewLeadingConstraint.constant = 0
         keysStackWidthConstraint.constant = screenWidth-2*spacing
-        keysStack.layoutIfNeeded()
+        keysView.layoutIfNeeded()
         var w = keysStackWidthConstraint.constant / 4 * 5
         if w > screenHeight * 0.6 {
             w = screenHeight * 0.6
         }
         keysViewHeightConstraint.constant = w
-        keysStack.layoutIfNeeded()
+        keysView.layoutIfNeeded()
         controlKeysViewLeadingConstraint.constant = spacing
-        controlViewHeightConstraint.constant = bottomHeight
+        controlViewHeightConstraint.constant = controlHeight
         controlViewWidthConstraint.constant = screenWidth
+        controlView.layoutIfNeeded()
+        displayViewHeightConstraint.constant = screenHeight - keysView.frame.size.height - controlView.frame.size.height
     }
 
     func pendingOperator(name: String) {
@@ -323,7 +344,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     
     func backgroundForKey(button: UIButton, fontSize: CGFloat) {
         var inset: CGFloat
-        switch self.currentDeviceOrientation {
+        switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight:
             inset = fontSize / 10
         case .portrait, .portraitUpsideDown:
@@ -385,7 +406,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             screenHeight = temp
         }
         
-        switch self.currentDeviceOrientation {
+        switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight:
             spacing = 0.02 * screenHeight
             landscaleLayout()
@@ -446,7 +467,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         
         // font size
         var fontSize: CGFloat
-        switch self.currentDeviceOrientation {
+        switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight:
             fontSize = round(keysStack.bounds.size.height * 0.07)
         case .portrait, .portraitUpsideDown:
@@ -510,6 +531,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             sender.backgroundColor = ColorPalette.PressedExtendedOperation
         }
     }
+    
     @IBAction func digitTouchDown(_ sender: UIButton) {
         sender.backgroundColor = ColorPalette.PressedDigits
     }
