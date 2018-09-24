@@ -274,6 +274,7 @@ class Brain {
         "±": changeSign,
         "1\\x": rez,
         "x!": fac,
+        "Z": Z,
         "ln": ln,
         "log10": log10,
         "√": sqrt,

@@ -96,6 +96,11 @@ func sqrt3(_ me: Gmp) {
 func rez(_ me: Gmp) {
     mpfr_ui_div(&me.mpfr, 1, &me.copy().mpfr, MPFR_RNDN)
 }
+
+func Z(_ me: Gmp) {
+    mpfr_zeta(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
+}
+
 func fac(_ me: Gmp) {
     let n = mpfr_get_si(&me.mpfr, MPFR_RNDN)
     if n >= 0 {

@@ -493,7 +493,7 @@
                                                     <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dYP-fX-feL">
                                                         <rect key="frame" x="0.0" y="0.0" width="94.5" height="20"/>
                                                         <color key="backgroundColor" red="0.85000002379999995" green="0.85000002379999995" blue="0.85000002379999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <state key="normal" title="x!">
+                                                        <state key="normal" title="Z">
                                                             <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         </state>
                                                         <connections>
