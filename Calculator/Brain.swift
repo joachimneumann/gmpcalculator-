@@ -221,7 +221,7 @@ class Brain {
         if symbol == "C" {
             reset()
         } else if symbol == "=" {
-            while twoParameterOpStack.count() > 0 {
+            while twoParameterOpStack.count() > 0 && n.count() >= 2 {
                 let n1 = n.pop()!
                 let n2 = n.pop()!
                 let opName = twoParameterOpStack.pop()!
