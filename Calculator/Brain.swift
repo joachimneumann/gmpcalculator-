@@ -317,5 +317,4 @@ class Brain {
         "pow_x_y": pow_x_y,
         "x↑↑y": x_double_up_arrow_y
     ]
-
 }
