@@ -605,28 +605,28 @@
                                                         <rect key="frame" x="0.0" y="0.0" width="15" height="90"/>
                                                         <state key="normal" title="  75  "/>
                                                         <connections>
-                                                            <action selector="digitsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Kor-hQ-ZMO"/>
+                                                            <action selector="precisionButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gNG-GJ-xrU"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nmg-rj-3pF">
                                                         <rect key="frame" x="15" y="0.0" width="15" height="90"/>
                                                         <state key="normal" title="  200  "/>
                                                         <connections>
-                                                            <action selector="digitsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eMj-uj-6lL"/>
+                                                            <action selector="precisionButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ajC-lu-BGu"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vtY-uG-mqs" userLabel="1000">
                                                         <rect key="frame" x="30" y="0.0" width="15" height="90"/>
                                                         <state key="normal" title=" 1000 "/>
                                                         <connections>
-                                                            <action selector="digitsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0w8-3K-ol2"/>
+                                                            <action selector="precisionButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="m5h-OA-jNe"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="whS-FR-2Dd">
                                                         <rect key="frame" x="45" y="0.0" width="15" height="90"/>
                                                         <state key="normal" title="100,000"/>
                                                         <connections>
-                                                            <action selector="digitsButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NUj-Eu-PkN"/>
+                                                            <action selector="precisionButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="osr-bo-6m1"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>

@@ -84,7 +84,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBOutlet weak var scienceStackBottomConstraint: NSLayoutConstraint!
     
     fileprivate var spacing: CGFloat = 20
-    fileprivate var userIsInTheMiddleOfTyping = false
     fileprivate let fmt = NumberFormatter()
     fileprivate var brain = Brain()
     fileprivate var screenWidth: CGFloat = 300.0
@@ -162,8 +161,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         
         brain.precision = 75
         brain.brainProtocolDelegate = self
-        
-        display.text = "0"
+        brain.reset() // display --> "0"
+
         digitsStack.isHidden = false
         displayStack.isHidden = true
         display.font = DisplayFont.Normal
@@ -256,7 +255,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
 
         layout()
         
-        digitsButtonPressed(key_75)
+        precisionButtonPressed(key_75)
         sizeChanged(key_normal)
     }
 
@@ -277,12 +276,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         }
     }
     
-    func updateDisplay() {
-        if let number = brain.n.peek() {
-            display!.text = number.toString()
-        } else {
-            display!.text = "0"
-        }
+    func updateDisplay(s: String) {
+        display!.text = s
     }
     
     
@@ -545,24 +540,9 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBAction fileprivate func touchDigit(_ sender: UIButton) {
         UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
             sender.backgroundColor = ColorPalette.Digits
-            }, completion: nil)
-
-        var digit = sender.currentTitle!
-        let currentText = display.text!
-        
-        // zeros at the beginning (display is "0") shall be ignored
-        if !(digit == "0" && currentText == "0") {
-            if userIsInTheMiddleOfTyping {
-                digit = (digit == "." && currentText.range(of: ".") != nil) ? "" : digit
-                display.text = currentText + digit
-                brain.replaceDigit(display.text)
-            } else {
-                digit = (digit == ".") ? "0." : digit
-                display.text = digit
-                userIsInTheMiddleOfTyping = true
-                brain.setDigit(display.text)
-            }
-        }
+            }, completion: nil
+        )
+        brain.digit((sender.titleLabel?.text)!)
     }
   
     @IBAction fileprivate func performOperation(_ sender: UIButton) {
@@ -581,11 +561,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             }
         }, completion: nil)
         if let mathematicalSymbol = sender.currentTitle {
-            brain.replaceDigit(display.text)
-            userIsInTheMiddleOfTyping = false
             brain.operation(mathematicalSymbol)
         }
-        updateDisplay()
     }
     
     @IBAction func copyToClipboard(_ sender: UIButton) {
@@ -593,7 +570,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
             self.display.textColor = UIColor.orange
         }, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5*t, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2*t, execute: {
             UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
                 self.display.textColor = UIColor.white
             }, completion: nil)
@@ -621,7 +598,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         }
     }
     
-    @IBAction func digitsButtonPressed(_ sender: UIButton) {
+    @IBAction func precisionButtonPressed(_ sender: UIButton) {
         // all digits buttons to not_active
         for k in digitsStack.subviews {
             if let key = k as? UIButton {
@@ -634,20 +611,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             let s3 = s2.replacingOccurrences(of: " ", with: "")
             if let precision = Int(s3) {
                 if precision != brain.precision {
-                    if precision <= brain.precision {
-                        // make sure that the value in the display is used, even if the user has still been in the middle of typing
-                        if (userIsInTheMiddleOfTyping) {
-                            brain.operation(display.text)
-                            userIsInTheMiddleOfTyping = false
-                        }
-                        brain.precision = precision
-                    } else {
-                        // more digits --> reset
-                        brain.precision = precision
-                        brain.reset()
-                    }
-                    updateDisplay()
-                    userIsInTheMiddleOfTyping = false
+                    brain.precision = precision
                 }
             }
         }
