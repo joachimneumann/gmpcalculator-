@@ -51,7 +51,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBOutlet weak var sinKey: UIButton!
     @IBOutlet weak var key_75: UIButton!
     @IBOutlet weak var key_normal: UIButton!
-
+    @IBOutlet weak var key_Z: UIButton!
+    
     @IBOutlet weak var controlView: UIView!
     @IBOutlet weak var controlKeysView: UIView!
     @IBOutlet weak var controlKey100000: UIButton!
@@ -612,6 +613,13 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
             if let precision = Int(s3) {
                 if precision != brain.precision {
                     brain.precision = precision
+                    if brain.precision > 1000 {
+                        key_Z.isEnabled = false
+                        key_Z.setTitleColor(UIColor.gray, for: UIControlState())
+                    } else {
+                        key_Z.isEnabled = true
+                        key_Z.setTitleColor(UIColor.white, for: UIControlState())
+                    }
                 }
             }
         }

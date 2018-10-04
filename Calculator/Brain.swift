@@ -260,11 +260,13 @@ class Brain {
             n.push(Gmp(display, precision: nBits))
         } else if inplaceDict.keys.contains(symbol) {
             if let op = inplaceDict[symbol] {
-                let n1 = Gmp(display, precision: nBits)
-                op(n1)
-                if n.count() > 0 { n.removeLast() }
-                n.push(n1)
-                display = n1.toString()
+                if display != "Not a Number" {
+                    let n1 = Gmp(display, precision: nBits)
+                    op(n1)
+                    if n.count() > 0 { n.removeLast() }
+                    n.push(n1)
+                    display = n1.toString()
+                }
                 brainProtocolDelegate?.updateDisplay(s: display)
             }
         } else if constDict.keys.contains(symbol) {

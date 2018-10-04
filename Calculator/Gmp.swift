@@ -159,7 +159,7 @@ func pow_10_x(_ me: Gmp) {
 
 class Gmp: CustomDebugStringConvertible {
     // Swift requires me to initialize the mpfr_t struc
-    // I do this will zeros. The struct will be initialized correctly in mpfr_init2
+    // I do this with zeros. The struct will be initialized correctly in mpfr_init2
     fileprivate var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     
     // there is only ine initialzer that takes a string.
@@ -274,7 +274,11 @@ class Gmp: CustomDebugStringConvertible {
     func isNegtive() -> Bool {
         return mpfr_cmp_d(&mpfr, 0.0) < 0
     }
-    
+
+    func isNotANumber() -> Bool {
+        return mpfr_nan_p(&mpfr) != 0
+    }
+
     
 }
 
