@@ -172,7 +172,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         display.addGestureRecognizer(tapGestureRecognizer!)
         
         // Do any additional setup after loading the view, typically from a nib.
-        display.indicatorStyle = UIScrollViewIndicatorStyle.white
+        display.indicatorStyle = UIScrollView.IndicatorStyle.white
         fmt.usesSignificantDigits = false
         fmt.maximumSignificantDigits = 10
         keysView.backgroundColor = UIColor.black
@@ -228,8 +228,8 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
                                             highlightedBackgroundColor: ColorPalette.PressedExtendedOperation)
                                 }
                                 if let beginUIImage = UIImage(named: titleText) {
-                                    b.imageView?.contentMode = UIViewContentMode.scaleAspectFit
-                                    b.setImage(beginUIImage, for: UIControlState())
+                                    b.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+                                    b.setImage(beginUIImage, for: UIControl.State())
                                 }
                             }
                         }
@@ -243,7 +243,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIDevice.current.beginGeneratingDeviceOrientationNotifications()
-        NotificationCenter.default.addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CalculatorViewController.deviceDidRotate(_:)), name: UIDevice.orientationDidChangeNotification, object: nil)
 
         // screenHeight is ALWAYS larger than screenWidth
         screenWidth = view.frame.size.width
@@ -369,38 +369,38 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         if let titleLabel = button.titleLabel {
             switch button.tag {
             case 0: // C +/- 1/x
-                button.setTitleColor(UIColor.black, for: UIControlState())
+                button.setTitleColor(UIColor.black, for: UIControl.State())
                 titleLabel.font = buttonFont
                 button.backgroundColor = ColorPalette.Operation
             case 1: // digits 1 to 9
-                button.setTitleColor(UIColor.white, for: UIControlState())
+                button.setTitleColor(UIColor.white, for: UIControl.State())
                 titleLabel.font = buttonFont
                 button.backgroundColor = ColorPalette.Digits
             case 2: // 0
-                button.setTitleColor(UIColor.white, for: UIControlState())
+                button.setTitleColor(UIColor.white, for: UIControl.State())
                 titleLabel.font = buttonFont
                 button.backgroundColor = ColorPalette.Digits
                 // shift the 0 a bit to the right so that it aligns with the other digits
                 // b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: size*0.38, bottom: 0, right: -size*0.38)
             case 3: // / x - + =
-                button.setTitleColor(UIColor.white, for: UIControlState())
+                button.setTitleColor(UIColor.white, for: UIControl.State())
                 titleLabel.font = largerButtonFont
                 button.backgroundColor = ColorPalette.BasicOperation
                 // lift the symbols up a bit
                 button.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
             case 4: // X^2 sin etc
-                button.setTitleColor(UIColor.white, for: UIControlState())
+                button.setTitleColor(UIColor.white, for: UIControl.State())
                 titleLabel.font = buttonFont
                 button.backgroundColor = ColorPalette.ExtendedOperation
                 // lift the symbols up a bit
                 button.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
             default:
-                button.setTitleColor(UIColor.black, for: UIControlState())
+                button.setTitleColor(UIColor.black, for: UIControl.State())
                 titleLabel.font = buttonFont
             }
             if let titleText = titleLabel.text {
                 if smallerBasicKeys.contains(titleText) {
-                    button.imageEdgeInsets = UIEdgeInsetsMake(inset, inset, inset, inset);
+                    button.imageEdgeInsets = UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset);
                 }
                 if basicOperationKeys.contains(titleText) {
                     button.backgroundColor = ColorPalette.Operation
@@ -497,7 +497,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         for v in controlKeysView.subviews {
             for stack in v.subviews {
                 if let b = stack as? UIButton {
-                    b.setTitleColor(UIColor.white, for: UIControlState())
+                    b.setTitleColor(UIColor.white, for: UIControl.State())
                     // lift the symbols up a bit
                     b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
                 }
@@ -539,7 +539,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     
     
     @IBAction fileprivate func touchDigit(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
             sender.backgroundColor = ColorPalette.Digits
             }, completion: nil
         )
@@ -547,7 +547,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
   
     @IBAction fileprivate func performOperation(_ sender: UIButton) {
-        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
             switch sender.tag {
             case 0:
                 sender.backgroundColor = ColorPalette.Operation
@@ -615,10 +615,10 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
                     brain.precision = precision
                     if brain.precision > 1000 {
                         key_Z.isEnabled = false
-                        key_Z.setTitleColor(UIColor.gray, for: UIControlState())
+                        key_Z.setTitleColor(UIColor.gray, for: UIControl.State())
                     } else {
                         key_Z.isEnabled = true
-                        key_Z.setTitleColor(UIColor.white, for: UIControlState())
+                        key_Z.setTitleColor(UIColor.white, for: UIControl.State())
                     }
                 }
             }

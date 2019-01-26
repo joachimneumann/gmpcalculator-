@@ -358,7 +358,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -384,7 +384,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
