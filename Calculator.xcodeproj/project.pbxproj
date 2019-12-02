@@ -154,13 +154,13 @@
 					AAE9DA861CE0BBE400C44198 = {
 						CreatedOnToolsVersion = 7.3;
 						DevelopmentTeam = 8A4DL788W9;
-						LastSwiftMigration = 0940;
+						LastSwiftMigration = 1120;
 					};
 				};
 			};
 			buildConfigurationList = AAE9DA821CE0BBE300C44198 /* Build configuration list for PBXProject "Calculator" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -358,7 +358,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -384,7 +384,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
