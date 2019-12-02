@@ -344,6 +344,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 24;
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
@@ -352,6 +353,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -371,6 +373,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 24;
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
@@ -379,6 +382,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

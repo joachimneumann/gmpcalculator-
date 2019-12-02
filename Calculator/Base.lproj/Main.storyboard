@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="landscape">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="landscape" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -705,6 +703,7 @@
                         <outlet property="keysViewBottomConstraint" destination="gJp-aZ-NFE" id="IZp-i0-HtZ"/>
                         <outlet property="keysViewHeightConstraint" destination="dUZ-WR-piX" id="aBk-3d-XvV"/>
                         <outlet property="keysViewLeadingConstraint" destination="Y5O-oC-Sz8" id="aEJ-f8-iDi"/>
+                        <outlet property="oneKey" destination="ezW-DO-8gO" id="LFT-L5-Ghl"/>
                         <outlet property="science1Stack" destination="NZP-Xp-Iig" id="55q-o8-Kls"/>
                         <outlet property="science2Stack" destination="pH8-DO-rgo" id="odD-Uz-yQt"/>
                         <outlet property="science3Stack" destination="Gbt-bm-iFJ" id="kBd-91-Dm2"/>

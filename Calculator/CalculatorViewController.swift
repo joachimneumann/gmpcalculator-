@@ -47,6 +47,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     @IBOutlet weak var _456Stack: UIStackView!
     @IBOutlet weak var _123Stack: UIStackView!
     @IBOutlet weak var _0Stack: UIStackView!
+    @IBOutlet weak var oneKey: UIButton!
     
     @IBOutlet weak var sinKey: UIButton!
     @IBOutlet weak var key_75: UIButton!
@@ -153,7 +154,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
     
     override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.all
+        return UIInterfaceOrientationMask.allButUpsideDown
     }
     
     // MARK: life cycle
@@ -261,9 +262,11 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
 
     @objc func deviceDidRotate(_ notification: Notification) {
-        if self.currentDeviceOrientation != UIDevice.current.orientation {
-            self.currentDeviceOrientation = UIDevice.current.orientation
-            layout()
+        if (UIDevice.current.orientation != .portraitUpsideDown) {
+            if self.currentDeviceOrientation != UIDevice.current.orientation {
+                self.currentDeviceOrientation = UIDevice.current.orientation
+                layout()
+            }
         }
     }
     
@@ -410,6 +413,7 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
     }
 
     func layout() {
+        var keySpacing: CGFloat = 0.0
         switch UIDevice.current.orientation {
         case .landscapeLeft, .landscapeRight:
             spacing = 0.02 * screenHeight
@@ -428,11 +432,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         keysStackTopConstraint.constant = spacing
 
         keysStack.spacing = spacing
-        ACStack.spacing = spacing
-        _0Stack.spacing = spacing
-        _123Stack.spacing = spacing
-        _456Stack.spacing = spacing
-        _789Stack.spacing = spacing
         scienceStack.spacing = spacing
         science1Stack.spacing = spacing
         science2Stack.spacing = spacing
@@ -445,6 +444,23 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
         keysView.layoutIfNeeded()
         controlKeysView.layoutIfNeeded()
         
+        switch UIDevice.current.orientation {
+        case .landscapeLeft, .landscapeRight:
+            keySpacing = spacing
+        case .portrait, .portraitUpsideDown:
+            let radius = (keysStack.frame.size.height - 6 * spacing) / 5
+            keySpacing = (keysStack.frame.size.width - 4 * radius - 2 * spacing) / 3
+        default:
+            // do nothing
+            return
+        }
+
+        ACStack.spacing = keySpacing
+        _0Stack.spacing = keySpacing
+        _123Stack.spacing = keySpacing
+        _456Stack.spacing = keySpacing
+        _789Stack.spacing = keySpacing
+
         for v in keysView.subviews {
             for stack in v.subviews {
                 for key in stack.subviews {
@@ -491,15 +507,6 @@ class CalculatorViewController: UIViewController, BrainProtocol  {
                     if let b = key as? UIButton {
                         backgroundForKey(button: b, fontSize: fontSize)
                     }
-                }
-            }
-        }
-        for v in controlKeysView.subviews {
-            for stack in v.subviews {
-                if let b = stack as? UIButton {
-                    b.setTitleColor(UIColor.white, for: UIControl.State())
-                    // lift the symbols up a bit
-                    b.contentEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: fontSize*0.1, right: 0)
                 }
             }
         }
