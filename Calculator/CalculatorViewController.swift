@@ -43,8 +43,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     @IBOutlet weak var verticalStackTrailing: NSLayoutConstraint!
     
     fileprivate var spacing: CGFloat = 0
-    fileprivate var brain = Brain()
-
+    
     struct PotentiallyPendingOperator {
         let b: UIButton
         let normalBackgroundColor: UIColor
@@ -74,9 +73,9 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        brain.precision = 75
-        brain.brainProtocolDelegate = self
-        brain.reset() // display --> "0"
+        Brain.shared.precision = 75
+        Brain.shared.brainProtocolDelegate = self
+        Brain.shared.reset() // display --> "0"
         
         displayView.delegate = self
         

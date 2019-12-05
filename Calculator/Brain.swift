@@ -16,6 +16,9 @@ protocol BrainProtocol {
 }
 
 class Brain {
+
+    static let shared = Brain()
+
     let debug = false
     var lastWasDigit = false
     private var display_private: String

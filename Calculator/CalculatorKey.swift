@@ -30,7 +30,9 @@ import UIKit
     
     enum keyType {
         case undefined
-        case clear
+        case C
+        case signChange
+        case inverse
         case operation
         case digit
         case zero
@@ -62,8 +64,12 @@ import UIKit
             return .zero
         case ",":
             return .dot
-        case "C", "±", "1/x":
-            return .clear
+        case "C":
+            return .C
+        case "±":
+            return .signChange
+        case "1/x":
+            return .inverse
         default:
             return .undefined
         }
@@ -126,8 +132,8 @@ import UIKit
         addSubview(button)
         
         button.removeTarget(nil, action: nil, for: .allEvents)
-        button.addTarget(self, action:#selector(setColorDown), for: UIControl.Event.touchDown)
-        button.addTarget(self, action:#selector(setColorUp), for: UIControl.Event.touchUpInside)
+        button.addTarget(self, action:#selector(touchDown), for: UIControl.Event.touchDown)
+        button.addTarget(self, action:#selector(touchUp), for: UIControl.Event.touchUpInside)
         setColorUp()
         refreshCorners()
         switch type {
@@ -144,7 +150,7 @@ import UIKit
         case .operation:
             button.setTitleColor(.white, for: .normal)
             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
-        case .clear:
+        case .C, .signChange, .inverse:
             button.setTitleColor(.black, for: .normal)
         }
 
@@ -168,25 +174,7 @@ import UIKit
         button.layer.cornerRadius = radius
     }
 
-    
-    @objc func setColorDown() {
-        switch type {
-        case .undefined:
-            button.backgroundColor = .systemPink
-        case .digit:
-            button.backgroundColor = digitsColorPressed
-        case .zero:
-            button.backgroundColor = digitsColorPressed
-        case .dot:
-            button.backgroundColor = digitsColorPressed
-        case .operation:
-            button.backgroundColor = operationColorPressed
-        case .clear:
-            button.backgroundColor = clearColorPressed
-        }
-    }
-
-    @objc func setColorUp() {
+    func setColorUp() {
         switch type {
         case .undefined:
             button.backgroundColor = .systemPink
@@ -198,8 +186,53 @@ import UIKit
             button.backgroundColor = digitsColor
         case .operation:
             button.backgroundColor = operationColor
-        case .clear:
+        case .C, .signChange, .inverse:
             button.backgroundColor = clearColor
+        }
+    }
+
+    func setColorDown() {
+        switch type {
+        case .undefined:
+            button.backgroundColor = .systemPink
+        case .digit:
+            button.backgroundColor = digitsColorPressed
+        case .zero:
+            button.backgroundColor = digitsColorPressed
+        case .dot:
+            button.backgroundColor = digitsColorPressed
+        case .operation:
+            button.backgroundColor = operationColorPressed
+        case .C, .signChange, .inverse:
+            button.backgroundColor = clearColorPressed
+        }
+    }
+
+    @objc func touchDown() {
+        setColorDown()
+    }
+
+    @objc func touchUp() {
+        setColorUp()
+        switch type {
+        case .digit, .zero:
+            Brain.shared.digit(buttonTitle)
+        case .dot:
+            Brain.shared.digit(".") // comma does not work
+        case .operation, .signChange:
+            Brain.shared.operation(buttonTitle)
+        case .inverse:
+            Brain.shared.operation("1\\x")
+        case .C:
+            Brain.shared.reset()
+        default:
+            break
+//        case .undefined:
+//        case .digit:
+//        case .zero:
+//        case .dot:
+//        case .operation:
+//        case .clear:
         }
     }
     
