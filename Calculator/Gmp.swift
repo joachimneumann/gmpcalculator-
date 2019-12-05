@@ -26,6 +26,11 @@ extension String {
 
 var dummyUnsignedLongInt: CUnsignedLong = 0
 
+
+func toDouble(me: Gmp) -> Double {
+    return mpfr_get_d(&me.mpfr, MPFR_RNDN)
+}
+
 func + (left: Gmp, right: Gmp) -> Gmp {
     mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
@@ -48,6 +53,7 @@ func - (left: Gmp, right: Gmp) -> Gmp {
     mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
+
 func min (left: Gmp, right: Gmp) -> Gmp {
     mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
@@ -57,6 +63,7 @@ func * (left: Gmp, right: Gmp) -> Gmp {
     mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
 }
+
 func mul (left: Gmp, right: Gmp) -> Gmp {
     mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
     return left
@@ -66,6 +73,7 @@ func pow_x_y(_ base: Gmp, exponent: Gmp) -> Gmp {
     mpfr_pow(&base.mpfr, &base.copy().mpfr, &exponent.mpfr, MPFR_RNDN)
     return base
 }
+
 func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
     var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
     mpfr_init2 (&temp, mpfr_get_prec(&left.mpfr))
@@ -82,6 +90,10 @@ func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
 
 func changeSign(_ me: Gmp) {
     mpfr_neg(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
+}
+
+func abs(_ me: Gmp) {
+    mpfr_abs(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 
 func π(_ me: Gmp) {
@@ -176,25 +188,11 @@ class Gmp: CustomDebugStringConvertible {
         return ret
     }
     
-    func setPrecisionTo(_ nBits: CLong) {
-        // mpfr_set_prec sets the value to NaN, but we want to preserve the value
-        
-        var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
-        mpfr_init2 (&temp, nBits)
-        mpfr_set(&temp, &mpfr, MPFR_RNDN)
-        
-        mpfr_set_prec (&mpfr, nBits)
-        
-        mpfr_set(&mpfr, &temp, MPFR_RNDN)
-        
-        mpfr_clear(&temp)
-    }
-
     var debugDescription: String {
-        return toString()
+        return toLongString()
     }
     
-    func toString() -> String {
+    func toLongString() -> String {
         if mpfr_nan_p(&mpfr) != 0 {
             return "Not a Number"
         }
@@ -266,6 +264,83 @@ class Gmp: CustomDebugStringConvertible {
             return floatString
         }
     }
+    
+    func toShortString() -> String {
+        if mpfr_nan_p(&mpfr) != 0 {
+            return "Not a Number"
+        }
+        if mpfr_inf_p(&mpfr) != 0 {
+            return "Infinity"
+        }
+        
+        // set negative 0 to 0
+        if mpfr_zero_p(&mpfr) != 0 {
+            return "0"
+        }
+        
+        let significantBytesEstimate = 7
+        var expptr: mpfr_exp_t = 0
+        var charArray: Array<CChar> = Array(repeating: 0, count: significantBytesEstimate+2) // +2 because: one for a possible - and one for zero termination
+        mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
+        
+        // for speed, we work a bit with the charArray before using swift string
+        
+        // negative?
+        var negative = false
+        if charArray[0] == 45 {
+            charArray.removeFirst()
+            negative = true
+        }
+        
+        // find last significant digit
+        var lastSignificantIndex = charArray.count-1
+        while (charArray[lastSignificantIndex] == 0 || charArray[lastSignificantIndex] == 48) && lastSignificantIndex > 0 { lastSignificantIndex -= 1 }
+        let lastSignificantDigit = lastSignificantIndex + 1
+        
+        // is it an Integer?
+        if expptr > 0 && lastSignificantDigit <= expptr && expptr < significantBytesEstimate {
+            charArray[expptr] = 0
+            guard let integerString = String(validatingUTF8: charArray)
+                else { return "not a number" }
+            if negative {
+                return "-"+integerString
+            } else {
+                return integerString
+            }
+        }
+        
+        // do we have a simple double that can written in decimal notation?
+        let d:Double = mpfr_get_d(&mpfr, MPFR_RNDN)
+        let log10D = log10(d)
+        if log10D < 3 && log10D > -4 {
+            let numberFormatter = NumberFormatter()
+            numberFormatter.numberStyle = .decimal
+            numberFormatter.usesSignificantDigits = true
+            numberFormatter.maximumSignificantDigits = 8
+            return numberFormatter.string(for: d)!
+        }
+
+        charArray[lastSignificantDigit] = 0
+
+        guard var floatString = String(validatingUTF8: charArray)
+            else { return "not a number" }
+        
+        // make sure the length of the float string is at least two characters
+        while floatString.count < 2 { floatString += "0" }
+        
+        floatString.insert(".", at: floatString.index(floatString.startIndex, offsetBy: 1))
+        
+        // if exponent is 0, drop it
+        if expptr-1 != 0 {
+            floatString += " E"+String(expptr-1)
+        }
+
+        if negative {
+            return "-"+floatString
+        } else {
+            return floatString
+        }
+    }
 
     func isNull() -> Bool {
         return mpfr_cmp_d(&mpfr, 0.0) == 0
@@ -279,11 +354,10 @@ class Gmp: CustomDebugStringConvertible {
         return mpfr_nan_p(&mpfr) != 0
     }
 
-    
 }
 
 extension Gmp: Equatable {
     static func ==(lhs: Gmp, rhs: Gmp) -> Bool {
-        return lhs.toString() == rhs.toString()
+        return lhs.toLongString() == rhs.toLongString()
     }
 }

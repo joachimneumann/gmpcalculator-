@@ -21,7 +21,7 @@ class Brain {
 
     let debug = false
     var lastWasDigit = false
-    private var display_private: String
+    private var display_private: String = "0"
     var display: String  {
         set {
             display_private = newValue
@@ -113,7 +113,20 @@ class Brain {
         }
     }
     
-    
+    func longToShort(l: String) -> String {
+        let value = Gmp(l, precision: precision)
+        let temp = value.copy()
+        log10(temp)
+        if temp.isNotANumber() {
+            return "0"
+        }
+        let exponent = toDouble(me: temp)
+        if exponent < -6 {
+            return "0"
+        }
+        return value.toShortString()
+    }
+
     func test() {
         precision = 75
 
@@ -205,7 +218,6 @@ class Brain {
     }
     
     init() {
-        display_private = "0"
         reset()
         if debug { test() }
     }
@@ -255,7 +267,7 @@ class Brain {
                 let operation = opDict[opName]!
                 let n3 = operation(n2,n1)
                 n.push(n3)
-                display = n3.toString()
+                display = n3.toLongString()
             }
             n.clean()
             op.clean()
@@ -268,7 +280,7 @@ class Brain {
                     op(n1)
                     if n.count() > 0 { n.removeLast() }
                     n.push(n1)
-                    display = n1.toString()
+                    display = n1.toLongString()
                 }
                 brainProtocolDelegate?.updateDisplay(s: display)
             }
@@ -277,7 +289,7 @@ class Brain {
                 let n1 = Gmp("0", precision: nBits)
                 op(n1)
                 n.push(n1)
-                display = n1.toString()
+                display = n1.toLongString()
                 brainProtocolDelegate?.updateDisplay(s: display)
             }
         } else {
@@ -301,7 +313,7 @@ class Brain {
                                 let n2 = n.pop()!
                                 let n3 = op(n2, n1)
                                 n.push(n3)
-                                display = n3.toString()
+                                display = n3.toLongString()
                                 brainProtocolDelegate?.updateDisplay(s: display)
                             }
                         }

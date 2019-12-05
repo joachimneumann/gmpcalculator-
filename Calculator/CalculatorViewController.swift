@@ -23,7 +23,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     }
     
     func updateDisplay(s: String) {
-        display.text = s
+        display.text = Brain.shared.longToShort(l: s)
     }
     
 
@@ -73,7 +73,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        Brain.shared.precision = 75
+        Brain.shared.precision = 100000
         Brain.shared.brainProtocolDelegate = self
         Brain.shared.reset() // display --> "0"
         
