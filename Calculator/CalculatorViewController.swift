@@ -8,7 +8,24 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController, UITextViewDelegate {
+class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProtocol {
+    
+    func pendingOperator(name: String) {
+        if let op = potentiallyPending[name] {
+            op.b.backgroundColor = op.highlightedBackgroundColor
+        }
+    }
+    
+    func endPendingOperator(name: String) {
+        if let op = potentiallyPending[name] {
+            op.b.backgroundColor = op.normalBackgroundColor
+        }
+    }
+    
+    func updateDisplay(s: String) {
+        display.text = s
+    }
+    
 
     @IBOutlet weak var verticalStack: UIStackView!
     @IBOutlet weak var displayView: UITextView!
@@ -25,9 +42,18 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak var verticalStackLeading: NSLayoutConstraint!
     @IBOutlet weak var verticalStackTrailing: NSLayoutConstraint!
     
-    var spacing: CGFloat = 0
-    
+    fileprivate var spacing: CGFloat = 0
+    fileprivate var brain = Brain()
+
+    struct PotentiallyPendingOperator {
+        let b: UIButton
+        let normalBackgroundColor: UIColor
+        let highlightedBackgroundColor: UIColor
+    }
+    var potentiallyPending: Dictionary<String,PotentiallyPendingOperator>
+
     required init?(coder aDecoder: NSCoder) {
+        potentiallyPending = [:]
         super.init(coder: aDecoder)
     }
     
@@ -48,6 +74,10 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        brain.precision = 75
+        brain.brainProtocolDelegate = self
+        brain.reset() // display --> "0"
+        
         displayView.delegate = self
         
         spacing = view.bounds.size.width * 0.035
@@ -82,7 +112,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
     
     override func viewDidLayoutSubviews() {
         // if dispay is high enough, move the keys up
-        NSLog("viewDidLayoutSubviews %f", displayView.frame.size.height)
+        // NSLog("viewDidLayoutSubviews %f", displayView.frame.size.height)
         if displayView.frame.size.height / view.frame.size.height > 0.4 {
             verticalStackBottom.constant = view.frame.size.height * 0.075
         }
@@ -93,11 +123,10 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
             spacing *= 1.1
             verticalStackLeading.constant = spacing * 2
             verticalStackTrailing.constant = spacing * 2
-//            view.setNeedsLayout()
             view.layoutIfNeeded()
-            NSLog("viewDidLayoutSubviews setNeedsLayout")
+            // NSLog("viewDidLayoutSubviews setNeedsLayout")
         } else {
-            NSLog("viewDidLayoutSubviews DONE")
+            // NSLog("viewDidLayoutSubviews DONE")
         }
         let fontSize = verticalStack.frame.size.height * 0.18
         display.font = UIFont.systemFont(ofSize: fontSize, weight: .thin)
