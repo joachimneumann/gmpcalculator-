@@ -11,8 +11,13 @@ import UIKit
 class CalculatorViewController: UIViewController, UITextViewDelegate {
 
     @IBOutlet weak var verticalStack: UIStackView!
-    @IBOutlet weak var display: UITextView!
-    
+    @IBOutlet weak var displayView: UITextView!
+    @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var displayLeft: NSLayoutConstraint!
+    @IBOutlet weak var displayRight: NSLayoutConstraint!
+    @IBOutlet weak var displayBottom: NSLayoutConstraint!
+    @IBOutlet weak var displayHeight: NSLayoutConstraint!
+
     @IBOutlet weak var stackView02: UIStackView!
     @IBOutlet weak var stackView01: UIStackView!
     
@@ -35,7 +40,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
     }
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView == display {
+        if textView == displayView {
             print("You edit myTextField")
         }
     }
@@ -43,7 +48,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        display.delegate = self
+        displayView.delegate = self
         
         spacing = view.bounds.size.width * 0.035
         
@@ -66,18 +71,25 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
         }
         stackView02.spacing = spacing
         stackView01.spacing = spacing
+        
+        displayLeft.constant = 2 * spacing
+        displayRight.constant = 2 * spacing
+        displayBottom.constant = 0
+        displayHeight.constant = view.frame.size.height * 0.1 * 20
+        display.textColor = .white
+        display.contentMode = .bottom
     }
     
     override func viewDidLayoutSubviews() {
         // if dispay is high enough, move the keys up
-        NSLog("viewDidLayoutSubviews %f", display.frame.size.height)
-        if display.frame.size.height / view.frame.size.height > 0.4 {
+        NSLog("viewDidLayoutSubviews %f", displayView.frame.size.height)
+        if displayView.frame.size.height / view.frame.size.height > 0.4 {
             verticalStackBottom.constant = view.frame.size.height * 0.075
         }
         
         // if the display is not high enough, add space to the left and right,
         // which results in more space for the display
-        if display.frame.size.height / view.frame.size.height < 0.25 {
+        if displayView.frame.size.height / view.frame.size.height < 0.25 {
             spacing *= 1.1
             verticalStackLeading.constant = spacing * 2
             verticalStackTrailing.constant = spacing * 2
@@ -87,6 +99,8 @@ class CalculatorViewController: UIViewController, UITextViewDelegate {
         } else {
             NSLog("viewDidLayoutSubviews DONE")
         }
+        let fontSize = verticalStack.frame.size.height * 0.18
+        display.font = UIFont.systemFont(ofSize: fontSize, weight: .thin)
     }
 
     override var prefersStatusBarHidden: Bool {

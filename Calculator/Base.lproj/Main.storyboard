@@ -16,11 +16,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" text="1234567890" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="wd0-pp-5pX">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="right" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wd0-pp-5pX">
                                 <rect key="frame" x="0.0" y="44" width="414" height="333.5"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="30"/>
+                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="47"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
                             </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xv2-Rt-BuW" userLabel="KEYS">
@@ -200,13 +199,31 @@
                                     <constraint firstAttribute="width" secondItem="xv2-Rt-BuW" secondAttribute="height" multiplier="821:1028" id="ArF-R9-sMA"/>
                                 </constraints>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567890123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qde-R4-3fV">
+                                <rect key="frame" x="0.0" y="304.5" width="414" height="73"/>
+                                <color key="backgroundColor" red="0.32549019610000002" green="0.33725490200000002" blue="0.35294117650000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="Seg-9v-BfX"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="61"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="Seg-9v-BfX"/>
+                                    </mask>
+                                </variation>
+                            </label>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>
                             <constraint firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" id="Eff-rq-ZcL"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="Int-Xg-XpQ"/>
+                            <constraint firstItem="Qde-R4-3fV" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="Kdk-Ly-ft2"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="wd0-pp-5pX" secondAttribute="trailing" id="WnT-y3-GN6"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X0u-zI-RgQ"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XAi-r6-ISR"/>
+                            <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="Qde-R4-3fV" secondAttribute="bottom" id="eOR-cg-fix"/>
                             <constraint firstAttribute="trailing" secondItem="xv2-Rt-BuW" secondAttribute="trailing" id="iH4-eo-dUn"/>
                             <constraint firstItem="wd0-pp-5pX" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="mgM-Ax-AJu"/>
                             <constraint firstItem="wd0-pp-5pX" firstAttribute="top" secondItem="y7k-dk-FLH" secondAttribute="top" id="rKf-UA-fEd"/>
@@ -216,7 +233,12 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>
-                        <outlet property="display" destination="wd0-pp-5pX" id="UfJ-3K-lK7"/>
+                        <outlet property="display" destination="Qde-R4-3fV" id="mPz-Ke-SdF"/>
+                        <outlet property="displayBottom" destination="eOR-cg-fix" id="3Y8-SU-RFw"/>
+                        <outlet property="displayHeight" destination="Seg-9v-BfX" id="Q7w-8c-Nit"/>
+                        <outlet property="displayLeft" destination="Kdk-Ly-ft2" id="568-D7-edQ"/>
+                        <outlet property="displayRight" destination="AcA-3h-Mks" id="JAM-gQ-aG7"/>
+                        <outlet property="displayView" destination="wd0-pp-5pX" id="UfJ-3K-lK7"/>
                         <outlet property="stackView01" destination="iff-ke-4f6" id="k87-tl-LwU"/>
                         <outlet property="stackView02" destination="AIe-Vq-k9g" id="sOD-58-2IO"/>
                         <outlet property="verticalStack" destination="xv2-Rt-BuW" id="qUe-p2-2Wa"/>
@@ -227,7 +249,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="265" y="-576"/>
+            <point key="canvasLocation" x="263.768115942029" y="-576.5625"/>
         </scene>
     </scenes>
     <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
