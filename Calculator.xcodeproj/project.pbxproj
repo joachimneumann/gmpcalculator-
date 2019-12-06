@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		AA43979D215554E0009F58D3 /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979C215554E0009F58D3 /* Brain.swift */; };
-		AA44F83423977BBB00774C37 /* UIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA44F83323977BBB00774C37 /* UIKey.swift */; };
 		AA44F8362397973300774C37 /* CalculatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA44F8352397973300774C37 /* CalculatorKey.swift */; };
 		AAE9DA8B1CE0BBE400C44198 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */; };
 		AAE9DA8D1CE0BBE400C44198 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */; };
@@ -32,9 +31,8 @@
 		AA4397A421555D50009F58D3 /* gmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gmp.h; path = libGmp/gmp.h; sourceTree = "<group>"; };
 		AA4397A521555D50009F58D3 /* mpf2mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpf2mpfr.h; path = libGmp/mpf2mpfr.h; sourceTree = "<group>"; };
 		AA4397A621555D50009F58D3 /* mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpfr.h; path = libGmp/mpfr.h; sourceTree = "<group>"; };
-		AA44F83323977BBB00774C37 /* UIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKey.swift; sourceTree = "<group>"; };
 		AA44F8352397973300774C37 /* CalculatorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorKey.swift; sourceTree = "<group>"; };
-		AAE9DA871CE0BBE400C44198 /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAE9DA871CE0BBE400C44198 /* Better Calc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Better Calc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
 		AAE9DA8F1CE0BBE400C44198 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -77,7 +75,7 @@
 		AAE9DA881CE0BBE400C44198 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AAE9DA871CE0BBE400C44198 /* Calculator.app */,
+				AAE9DA871CE0BBE400C44198 /* Better Calc.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,7 +100,6 @@
 				AAE9DA911CE0BBE400C44198 /* Assets.xcassets */,
 				AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */,
 				AAE9DA961CE0BBE400C44198 /* Info.plist */,
-				AA44F83323977BBB00774C37 /* UIKey.swift */,
 				AA44F8352397973300774C37 /* CalculatorKey.swift */,
 			);
 			name = "supporting files";
@@ -144,7 +141,7 @@
 			);
 			name = Calculator;
 			productName = Calculator;
-			productReference = AAE9DA871CE0BBE400C44198 /* Calculator.app */;
+			productReference = AAE9DA871CE0BBE400C44198 /* Better Calc.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -208,7 +205,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAE9DA8D1CE0BBE400C44198 /* CalculatorViewController.swift in Sources */,
-				AA44F83423977BBB00774C37 /* UIKey.swift in Sources */,
 				BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */,
 				AA43979D215554E0009F58D3 /* Brain.swift in Sources */,
 				AAE9DA8B1CE0BBE400C44198 /* AppDelegate.swift in Sources */,
@@ -363,7 +359,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -392,7 +388,7 @@
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
