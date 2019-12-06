@@ -43,7 +43,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     }
     
     func updateDisplay(s: String) {
-        display.text = Brain.shared.longToShort(l: s)
+        display.text = s
     }
     
     @IBAction func copyPressed(_ sender: Any) {
@@ -52,12 +52,15 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     @IBAction func zoomPressed(_ sender: Any) {
         if zoom {
             zoomButton.setImage(UIImage(named: "zoom_out"), for: .normal)
-            copyButton.isHidden = true
             verticalStack.isHidden = false
             display.isHidden = false
+            copyButton.isHidden = true
+            largeDisplay.isHidden = true
         } else {
             zoomButton.setImage(UIImage(named: "zoom_in"), for: .normal)
             copyButton.isHidden = false
+            largeDisplay.text = Brain.shared.longString()
+            largeDisplay.isHidden = false
             verticalStack.isHidden = true
             display.isHidden = true
         }

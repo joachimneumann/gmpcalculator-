@@ -16,6 +16,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" indicatorStyle="white" text="3.14159265358979323846" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ftT-kr-Bvo">
+                                <rect key="frame" x="20" y="80" width="335" height="678"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xv2-Rt-BuW" userLabel="KEYS">
                                 <rect key="frame" x="0.0" y="342.33333333333326" width="375" height="469.66666666666674"/>
                                 <subviews>
@@ -195,7 +202,6 @@
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567890123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qde-R4-3fV">
                                 <rect key="frame" x="0.0" y="269.33333333333331" width="375" height="73"/>
-                                <color key="backgroundColor" red="0.32549019610000002" green="0.33725490200000002" blue="0.35294117650000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Seg-9v-BfX"/>
                                 </constraints>
@@ -230,13 +236,6 @@
                                     <action selector="copyPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dx1-AL-XKs"/>
                                 </connections>
                             </button>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="3.14159265358979323846" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ftT-kr-Bvo">
-                                <rect key="frame" x="20" y="80" width="335" height="678"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="ftT-kr-Bvo" secondAttribute="trailing" constant="20" id="8ZJ-Tz-spG"/>

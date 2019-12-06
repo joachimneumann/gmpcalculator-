@@ -22,10 +22,12 @@ class Brain {
     let debug = false
     var lastWasDigit = false
     private var display_private: String = "0"
+    
     var display: String  {
         set {
             display_private = newValue
-            brainProtocolDelegate?.updateDisplay(s: display_private)
+            let value = Gmp(display_private, precision: nBits)
+            brainProtocolDelegate?.updateDisplay(s: value.toShortString())
         }
         get {
             return display_private
@@ -113,20 +115,6 @@ class Brain {
         }
     }
     
-    func longToShort(l: String) -> String {
-        let value = Gmp(l, precision: precision)
-        let temp = value.copy()
-        log10(temp)
-        if temp.isNotANumber() {
-            return "0"
-        }
-        let exponent = toDouble(me: temp)
-        if exponent < -1000 {
-            return "0"
-        }
-        return value.toShortString()
-    }
-
     func test() {
         precision = 75
 
@@ -218,17 +206,25 @@ class Brain {
     }
     
     init() {
+        precision = 100000
         reset()
         if debug { test() }
     }
     
+    func longString() -> String {
+        let maximumLength: Int = Int(Double(precision) * 0.7)
+        if display.count > maximumLength {
+            return String(display.prefix(maximumLength))
+        } else {
+            return display
+        }
+    }
 
     func reset() {
         n.clean()
         op.clean()
         display = "0"
         lastWasDigit = false
-        brainProtocolDelegate?.updateDisplay(s: display)
     }
 
     func digit(_ digit: String) {
@@ -271,7 +267,6 @@ class Brain {
             }
             n.clean()
             op.clean()
-            brainProtocolDelegate?.updateDisplay(s: display)
             n.push(Gmp(display, precision: nBits))
         } else if inplaceDict.keys.contains(symbol) {
             if let op = inplaceDict[symbol] {
@@ -282,7 +277,6 @@ class Brain {
                     n.push(n1)
                     display = n1.toLongString()
                 }
-                brainProtocolDelegate?.updateDisplay(s: display)
             }
         } else if constDict.keys.contains(symbol) {
             if let op = constDict[symbol] {
@@ -290,7 +284,6 @@ class Brain {
                 op(n1)
                 n.push(n1)
                 display = n1.toLongString()
-                brainProtocolDelegate?.updateDisplay(s: display)
             }
         } else {
             if twoParameterOp.keys.contains(symbol) {
@@ -314,7 +307,6 @@ class Brain {
                                 let n3 = op(n2, n1)
                                 n.push(n3)
                                 display = n3.toLongString()
-                                brainProtocolDelegate?.updateDisplay(s: display)
                             }
                         }
                     }
