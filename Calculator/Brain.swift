@@ -214,6 +214,7 @@ class Brain {
     }
     
     func longString() -> String {
+//        maxPrecision = 6
         var result = display
         var resultArray = result.split(separator: "E")
         if resultArray.count == 2 {
