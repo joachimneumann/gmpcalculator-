@@ -22,12 +22,15 @@ class Brain {
     let debug = false
     var lastWasDigit = false
     private var display_private: String = "0"
+    fileprivate var nBits = 0
+    fileprivate var maxPrecision = 0
     
+
     var display: String  {
         set {
             display_private = newValue
             let value = Gmp(display_private, precision: nBits)
-            brainProtocolDelegate?.updateDisplay(s: value.toShortString())
+            brainProtocolDelegate?.updateDisplay(s: value.toShortString(maxPrecision: maxPrecision))
         }
         get {
             return display_private
@@ -103,12 +106,11 @@ class Brain {
     var op = OpStack()
     var n = GmpStack()
 
-    fileprivate var nBits = 0
-    
     var precision: Int {
         // throwing in 20 addition bits, this helps with sin(asin) to result in identity
         set {
             nBits = Int(round(Double(newValue) / 0.302)) + 20
+            maxPrecision = Int(Double(precision) * 0.7)
         }
         get {
             return Int(round(Double(nBits-20) * 0.302))
@@ -212,12 +214,15 @@ class Brain {
     }
     
     func longString() -> String {
-        let maximumLength: Int = Int(Double(precision) * 0.7)
-        if display.count > maximumLength {
-            return String(display.prefix(maximumLength))
-        } else {
-            return display
+        var result = display
+        var resultArray = result.split(separator: "E")
+        if resultArray.count == 2 {
+            if resultArray[0].count > maxPrecision {
+                resultArray[0] = resultArray[0].prefix(maxPrecision)
+                result = resultArray[0]+"E"+resultArray[1]
+            }
         }
+        return result
     }
 
     func reset() {

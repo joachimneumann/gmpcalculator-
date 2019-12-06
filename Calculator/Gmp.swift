@@ -265,7 +265,7 @@ class Gmp: CustomDebugStringConvertible {
         }
     }
     
-    func toShortString() -> String {
+    func toShortString(maxPrecision: CLong) -> String {
         if mpfr_nan_p(&mpfr) != 0 {
             return "Not a Number"
         }
@@ -283,6 +283,14 @@ class Gmp: CustomDebugStringConvertible {
         var charArray: Array<CChar> = Array(repeating: 0, count: significantBytesEstimate+2) // +2 because: one for a possible - and one for zero termination
         mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
         
+        if expptr > maxPrecision {
+            return "too large"
+        }
+
+        if expptr < -maxPrecision {
+            return "too small"
+        }
+
         // for speed, we work a bit with the charArray before using swift string
         
         // negative?
