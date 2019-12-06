@@ -31,7 +31,6 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="do7-Ew-hKY" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="93.666666666666671" height="94"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="C"/>
                                                 </userDefinedRuntimeAttributes>
@@ -195,7 +194,6 @@
                                         </subviews>
                                     </stackView>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="xv2-Rt-BuW" secondAttribute="height" multiplier="821:1028" id="ArF-R9-sMA"/>
                                 </constraints>
@@ -237,6 +235,7 @@
                                 </connections>
                             </button>
                         </subviews>
+                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="ftT-kr-Bvo" secondAttribute="trailing" constant="20" id="8ZJ-Tz-spG"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>

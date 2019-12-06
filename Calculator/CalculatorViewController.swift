@@ -126,7 +126,6 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     }
     
     override func viewDidLayoutSubviews() {
-        
         // if the keys ar too high, add space to the left and right,
         // which results in more space for the display
         if verticalStack.frame.size.height / view.frame.size.height > 0.7 {

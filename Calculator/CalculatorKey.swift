@@ -127,7 +127,7 @@ import UIKit
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
 //        backgroundColor = .yellow
-        backgroundColor = .black
+        backgroundColor = .clear
         addSubview(button)
         
         button.removeTarget(nil, action: nil, for: .allEvents)
