@@ -20,9 +20,8 @@ import UIKit
     private static var myContext = 0
     // NOTE: `static` is not necessary if you want it to be a global variable
 
-    let operationColor        = UIColor(red: 231/255.0, green: 157/255.0, blue:  41/255.0, alpha: 1)
-//    let operationColor        = UIColor(red:   0/255.0, green: 163/255.0, blue: 136/255.0, alpha: 1)
-    let operationColorPressed = UIColor(red:  51/255.0, green: 213/255.0, blue: 187/255.0, alpha: 1)
+    let operationColor        = UIColor(red:  90/255.0, green: 200/255.0, blue: 250/255.0, alpha: 1)
+    let operationColorPressed = UIColor(red: 175/255.0, green: 233/255.0, blue: 245/255.0, alpha: 1)
     let clearColor            = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 1)
     let clearColorPressed     = UIColor(red: 217/255.0, green: 217/255.0, blue: 217/255.0, alpha: 1)
     let digitsColor           = UIColor(red:  52/255.0, green:  52/255.0, blue:  52/255.0, alpha: 1)
