@@ -14,6 +14,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     @IBOutlet weak var copyButton: UIButton!
     @IBOutlet weak var verticalStack: UIStackView!
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var largeDisplay: UITextView!
     @IBOutlet weak var displayLeft: NSLayoutConstraint!
     @IBOutlet weak var displayRight: NSLayoutConstraint!
     @IBOutlet weak var displayBottom: NSLayoutConstraint!
