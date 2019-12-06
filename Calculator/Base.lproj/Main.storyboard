@@ -23,7 +23,7 @@
                                 <fontDescription key="fontDescription" name="CourierNewPSMT" family="Courier New" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xv2-Rt-BuW" userLabel="KEYS">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xv2-Rt-BuW" userLabel="Keys Stack View">
                                 <rect key="frame" x="0.0" y="342.33333333333326" width="375" height="469.66666666666674"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="EFg-gn-Riz" userLabel="clear Stack View">
@@ -200,6 +200,7 @@
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567890123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.29999999999999999" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qde-R4-3fV">
                                 <rect key="frame" x="0.0" y="269.33333333333331" width="375" height="73"/>
+                                <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Seg-9v-BfX"/>
                                 </constraints>
@@ -239,14 +240,14 @@
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="ftT-kr-Bvo" secondAttribute="trailing" constant="20" id="8ZJ-Tz-spG"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>
-                            <constraint firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" id="Eff-rq-ZcL"/>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" constant="-34" id="Eff-rq-ZcL"/>
                             <constraint firstItem="Qde-R4-3fV" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="Kdk-Ly-ft2"/>
-                            <constraint firstItem="xv2-Rt-BuW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X0u-zI-RgQ"/>
-                            <constraint firstItem="xv2-Rt-BuW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XAi-r6-ISR"/>
+                            <constraint firstItem="xv2-Rt-BuW" firstAttribute="height" secondItem="y7k-dk-FLH" secondAttribute="height" multiplier="0.578407" id="WKW-rA-Fuh"/>
+                            <constraint firstItem="xv2-Rt-BuW" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="X0u-zI-RgQ"/>
                             <constraint firstItem="O34-5Z-Dhp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="dzt-oM-cyL"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="Qde-R4-3fV" secondAttribute="bottom" id="eOR-cg-fix"/>
                             <constraint firstItem="BFC-HU-Eqa" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="gbK-Uc-y6X"/>
-                            <constraint firstAttribute="trailing" secondItem="xv2-Rt-BuW" secondAttribute="trailing" id="iH4-eo-dUn"/>
+                            <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="xv2-Rt-BuW" secondAttribute="trailing" id="iH4-eo-dUn"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="ftT-kr-Bvo" secondAttribute="bottom" constant="20" id="iyn-91-rx6"/>
                             <constraint firstAttribute="trailing" secondItem="BFC-HU-Eqa" secondAttribute="trailing" constant="20" id="jJ9-ae-T8i"/>
                             <constraint firstItem="O34-5Z-Dhp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="kky-dF-dyH"/>
@@ -254,23 +255,28 @@
                             <constraint firstItem="ftT-kr-Bvo" firstAttribute="top" secondItem="BFC-HU-Eqa" secondAttribute="bottom" constant="20" id="zOY-wE-frq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="y7k-dk-FLH"/>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="WKW-rA-Fuh"/>
+                            </mask>
+                        </variation>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>
                         <outlet property="copyButton" destination="O34-5Z-Dhp" id="le7-4O-w7S"/>
                         <outlet property="display" destination="Qde-R4-3fV" id="mPz-Ke-SdF"/>
-                        <outlet property="displayBottom" destination="eOR-cg-fix" id="3Y8-SU-RFw"/>
                         <outlet property="displayHeight" destination="Seg-9v-BfX" id="Q7w-8c-Nit"/>
                         <outlet property="displayLeft" destination="Kdk-Ly-ft2" id="568-D7-edQ"/>
                         <outlet property="displayRight" destination="AcA-3h-Mks" id="JAM-gQ-aG7"/>
+                        <outlet property="keysStack" destination="xv2-Rt-BuW" id="qUe-p2-2Wa"/>
+                        <outlet property="keysStackBottom" destination="Eff-rq-ZcL" id="nSV-GS-aYb"/>
+                        <outlet property="keysStackLeading" destination="X0u-zI-RgQ" id="Zoj-nz-Omp"/>
+                        <outlet property="keysStackProportialHeight" destination="WKW-rA-Fuh" id="S1R-Iy-qgt"/>
+                        <outlet property="keysStackTrailing" destination="iH4-eo-dUn" id="4c9-Yv-G6T"/>
                         <outlet property="largeDisplay" destination="ftT-kr-Bvo" id="4VL-Ke-FIr"/>
                         <outlet property="stackView01" destination="iff-ke-4f6" id="k87-tl-LwU"/>
                         <outlet property="stackView02" destination="AIe-Vq-k9g" id="sOD-58-2IO"/>
-                        <outlet property="verticalStack" destination="xv2-Rt-BuW" id="qUe-p2-2Wa"/>
-                        <outlet property="verticalStackBottom" destination="Eff-rq-ZcL" id="nSV-GS-aYb"/>
-                        <outlet property="verticalStackLeading" destination="X0u-zI-RgQ" id="Zoj-nz-Omp"/>
-                        <outlet property="verticalStackTrailing" destination="iH4-eo-dUn" id="4c9-Yv-G6T"/>
                         <outlet property="zoomButton" destination="BFC-HU-Eqa" id="h2j-07-d9t"/>
                     </connections>
                 </viewController>
