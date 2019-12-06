@@ -26,6 +26,11 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     @IBOutlet weak var keysStackBottom: NSLayoutConstraint!
     @IBOutlet weak var keysStackTrailing: NSLayoutConstraint!
     
+    @IBOutlet weak var extraKeysStack: UIStackView!
+    @IBOutlet weak var extraKeysStackLeading: NSLayoutConstraint!
+    @IBOutlet weak var extraKeysStackWidth: NSLayoutConstraint!
+
+    
     fileprivate var spacing: CGFloat = 0
     var zoom = false
     var landscape: Bool {
@@ -112,12 +117,26 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             displayLeft.constant = sidemargin + 10
             displayRight.constant = sidemargin + 10
 
+            extraKeysStackLeading.constant = sidemargin
+            let oneKeyWidth = (keysStackWidth.constant - 3 * spacing) / 4.0
+            extraKeysStackWidth.constant =
+                w -
+                sidemargin -
+                oneKeyWidth -
+                keysStackWidth.constant -
+                keysStackTrailing.constant
+            extraKeysStack.spacing = spacing
+            for v in extraKeysStack.subviews {
+                if let stack = v as? UIStackView {
+                    stack.spacing = spacing
+                }
+            }
         } else {
             // portrait
             spacing = w * 0.035
             keysStackTrailing.constant = spacing * 1.2
             keysStackWidth.constant = w - 2 * keysStackTrailing.constant
-            displayLeft.constant = 2 * spacing
+            displayLeft.constant  = 2 * spacing
             displayRight.constant = 2 * spacing
         }
 
@@ -130,7 +149,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         }
         stackView02.spacing = spacing
         stackView01.spacing = spacing
-        
+
         let fontSize = keysStackWidth.constant * 0.2
         display.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .thin)
         largeDisplay.font = UIFont.monospacedSystemFont(ofSize: fontSize/4, weight: .regular)

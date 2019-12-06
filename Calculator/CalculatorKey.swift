@@ -14,6 +14,7 @@ import UIKit
 @IBDesignable class CalculatorKey: UIView {
     
     @IBInspectable var buttonTitle: String = ""
+    @IBInspectable var wideButton: Bool = false
     
     // Set up non-zero-sized storage. We don't intend to mutate this variable,
     // but it needs to be `var` so we can pass its address in as UnsafeMutablePointer.
@@ -92,18 +93,40 @@ import UIKit
     func sharedInit() {
         var buttonFrame = self.frame
         if isSquare {
-            if (frame.size.width > frame.size.height) {
-                // horizontal rectangle
-                buttonFrame.size.height = frame.size.height
-                buttonFrame.size.width  = frame.size.height
-                buttonFrame.origin.y = 0
-                buttonFrame.origin.x = (frame.size.width - frame.size.height) / 2
+            if wideButton {
+                if (frame.size.width > 1.8 * frame.size.height) {
+                    // wide horizontal rectangle
+                    buttonFrame.size.height = frame.size.height
+                    buttonFrame.size.width  = 1.8 * frame.size.height
+                    buttonFrame.origin.y = 0
+                    buttonFrame.origin.x = (frame.size.width - 1.8 * frame.size.height) / 2
+                } else if (frame.size.width > frame.size.height) {
+                    // small horizontal rectangle
+                    buttonFrame.size.height = frame.size.height
+                    buttonFrame.size.width  = frame.size.height
+                    buttonFrame.origin.y = 0
+                    buttonFrame.origin.x = (frame.size.width - frame.size.height) / 2
+                } else {
+                    // vertical rectangle
+                    buttonFrame.size.height = frame.size.width
+                    buttonFrame.size.width  = frame.size.width
+                    buttonFrame.origin.x = 0
+                    buttonFrame.origin.y = (frame.size.height - frame.size.width) / 2
+                }
             } else {
-                // vertical rectangle
-                buttonFrame.size.height = frame.size.width
-                buttonFrame.size.width  = frame.size.width
-                buttonFrame.origin.x = 0
-                buttonFrame.origin.y = (frame.size.height - frame.size.width) / 2
+                if (frame.size.width > frame.size.height) {
+                    // horizontal rectangle
+                    buttonFrame.size.height = frame.size.height
+                    buttonFrame.size.width  = frame.size.height
+                    buttonFrame.origin.y = 0
+                    buttonFrame.origin.x = (frame.size.width - frame.size.height) / 2
+                } else {
+                    // vertical rectangle
+                    buttonFrame.size.height = frame.size.width
+                    buttonFrame.size.width  = frame.size.width
+                    buttonFrame.origin.x = 0
+                    buttonFrame.origin.y = (frame.size.height - frame.size.width) / 2
+                }
             }
         } else {
             // not square
@@ -126,8 +149,8 @@ import UIKit
             fontSize *= 1.2
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
-//        backgroundColor = .yellow
-        backgroundColor = .clear
+        backgroundColor = .yellow
+//        backgroundColor = .clear
         addSubview(button)
         
         button.removeTarget(nil, action: nil, for: .allEvents)
