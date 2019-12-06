@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="700"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" indicatorStyle="white" text="3.14159265358979323846" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ftT-kr-Bvo">
+                            <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" indicatorStyle="white" editable="NO" text="3.14159265358979323846" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftT-kr-Bvo">
                                 <rect key="frame" x="20" y="80" width="960" height="566"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -25,7 +25,6 @@
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1234567890123" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Qde-R4-3fV">
                                 <rect key="frame" x="0.0" y="116.99999999999999" width="1000" height="57.333333333333329"/>
-                                <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="200" id="Seg-9v-BfX"/>
                                 </constraints>
@@ -451,7 +450,7 @@
                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="ftT-kr-Bvo" secondAttribute="trailing" constant="20" id="8ZJ-Tz-spG"/>
                             <constraint firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>

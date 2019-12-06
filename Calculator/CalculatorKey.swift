@@ -34,6 +34,7 @@ import UIKit
         case signChange
         case inverse
         case operation
+        case extendedOperation
         case digit
         case zero
         case dot
@@ -58,6 +59,16 @@ import UIKit
         switch buttonTitle {
         case "+", "−", "×", "÷", "=":
             return .operation
+        case "x^2", "x^3", "e^x", "10^x":
+            return .extendedOperation
+        case "√", "3√", "ln", "log10":
+            return .extendedOperation
+        case "x^y", "x↑↑y", "e", "π":
+            return .extendedOperation
+        case "x!", "sin", "cos", "tan":
+            return .extendedOperation
+        case "Z", "asin", "acos", "atan":
+            return .extendedOperation
         case "1", "2", "3", "4", "5", "6", "7", "8", "9":
             return .digit
         case "0":
@@ -149,8 +160,8 @@ import UIKit
             fontSize *= 1.2
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
-        backgroundColor = .yellow
-//        backgroundColor = .clear
+//        backgroundColor = .yellow
+        backgroundColor = .clear
         addSubview(button)
         
         button.removeTarget(nil, action: nil, for: .allEvents)
@@ -161,7 +172,7 @@ import UIKit
         switch type {
         case .undefined:
             button.setTitleColor(.white, for: .normal)
-        case .digit:
+        case .digit, .extendedOperation:
             button.setTitleColor(.white, for: .normal)
         case .zero:
             button.setTitleColor(.white, for: .normal)
@@ -181,12 +192,14 @@ import UIKit
             button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
             button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/1.7, bottom: 0, right: fontSize/1.7)
             button.setTitle("", for: .normal)
-        }
-        if buttonTitle == "1/x" {
+        } else if buttonTitle == "1/x" {
             button.setImage(UIImage(named: "1_x"), for: UIControl.State())
             button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
             button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/3, bottom: 0, right: fontSize/3)
             button.setTitle("", for: .normal)
+        } else if let imagecandidate = UIImage(named: buttonTitle) {
+            button.setImage(imagecandidate, for: UIControl.State())
+            button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
 
     }
@@ -201,7 +214,7 @@ import UIKit
             switch self.type {
                 case .undefined:
                     self.button.backgroundColor = UIColor.systemPink
-                case .digit:
+            case .digit, .extendedOperation:
                     self.button.backgroundColor = self.digitsColor
                 case .zero:
                     self.button.backgroundColor = self.digitsColor
@@ -221,7 +234,7 @@ import UIKit
             switch self.type {
                 case .undefined:
                     self.button.backgroundColor = UIColor.systemPink
-                case .digit:
+            case .digit, .extendedOperation:
                     self.button.backgroundColor = self.digitsColorPressed
                 case .zero:
                     self.button.backgroundColor = self.digitsColorPressed
@@ -247,7 +260,7 @@ import UIKit
             Brain.shared.digit(buttonTitle)
         case .dot:
             Brain.shared.digit(".") // comma does not work
-        case .operation, .signChange:
+        case .operation, .signChange, .extendedOperation:
             Brain.shared.operation(buttonTitle)
         case .inverse:
             Brain.shared.operation("1\\x")
