@@ -121,7 +121,7 @@ class Brain {
             return "0"
         }
         let exponent = toDouble(me: temp)
-        if exponent < -6 {
+        if exponent < -1000 {
             return "0"
         }
         return value.toShortString()

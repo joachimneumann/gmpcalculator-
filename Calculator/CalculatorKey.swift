@@ -175,37 +175,43 @@ import UIKit
     }
 
     func setColorUp() {
-        switch type {
-        case .undefined:
-            button.backgroundColor = .systemPink
-        case .digit:
-            button.backgroundColor = digitsColor
-        case .zero:
-            button.backgroundColor = digitsColor
-        case .dot:
-            button.backgroundColor = digitsColor
-        case .operation:
-            button.backgroundColor = operationColor
-        case .C, .signChange, .inverse:
-            button.backgroundColor = clearColor
-        }
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+            switch self.type {
+                case .undefined:
+                    self.button.backgroundColor = UIColor.systemPink
+                case .digit:
+                    self.button.backgroundColor = self.digitsColor
+                case .zero:
+                    self.button.backgroundColor = self.digitsColor
+                case .dot:
+                    self.button.backgroundColor = self.digitsColor
+                case .operation:
+                    self.button.backgroundColor = self.operationColor
+                case .C, .signChange, .inverse:
+                    self.button.backgroundColor = self.clearColor
+                }
+            }, completion: nil
+        )
     }
 
     func setColorDown() {
-        switch type {
-        case .undefined:
-            button.backgroundColor = .systemPink
-        case .digit:
-            button.backgroundColor = digitsColorPressed
-        case .zero:
-            button.backgroundColor = digitsColorPressed
-        case .dot:
-            button.backgroundColor = digitsColorPressed
-        case .operation:
-            button.backgroundColor = operationColorPressed
-        case .C, .signChange, .inverse:
-            button.backgroundColor = clearColorPressed
-        }
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+            switch self.type {
+                case .undefined:
+                    self.button.backgroundColor = UIColor.systemPink
+                case .digit:
+                    self.button.backgroundColor = self.digitsColorPressed
+                case .zero:
+                    self.button.backgroundColor = self.digitsColorPressed
+                case .dot:
+                    self.button.backgroundColor = self.digitsColorPressed
+                case .operation:
+                    self.button.backgroundColor = self.operationColorPressed
+                case .C, .signChange, .inverse:
+                    self.button.backgroundColor = self.clearColorPressed
+                }
+            }, completion: nil
+        )
     }
 
     @objc func touchDown() {

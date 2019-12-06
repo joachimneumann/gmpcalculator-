@@ -10,23 +10,7 @@ import UIKit
 
 class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProtocol {
     
-    func pendingOperator(name: String) {
-        if let op = potentiallyPending[name] {
-            op.b.backgroundColor = op.highlightedBackgroundColor
-        }
-    }
-    
-    func endPendingOperator(name: String) {
-        if let op = potentiallyPending[name] {
-            op.b.backgroundColor = op.normalBackgroundColor
-        }
-    }
-    
-    func updateDisplay(s: String) {
-        display.text = Brain.shared.longToShort(l: s)
-    }
-    
-
+    @IBOutlet weak var zoomButton: UIButton!
     @IBOutlet weak var verticalStack: UIStackView!
     @IBOutlet weak var displayView: UITextView!
     @IBOutlet weak var display: UILabel!
@@ -43,6 +27,25 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     @IBOutlet weak var verticalStackTrailing: NSLayoutConstraint!
     
     fileprivate var spacing: CGFloat = 0
+    
+    func pendingOperator(name: String) {
+        if let op = potentiallyPending[name] {
+            op.b.backgroundColor = op.highlightedBackgroundColor
+        }
+    }
+    
+    func endPendingOperator(name: String) {
+        if let op = potentiallyPending[name] {
+            op.b.backgroundColor = op.normalBackgroundColor
+        }
+    }
+    
+    func updateDisplay(s: String) {
+        display.text = Brain.shared.longToShort(l: s)
+    }
+    
+    @IBAction func zoomPressed(_ sender: Any) {
+    }
     
     struct PotentiallyPendingOperator {
         let b: UIButton
@@ -132,7 +135,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     }
 
     override var prefersStatusBarHidden: Bool {
-        return false
+        return true
     }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
