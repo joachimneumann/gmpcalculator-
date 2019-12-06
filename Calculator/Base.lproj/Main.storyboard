@@ -225,6 +225,13 @@
                                     <action selector="zoomPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cuq-nZ-cNS"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O34-5Z-Dhp">
+                                <rect key="frame" x="20" y="20" width="40" height="40"/>
+                                <state key="normal" title="Button" image="copy"/>
+                                <connections>
+                                    <action selector="copyPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dx1-AL-XKs"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>
@@ -232,20 +239,25 @@
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="Int-Xg-XpQ"/>
                             <constraint firstItem="Qde-R4-3fV" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="Kdk-Ly-ft2"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="wd0-pp-5pX" secondAttribute="trailing" id="WnT-y3-GN6"/>
+                            <constraint firstItem="O34-5Z-Dhp" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" constant="20" id="Wpy-Xj-9o6"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X0u-zI-RgQ"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XAi-r6-ISR"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="Qde-R4-3fV" secondAttribute="bottom" id="eOR-cg-fix"/>
                             <constraint firstItem="BFC-HU-Eqa" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="gbK-Uc-y6X"/>
+                            <constraint firstItem="BFC-HU-Eqa" firstAttribute="width" secondItem="O34-5Z-Dhp" secondAttribute="width" id="h6V-Ww-ml7"/>
                             <constraint firstAttribute="trailing" secondItem="xv2-Rt-BuW" secondAttribute="trailing" id="iH4-eo-dUn"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="BFC-HU-Eqa" secondAttribute="trailing" constant="20" id="icd-vh-qBn"/>
                             <constraint firstItem="wd0-pp-5pX" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="mgM-Ax-AJu"/>
+                            <constraint firstItem="BFC-HU-Eqa" firstAttribute="top" secondItem="O34-5Z-Dhp" secondAttribute="top" id="q4Z-Iz-jNO"/>
                             <constraint firstItem="wd0-pp-5pX" firstAttribute="top" secondItem="y7k-dk-FLH" secondAttribute="top" id="rKf-UA-fEd"/>
+                            <constraint firstItem="BFC-HU-Eqa" firstAttribute="height" secondItem="O34-5Z-Dhp" secondAttribute="height" id="uF7-5D-bch"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="y7k-dk-FLH"/>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
                     <connections>
+                        <outlet property="copyButton" destination="O34-5Z-Dhp" id="le7-4O-w7S"/>
                         <outlet property="display" destination="Qde-R4-3fV" id="mPz-Ke-SdF"/>
                         <outlet property="displayBottom" destination="eOR-cg-fix" id="3Y8-SU-RFw"/>
                         <outlet property="displayHeight" destination="Seg-9v-BfX" id="Q7w-8c-Nit"/>
@@ -267,7 +279,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="zoom_out" width="754" height="732"/>
+        <image name="copy" width="230" height="230"/>
+        <image name="zoom_out" width="230" height="230"/>
     </resources>
     <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

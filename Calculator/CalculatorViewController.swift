@@ -11,6 +11,7 @@ import UIKit
 class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProtocol {
     
     @IBOutlet weak var zoomButton: UIButton!
+    @IBOutlet weak var copyButton: UIButton!
     @IBOutlet weak var verticalStack: UIStackView!
     @IBOutlet weak var displayView: UITextView!
     @IBOutlet weak var display: UILabel!
@@ -27,6 +28,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     @IBOutlet weak var verticalStackTrailing: NSLayoutConstraint!
     
     fileprivate var spacing: CGFloat = 0
+    var zoom = false
     
     func pendingOperator(name: String) {
         if let op = potentiallyPending[name] {
@@ -44,7 +46,18 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
         display.text = Brain.shared.longToShort(l: s)
     }
     
+    @IBAction func copyPressed(_ sender: Any) {
+    }
+    
     @IBAction func zoomPressed(_ sender: Any) {
+        if zoom {
+            zoomButton.setImage(UIImage(named: "zoom_out"), for: .normal)
+            copyButton.isHidden = true
+        } else {
+            zoomButton.setImage(UIImage(named: "zoom_in"), for: .normal)
+            copyButton.isHidden = false
+        }
+        zoom = !zoom
     }
     
     struct PotentiallyPendingOperator {
