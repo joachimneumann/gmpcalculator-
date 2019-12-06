@@ -16,12 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="right" adjustsFontForContentSizeCategory="YES" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wd0-pp-5pX">
-                                <rect key="frame" x="0.0" y="44" width="375" height="298.33333333333331"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Courier" family="Courier" pointSize="47"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" smartDashesType="no" smartInsertDeleteType="no" smartQuotesType="no"/>
-                            </textView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="xv2-Rt-BuW" userLabel="KEYS">
                                 <rect key="frame" x="0.0" y="342.33333333333326" width="375" height="469.66666666666674"/>
                                 <subviews>
@@ -217,17 +211,21 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFC-HU-Eqa">
                                 <rect key="frame" x="315" y="20" width="40" height="40"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" secondItem="BFC-HU-Eqa" secondAttribute="height" multiplier="1:1" id="4t8-zY-p98"/>
                                     <constraint firstAttribute="height" constant="40" id="n4V-Nw-OG1"/>
-                                    <constraint firstAttribute="width" constant="40" id="xSD-g0-puG"/>
                                 </constraints>
-                                <state key="normal" title="Button" image="zoom_out"/>
+                                <state key="normal" image="zoom_out"/>
                                 <connections>
                                     <action selector="zoomPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cuq-nZ-cNS"/>
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O34-5Z-Dhp">
                                 <rect key="frame" x="20" y="20" width="40" height="40"/>
-                                <state key="normal" title="Button" image="copy"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="1Jz-My-6Nl"/>
+                                    <constraint firstAttribute="width" secondItem="O34-5Z-Dhp" secondAttribute="height" multiplier="1:1" id="jlq-Ux-coj"/>
+                                </constraints>
+                                <state key="normal" image="copy"/>
                                 <connections>
                                     <action selector="copyPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dx1-AL-XKs"/>
                                 </connections>
@@ -236,21 +234,15 @@
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>
                             <constraint firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" id="Eff-rq-ZcL"/>
-                            <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="wd0-pp-5pX" secondAttribute="bottom" id="Int-Xg-XpQ"/>
                             <constraint firstItem="Qde-R4-3fV" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="Kdk-Ly-ft2"/>
-                            <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="wd0-pp-5pX" secondAttribute="trailing" id="WnT-y3-GN6"/>
-                            <constraint firstItem="O34-5Z-Dhp" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" constant="20" id="Wpy-Xj-9o6"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="X0u-zI-RgQ"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XAi-r6-ISR"/>
+                            <constraint firstItem="O34-5Z-Dhp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="dzt-oM-cyL"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="Qde-R4-3fV" secondAttribute="bottom" id="eOR-cg-fix"/>
                             <constraint firstItem="BFC-HU-Eqa" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="gbK-Uc-y6X"/>
-                            <constraint firstItem="BFC-HU-Eqa" firstAttribute="width" secondItem="O34-5Z-Dhp" secondAttribute="width" id="h6V-Ww-ml7"/>
                             <constraint firstAttribute="trailing" secondItem="xv2-Rt-BuW" secondAttribute="trailing" id="iH4-eo-dUn"/>
-                            <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="BFC-HU-Eqa" secondAttribute="trailing" constant="20" id="icd-vh-qBn"/>
-                            <constraint firstItem="wd0-pp-5pX" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" id="mgM-Ax-AJu"/>
-                            <constraint firstItem="BFC-HU-Eqa" firstAttribute="top" secondItem="O34-5Z-Dhp" secondAttribute="top" id="q4Z-Iz-jNO"/>
-                            <constraint firstItem="wd0-pp-5pX" firstAttribute="top" secondItem="y7k-dk-FLH" secondAttribute="top" id="rKf-UA-fEd"/>
-                            <constraint firstItem="BFC-HU-Eqa" firstAttribute="height" secondItem="O34-5Z-Dhp" secondAttribute="height" id="uF7-5D-bch"/>
+                            <constraint firstAttribute="trailing" secondItem="BFC-HU-Eqa" secondAttribute="trailing" constant="20" id="jJ9-ae-T8i"/>
+                            <constraint firstItem="O34-5Z-Dhp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="kky-dF-dyH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="y7k-dk-FLH"/>
                     </view>
@@ -263,7 +255,6 @@
                         <outlet property="displayHeight" destination="Seg-9v-BfX" id="Q7w-8c-Nit"/>
                         <outlet property="displayLeft" destination="Kdk-Ly-ft2" id="568-D7-edQ"/>
                         <outlet property="displayRight" destination="AcA-3h-Mks" id="JAM-gQ-aG7"/>
-                        <outlet property="displayView" destination="wd0-pp-5pX" id="UfJ-3K-lK7"/>
                         <outlet property="stackView01" destination="iff-ke-4f6" id="k87-tl-LwU"/>
                         <outlet property="stackView02" destination="AIe-Vq-k9g" id="sOD-58-2IO"/>
                         <outlet property="verticalStack" destination="xv2-Rt-BuW" id="qUe-p2-2Wa"/>

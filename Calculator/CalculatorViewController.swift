@@ -8,12 +8,11 @@
 
 import UIKit
 
-class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProtocol {
+class CalculatorViewController: UIViewController, BrainProtocol {
     
     @IBOutlet weak var zoomButton: UIButton!
     @IBOutlet weak var copyButton: UIButton!
     @IBOutlet weak var verticalStack: UIStackView!
-    @IBOutlet weak var displayView: UITextView!
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var displayLeft: NSLayoutConstraint!
     @IBOutlet weak var displayRight: NSLayoutConstraint!
@@ -53,9 +52,13 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
         if zoom {
             zoomButton.setImage(UIImage(named: "zoom_out"), for: .normal)
             copyButton.isHidden = true
+            verticalStack.isHidden = false
+            display.isHidden = false
         } else {
             zoomButton.setImage(UIImage(named: "zoom_in"), for: .normal)
             copyButton.isHidden = false
+            verticalStack.isHidden = true
+            display.isHidden = true
         }
         zoom = !zoom
     }
@@ -80,11 +83,6 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
         return UIInterfaceOrientationMask.allButUpsideDown
     }
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView == displayView {
-            print("You edit myTextField")
-        }
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -92,9 +90,7 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
         Brain.shared.precision = 100000
         Brain.shared.brainProtocolDelegate = self
         Brain.shared.reset() // display --> "0"
-        
-        displayView.delegate = self
-        
+                
         spacing = view.bounds.size.width * 0.035
         
         // make sure there is a bit of space to the left and right of the keys
@@ -126,15 +122,10 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
     }
     
     override func viewDidLayoutSubviews() {
-        // if dispay is high enough, move the keys up
-        // NSLog("viewDidLayoutSubviews %f", displayView.frame.size.height)
-        if displayView.frame.size.height / view.frame.size.height > 0.4 {
-            verticalStackBottom.constant = view.frame.size.height * 0.075
-        }
         
-        // if the display is not high enough, add space to the left and right,
+        // if the keys ar too high, add space to the left and right,
         // which results in more space for the display
-        if displayView.frame.size.height / view.frame.size.height < 0.25 {
+        if verticalStack.frame.size.height / view.frame.size.height > 0.7 {
             spacing *= 1.1
             verticalStackLeading.constant = spacing * 2
             verticalStackTrailing.constant = spacing * 2
@@ -142,6 +133,11 @@ class CalculatorViewController: UIViewController, UITextViewDelegate, BrainProto
             // NSLog("viewDidLayoutSubviews setNeedsLayout")
         } else {
             // NSLog("viewDidLayoutSubviews DONE")
+            // if dispay is high enough, move the keys up
+            // NSLog("viewDidLayoutSubviews %f", displayView.frame.size.height)
+            if verticalStack.frame.size.height / view.frame.size.height < 0.6 {
+                verticalStackBottom.constant = view.frame.size.height * 0.075
+            }
         }
         let fontSize = verticalStack.frame.size.height * 0.18
         display.font = UIFont.systemFont(ofSize: fontSize, weight: .thin)
