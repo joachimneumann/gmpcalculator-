@@ -25,6 +25,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     @IBOutlet weak var keysStackWidth: NSLayoutConstraint!
     @IBOutlet weak var keysStackBottom: NSLayoutConstraint!
     @IBOutlet weak var keysStackTrailing: NSLayoutConstraint!
+    @IBOutlet weak var keysStackAspectRatio: NSLayoutConstraint!
     
     @IBOutlet weak var extraKeysStack: UIStackView!
     @IBOutlet weak var extraKeysStackLeading: NSLayoutConstraint!
@@ -66,6 +67,11 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         if zoom {
             zoomButton.setImage(UIImage(named: "zoom_out"), for: .normal)
             keysStack.isHidden = false
+            if UIScreen.main.bounds.width > UIScreen.main.bounds.height {
+                extraKeysStack.isHidden = false
+            } else {
+                extraKeysStack.isHidden = true
+            }
             display.isHidden = false
             copyButton.isHidden = true
             largeDisplay.isHidden = true
@@ -75,6 +81,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             largeDisplay.text = Brain.shared.longString()
             largeDisplay.isHidden = false
             keysStack.isHidden = true
+            extraKeysStack.isHidden = true
             display.isHidden = true
         }
         zoom = !zoom
@@ -112,13 +119,19 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             // landscape
             let sidemargin = w - zoomButton.frame.origin.x + 10
             keysStackTrailing.constant = sidemargin
-            keysStackWidth.constant = 0.58 * h
+            var newWidth = 0.3 * w
+            // keys too tall?
+            if newWidth / keysStackAspectRatio.multiplier > 0.7 * h {
+                newWidth = 0.7 * h * keysStackAspectRatio.multiplier
+            }
+            keysStackWidth.constant = newWidth
             spacing = h * 0.02
             displayLeft.constant = sidemargin + 10
             displayRight.constant = sidemargin + 10
 
+            extraKeysStack.isHidden = keysStack.isHidden
             extraKeysStackLeading.constant = sidemargin
-            let oneKeyWidth = (keysStackWidth.constant - 3 * spacing) / 4.0
+            let oneKeyWidth = 2 * spacing//(keysStackWidth.constant - 3 * spacing) / 4.0
             extraKeysStackWidth.constant =
                 w -
                 sidemargin -
@@ -134,10 +147,18 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         } else {
             // portrait
             spacing = w * 0.035
-            keysStackTrailing.constant = spacing * 1.2
-            keysStackWidth.constant = w - 2 * keysStackTrailing.constant
+            var newTrailing = spacing * 1.2
+            var newWidth = w - 2 * newTrailing
+            // keys too high?
+            if newWidth / keysStackAspectRatio.multiplier > 0.7 * h {
+                newWidth = 0.7 * h * keysStackAspectRatio.multiplier
+                newTrailing = (w - newWidth) / 2
+            }
+            keysStackTrailing.constant = newTrailing
+            keysStackWidth.constant = newWidth
             displayLeft.constant  = 2 * spacing
             displayRight.constant = 2 * spacing
+            extraKeysStack.isHidden = true
         }
 
         // distance between the keys

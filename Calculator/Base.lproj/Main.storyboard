@@ -266,6 +266,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="x^2"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eAg-7Z-m5X" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -273,6 +274,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="x^3"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTy-Dt-wQU" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -280,6 +282,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="e^x"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ih-Dt-XIl" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -287,6 +290,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="10^x"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
@@ -299,6 +303,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="√"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pz1-FY-LpO" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -306,6 +311,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="3√"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCh-78-wut" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -313,6 +319,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="ln"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mfs-jB-JRH" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -332,7 +339,7 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="146" height="94.333333333333329"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="1"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="x^y"/>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
@@ -341,6 +348,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="x↑↑y"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="egJ-3w-ECM" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -348,6 +356,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="e"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uXk-QQ-eam" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -355,6 +364,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="π"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
@@ -367,6 +377,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="x!"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ika-ex-Okv" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -374,6 +385,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="sin"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G2h-tw-mVo" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -381,6 +393,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="cos"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rqK-dN-tgy" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -388,6 +401,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="tan"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
@@ -400,6 +414,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="Z"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EHH-Mu-d44" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -407,6 +422,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="asin"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OPh-WX-i3D" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -414,6 +430,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="acos"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aYv-gX-loE" customClass="CalculatorKey" customModule="Better_Calc" customModuleProvider="target">
@@ -421,6 +438,7 @@
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="boolean" keyPath="wideButton" value="YES"/>
+                                                    <userDefinedRuntimeAttribute type="string" keyPath="buttonTitle" value="atan"/>
                                                 </userDefinedRuntimeAttributes>
                                             </view>
                                         </subviews>
@@ -467,6 +485,7 @@
                         <outlet property="extraKeysStackLeading" destination="Wrr-Fv-ygx" id="ZVQ-9k-OAz"/>
                         <outlet property="extraKeysStackWidth" destination="UK1-F2-q41" id="8bT-CI-iyW"/>
                         <outlet property="keysStack" destination="xv2-Rt-BuW" id="qUe-p2-2Wa"/>
+                        <outlet property="keysStackAspectRatio" destination="ArF-R9-sMA" id="VLm-x9-uQJ"/>
                         <outlet property="keysStackBottom" destination="Eff-rq-ZcL" id="nSV-GS-aYb"/>
                         <outlet property="keysStackTrailing" destination="iH4-eo-dUn" id="4c9-Yv-G6T"/>
                         <outlet property="keysStackWidth" destination="4Yz-qc-GHg" id="5PA-5i-7Dd"/>
