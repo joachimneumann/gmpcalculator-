@@ -95,6 +95,19 @@ import UIKit
         }
     }
     
+    var pending: Bool {
+        set {
+            if newValue {
+                setPendingStart()
+            } else {
+                setPendingEnd()
+            }
+        }
+        get {
+            return false
+        }
+    }
+
     var button: UIButton = UIButton()
     
     override func prepareForInterfaceBuilder() {
@@ -185,6 +198,17 @@ import UIKit
             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
         case .C, .signChange, .inverse:
             button.setTitleColor(.black, for: .normal)
+        default:
+            break
+        }
+        switch type {
+        case .zero:
+            button.contentHorizontalAlignment = .left;
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: fontSize * 0.7, bottom: 0, right: 0)
+        case .operation:
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
+        default:
+            break
         }
 
         if buttonTitle == "±" {
@@ -249,6 +273,34 @@ import UIKit
         )
     }
 
+    func setPendingStart() {
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+            switch self.type {
+                case .extendedOperation:
+                    self.button.backgroundColor = UIColor.lightGray
+                case .operation:
+                    self.button.backgroundColor = UIColor.white
+                    self.button.setTitleColor(self.operationColor, for: .normal)
+            default:
+                break
+            }
+        }, completion: nil)
+    }
+    
+    func setPendingEnd() {
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
+            switch self.type {
+            case .extendedOperation:
+                self.button.backgroundColor = self.digitsColor
+            case .operation:
+                self.button.backgroundColor = self.operationColor
+                self.button.setTitleColor(.white, for: .normal)
+            default:
+                break
+            }
+        }, completion: nil)
+    }
+
     @objc func touchDown() {
         setColorDown()
     }
@@ -268,12 +320,6 @@ import UIKit
             Brain.shared.reset()
         default:
             break
-//        case .undefined:
-//        case .digit:
-//        case .zero:
-//        case .dot:
-//        case .operation:
-//        case .clear:
         }
     }
     

@@ -31,10 +31,10 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     @IBOutlet weak var extraKeysStackLeading: NSLayoutConstraint!
     @IBOutlet weak var extraKeysStackWidth: NSLayoutConstraint!
 
-    
+    fileprivate var calculatorKeys = Dictionary<String, CalculatorKey>()
     fileprivate var spacing: CGFloat = 0
-    var zoom = false
-    var landscape: Bool {
+    fileprivate var zoom = false
+    fileprivate var landscape: Bool {
         get {
             if UIDevice.current.orientation == .landscapeRight ||
                 UIDevice.current.orientation == .landscapeLeft {
@@ -45,14 +45,14 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     }
 
     func pendingOperator(name: String) {
-        if let op = potentiallyPending[name] {
-            op.b.backgroundColor = op.highlightedBackgroundColor
+        if let key = calculatorKeys[name] {
+            key.pending = true
         }
     }
     
     func endPendingOperator(name: String) {
-        if let op = potentiallyPending[name] {
-            op.b.backgroundColor = op.normalBackgroundColor
+        if let key = calculatorKeys[name] {
+            key.pending = false
         }
     }
     
@@ -87,16 +87,34 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         zoom = !zoom
     }
     
-    struct PotentiallyPendingOperator {
-        let b: UIButton
-        let normalBackgroundColor: UIColor
-        let highlightedBackgroundColor: UIColor
-    }
-    var potentiallyPending: Dictionary<String,PotentiallyPendingOperator>
 
     required init?(coder aDecoder: NSCoder) {
-        potentiallyPending = [:]
         super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        for horizontalStack in keysStack.subviews {
+            for element in horizontalStack.subviews {
+                if let key = element as? CalculatorKey {
+                    calculatorKeys[key.buttonTitle] = key
+                }
+                if let stack = element as? UIStackView {
+                    for element in stack.subviews {
+                        if let key = element as? CalculatorKey {
+                            calculatorKeys[key.buttonTitle] = key
+                        }
+                    }
+                }
+            }
+        }
+        for horizontalStack in extraKeysStack.subviews {
+            for element in horizontalStack.subviews {
+                if let key = element as? CalculatorKey {
+                    calculatorKeys[key.buttonTitle] = key
+                }
+            }
+        }
     }
     
     override var shouldAutorotate : Bool {
@@ -111,6 +129,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         getScreenSize()
         print(fromInterfaceOrientation)
     }
+
     func getScreenSize(){
         let w = UIScreen.main.bounds.width
         let h = UIScreen.main.bounds.height
@@ -171,9 +190,10 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         stackView02.spacing = spacing
         stackView01.spacing = spacing
 
-        let fontSize = keysStackWidth.constant * 0.2
+        var fontSize = keysStackWidth.constant * 0.2
         display.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .thin)
-        largeDisplay.font = UIFont.monospacedSystemFont(ofSize: fontSize/4, weight: .regular)
+        fontSize = min(w,h) * 0.04
+        largeDisplay.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
     }
     
     override func viewWillAppear(_ animated: Bool) {
