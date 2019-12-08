@@ -60,9 +60,6 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         display.text = s
     }
     
-    @IBAction func copyPressed(_ sender: Any) {
-    }
-    
     @IBAction func zoomPressed(_ sender: Any) {
         if zoom {
             zoomButton.setImage(UIImage(named: "zoom_out"), for: .normal)
@@ -87,6 +84,20 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         zoom = !zoom
     }
     
+    @IBAction func copyToClipboard(_ sender: UIButton) {
+        let t = 0.1
+        UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
+            self.largeDisplay.textColor = UIColor.orange
+        }, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2*t, execute: {
+            UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
+                self.largeDisplay.textColor = UIColor.white
+            }, completion: nil)
+      })
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = largeDisplay.text
+    }
+
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -125,12 +136,15 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         return UIInterfaceOrientationMask.allButUpsideDown
     }
 
-    override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
-        getScreenSize()
-        print(fromInterfaceOrientation)
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        coordinator.animate(alongsideTransition: { (_) in
+            self.layoutWithNewScreenSize()
+        }, completion: nil)
     }
 
-    func getScreenSize(){
+    func layoutWithNewScreenSize(){
         let w = UIScreen.main.bounds.width
         let h = UIScreen.main.bounds.height
         print("SCREEN RESOLUTION: "+w.description+" x "+h.description)
@@ -206,68 +220,9 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        getScreenSize()
+        layoutWithNewScreenSize()
     }
     
-//    override func viewDidLayoutSubviews() {
-//        return
-//        NSLog(portrait  ? "viewDidLayoutSubviews  portrait: Yes" : "viewDidLayoutSubviews  portrait:  No")
-//        NSLog(landscape ? "viewDidLayoutSubviews landscape: Yes" : "viewDidLayoutSubviews landscape:  No")
-//        if landscape {
-//            spacing = view.bounds.size.height * 0.035
-//            keysStackLeading.isActive = false
-//            keysStackTrailing.constant = spacing * 1.2
-////            keysStackProportialHeight.isActive = true
-////            keysStackProportialHeight.constant = 0.6
-//        } else {
-//            spacing = view.bounds.size.width * 0.035
-//            keysStackLeading.isActive = true
-//            keysStackLeading.constant  = spacing * 1.2
-//            keysStackTrailing.constant = spacing * 1.2
-////            keysStackProportialHeight.isActive = false
-//        }
-//
-//        // distance between the keys
-//        keysStack.spacing = spacing
-//        for v in keysStack.subviews {
-//            if let stack = v as? UIStackView {
-//                stack.spacing = spacing
-//            }
-//        }
-//        stackView02.spacing = spacing
-//        stackView01.spacing = spacing
-//
-//        // make sure there is a bit of space at the bottom
-//        keysStackBottom.constant = spacing
-//
-//        displayLeft.constant = 2 * spacing
-//        displayRight.constant = 2 * spacing
-//
-//        if landscape {
-//            return
-//        }
-//
-//        displayHeight.constant = view.frame.size.height * 0.1 * 20
-//
-//
-//        // if the keys ar too high, add space to the left and right,
-//        // which results in more space for the display
-//        if keysStack.frame.size.height / view.frame.size.height > 0.7 {
-//            spacing *= 1.1
-//            keysStackLeading.constant = spacing * 2
-//            keysStackTrailing.constant = spacing * 2
-////            view.layoutIfNeeded()
-//            // NSLog("viewDidLayoutSubviews setNeedsLayout")
-//        } else {
-//            // NSLog("viewDidLayoutSubviews DONE")
-//            // if dispay is high enough, move the keys up
-//            // NSLog("viewDidLayoutSubviews %f", displayView.frame.size.height)
-//            if keysStack.frame.size.height / view.frame.size.height < 0.6 {
-//                keysStackBottom.constant = view.frame.size.height * 0.075
-//            }
-//        }
-//    }
-
     override var prefersStatusBarHidden: Bool {
         return true
     }

@@ -251,7 +251,7 @@
                                 </constraints>
                                 <state key="normal" image="copy"/>
                                 <connections>
-                                    <action selector="copyPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dx1-AL-XKs"/>
+                                    <action selector="copyToClipboard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CoK-oV-atq"/>
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="TUZ-zx-tWI" userLabel="Extra Keys Stack View">

@@ -83,11 +83,12 @@
 		AAE9DA891CE0BBE400C44198 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				AA44F8352397973300774C37 /* CalculatorKey.swift */,
+				AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */,
+				AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */,
+				BE153BB11CF4354900E53E4B /* Gmp.swift */,
 				BE808DCB1CF772D400ECDBAF /* libGmp */,
 				AAE9DA9C1CE0BD3400C44198 /* supporting files */,
-				AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */,
-				BE153BB11CF4354900E53E4B /* Gmp.swift */,
-				AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */,
 				AA43979C215554E0009F58D3 /* Brain.swift */,
 			);
 			path = Calculator;
@@ -100,7 +101,6 @@
 				AAE9DA911CE0BBE400C44198 /* Assets.xcassets */,
 				AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */,
 				AAE9DA961CE0BBE400C44198 /* Info.plist */,
-				AA44F8352397973300774C37 /* CalculatorKey.swift */,
 			);
 			name = "supporting files";
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 26;
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
@@ -357,7 +357,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
@@ -377,7 +377,7 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 24;
+				CURRENT_PROJECT_VERSION = 26;
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
@@ -386,7 +386,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
-				MARKETING_VERSION = 1.8;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";

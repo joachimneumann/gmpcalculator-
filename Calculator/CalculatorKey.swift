@@ -19,10 +19,10 @@ import UIKit
     // Set up non-zero-sized storage. We don't intend to mutate this variable,
     // but it needs to be `var` so we can pass its address in as UnsafeMutablePointer.
     private static var myContext = 0
-    // NOTE: `static` is not necessary if you want it to be a global variable
 
-    let operationColor        = UIColor(red:  90/255.0, green: 200/255.0, blue: 250/255.0, alpha: 1)
-    let operationColorPressed = UIColor(red: 175/255.0, green: 233/255.0, blue: 245/255.0, alpha: 1)
+    let operationColor        = UIColor(red:  81/255.0, green: 181/255.0, blue: 235/255.0, alpha: 1)
+    let operationColorPressed = UIColor(red: 209/255.0, green: 222/255.0, blue: 243/255.0, alpha: 1)
+
     let clearColor            = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 1)
     let clearColorPressed     = UIColor(red: 217/255.0, green: 217/255.0, blue: 217/255.0, alpha: 1)
     let digitsColor           = UIColor(red:  52/255.0, green:  52/255.0, blue:  52/255.0, alpha: 1)
@@ -34,6 +34,7 @@ import UIKit
         case signChange
         case inverse
         case operation
+        case equal
         case extendedOperation
         case digit
         case zero
@@ -48,7 +49,7 @@ import UIKit
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if context == &CalculatorKey.myContext {
-            sharedInit()
+            sizeChanged()
         }
         else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
@@ -57,8 +58,10 @@ import UIKit
 
     var type: keyType {
         switch buttonTitle {
-        case "+", "−", "×", "÷", "=":
+        case "+", "−", "×", "÷":
             return .operation
+        case "=":
+            return .equal
         case "x^2", "x^3", "e^x", "10^x":
             return .extendedOperation
         case "√", "3√", "ln", "log10":
@@ -114,29 +117,18 @@ import UIKit
         sharedInit()
     }
     
-    func sharedInit() {
+    func sizeChanged() {
         var buttonFrame = self.frame
         if isSquare {
             if wideButton {
-                if (frame.size.width > 1.8 * frame.size.height) {
-                    // wide horizontal rectangle
-                    buttonFrame.size.height = frame.size.height
-                    buttonFrame.size.width  = 1.8 * frame.size.height
-                    buttonFrame.origin.y = 0
-                    buttonFrame.origin.x = (frame.size.width - 1.8 * frame.size.height) / 2
-                } else if (frame.size.width > frame.size.height) {
-                    // small horizontal rectangle
-                    buttonFrame.size.height = frame.size.height
-                    buttonFrame.size.width  = frame.size.height
-                    buttonFrame.origin.y = 0
-                    buttonFrame.origin.x = (frame.size.width - frame.size.height) / 2
-                } else {
-                    // vertical rectangle
-                    buttonFrame.size.height = frame.size.width
-                    buttonFrame.size.width  = frame.size.width
-                    buttonFrame.origin.x = 0
-                    buttonFrame.origin.y = (frame.size.height - frame.size.width) / 2
-                }
+                buttonFrame.size.height = frame.size.height
+                buttonFrame.size.width  = frame.size.width
+                
+                // not more than 2 times as wide as high
+                if frame.size.width > 2 * frame.size.height { buttonFrame.size.width  = frame.size.height * 2 }
+                
+                buttonFrame.origin.y = 0
+                buttonFrame.origin.x = 0
             } else {
                 if (frame.size.width > frame.size.height) {
                     // horizontal rectangle
@@ -166,22 +158,44 @@ import UIKit
             buttonFrame.origin.y = newY
             
         }
-        button.frame = buttonFrame
-        button.setTitle(buttonTitle, for: .normal)
+
         var fontSize = buttonFrame.size.height * 0.48
-        if type == .operation {
+        if type == .operation || type == .equal {
             fontSize *= 1.2
         }
         button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
-//        backgroundColor = .yellow
+        
+        button.frame = buttonFrame
+
+        switch type {
+        case .zero:
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: fontSize * 0.7, bottom: 0, right: 0)
+        case .operation, .equal:
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
+        default:
+            break
+        }
+        if buttonTitle == "±" {
+            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/1.7, bottom: 0, right: fontSize/1.7)
+        } else if buttonTitle == "1/x" {
+            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/3, bottom: 0, right: fontSize/3)
+        }
+        refreshCorners()
+    }
+
+    func sharedInit() {
+        sizeChanged()
+        button.setTitle(buttonTitle, for: .normal)
+
+        //        backgroundColor = .yellow
         backgroundColor = .clear
+        
         addSubview(button)
         
-        button.removeTarget(nil, action: nil, for: .allEvents)
         button.addTarget(self, action:#selector(touchDown), for: UIControl.Event.touchDown)
         button.addTarget(self, action:#selector(touchUp), for: UIControl.Event.touchUpInside)
         setColorUp()
-        refreshCorners()
+        setPendingEnd()
         switch type {
         case .undefined:
             button.setTitleColor(.white, for: .normal)
@@ -190,36 +204,21 @@ import UIKit
         case .zero:
             button.setTitleColor(.white, for: .normal)
             button.contentHorizontalAlignment = .left;
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: fontSize * 0.7, bottom: 0, right: 0)
         case .dot:
             button.setTitleColor(.white, for: .normal)
-        case .operation:
+        case .operation, .equal:
             button.setTitleColor(.white, for: .normal)
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
         case .C, .signChange, .inverse:
             button.setTitleColor(.black, for: .normal)
-        default:
-            break
-        }
-        switch type {
-        case .zero:
-            button.contentHorizontalAlignment = .left;
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: fontSize * 0.7, bottom: 0, right: 0)
-        case .operation:
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
-        default:
-            break
         }
 
         if buttonTitle == "±" {
             button.setImage(UIImage(named: buttonTitle), for: UIControl.State())
             button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/1.7, bottom: 0, right: fontSize/1.7)
             button.setTitle("", for: .normal)
         } else if buttonTitle == "1/x" {
             button.setImage(UIImage(named: "1_x"), for: UIControl.State())
             button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/3, bottom: 0, right: fontSize/3)
             button.setTitle("", for: .normal)
         } else if let imagecandidate = UIImage(named: buttonTitle) {
             button.setImage(imagecandidate, for: UIControl.State())
@@ -245,6 +244,8 @@ import UIKit
                 case .dot:
                     self.button.backgroundColor = self.digitsColor
                 case .operation:
+                    break
+                case .equal:
                     self.button.backgroundColor = self.operationColor
                 case .C, .signChange, .inverse:
                     self.button.backgroundColor = self.clearColor
@@ -256,19 +257,21 @@ import UIKit
     func setColorDown() {
         UIView.animate(withDuration: 0.1, delay: 0.0, options: UIView.AnimationOptions.allowUserInteraction, animations: {
             switch self.type {
-                case .undefined:
-                    self.button.backgroundColor = UIColor.systemPink
+            case .undefined:
+                self.button.backgroundColor = UIColor.systemPink
             case .digit, .extendedOperation:
-                    self.button.backgroundColor = self.digitsColorPressed
-                case .zero:
-                    self.button.backgroundColor = self.digitsColorPressed
-                case .dot:
-                    self.button.backgroundColor = self.digitsColorPressed
-                case .operation:
-                    self.button.backgroundColor = self.operationColorPressed
-                case .C, .signChange, .inverse:
-                    self.button.backgroundColor = self.clearColorPressed
-                }
+                self.button.backgroundColor = self.digitsColorPressed
+            case .zero:
+                self.button.backgroundColor = self.digitsColorPressed
+            case .dot:
+                self.button.backgroundColor = self.digitsColorPressed
+            case .operation:
+                break
+            case .equal:
+                self.button.backgroundColor = self.operationColorPressed
+            case .C, .signChange, .inverse:
+                self.button.backgroundColor = self.clearColorPressed
+            }
             }, completion: nil
         )
     }
@@ -312,7 +315,7 @@ import UIKit
             Brain.shared.digit(buttonTitle)
         case .dot:
             Brain.shared.digit(".") // comma does not work
-        case .operation, .signChange, .extendedOperation:
+        case .operation, .equal, .signChange, .extendedOperation:
             Brain.shared.operation(buttonTitle)
         case .inverse:
             Brain.shared.operation("1\\x")
