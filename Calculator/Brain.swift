@@ -222,6 +222,9 @@ class Brain {
                 resultArray[0] = resultArray[0].prefix(maxPrecision)
                 result = resultArray[0]+"E"+resultArray[1]
             }
+        } else {
+            // no E
+            result = String(resultArray[0].prefix(maxPrecision))
         }
         return result
     }
