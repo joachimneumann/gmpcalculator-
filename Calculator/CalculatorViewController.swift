@@ -23,6 +23,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     
     @IBOutlet weak var keysStack: UIStackView!
     @IBOutlet weak var keysStackWidth: NSLayoutConstraint!
+    @IBOutlet weak var keysStackHeight: NSLayoutConstraint!
     @IBOutlet weak var keysStackBottom: NSLayoutConstraint!
     @IBOutlet weak var keysStackTrailing: NSLayoutConstraint!
     @IBOutlet weak var keysStackAspectRatio: NSLayoutConstraint!
@@ -152,23 +153,25 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             // landscape
             let sidemargin = w - zoomButton.frame.origin.x + 10
             keysStackTrailing.constant = sidemargin
-            var newWidth = 0.3 * w
-            // keys too tall?
-            if newWidth / keysStackAspectRatio.multiplier > 0.7 * h {
-                newWidth = 0.7 * h * keysStackAspectRatio.multiplier
+            keysStackAspectRatio.isActive = false
+            keysStackWidth.constant = 0.37 * w
+            keysStackHeight.constant = 0.7 * h
+            if h - keysStackHeight.constant < 150 {
+                keysStackHeight.constant = h - 150
             }
-            keysStackWidth.constant = newWidth
+            keysStackHeight.isActive = true
+            CalculatorKey.landscape = true
             spacing = h * 0.02
             displayLeft.constant = sidemargin + 10
             displayRight.constant = sidemargin + 10
 
             extraKeysStack.isHidden = keysStack.isHidden
             extraKeysStackLeading.constant = sidemargin
-            let oneKeyWidth = 2 * spacing//(keysStackWidth.constant - 3 * spacing) / 4.0
+            let spaceBetweenKeys = 3 * spacing
             extraKeysStackWidth.constant =
                 w -
                 sidemargin -
-                oneKeyWidth -
+                spaceBetweenKeys -
                 keysStackWidth.constant -
                 keysStackTrailing.constant
             extraKeysStack.spacing = spacing
@@ -179,6 +182,9 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             }
         } else {
             // portrait
+            keysStackHeight.isActive = false
+            keysStackAspectRatio.isActive = true
+            CalculatorKey.landscape = false
             spacing = w * 0.035
             var newTrailing = spacing * 1.2
             var newWidth = w - 2 * newTrailing

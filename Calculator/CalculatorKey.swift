@@ -19,10 +19,10 @@ import UIKit
     // Set up non-zero-sized storage. We don't intend to mutate this variable,
     // but it needs to be `var` so we can pass its address in as UnsafeMutablePointer.
     private static var myContext = 0
-
+    static var landscape = false
+    
     let operationColor        = UIColor(red:  81/255.0, green: 181/255.0, blue: 235/255.0, alpha: 1)
     let operationColorPressed = UIColor(red: 209/255.0, green: 222/255.0, blue: 243/255.0, alpha: 1)
-
     let clearColor            = UIColor(red: 164/255.0, green: 164/255.0, blue: 164/255.0, alpha: 1)
     let clearColorPressed     = UIColor(red: 217/255.0, green: 217/255.0, blue: 217/255.0, alpha: 1)
     let digitsColor           = UIColor(red:  52/255.0, green:  52/255.0, blue:  52/255.0, alpha: 1)
@@ -90,6 +90,7 @@ import UIKit
     }
 
     var isSquare: Bool {
+        if CalculatorKey.landscape { return false }
         switch type {
         case .zero:
             return false
@@ -119,16 +120,17 @@ import UIKit
     
     func sizeChanged() {
         var buttonFrame = self.frame
+        buttonFrame.origin.x = 0
+        buttonFrame.origin.y = 0
         if isSquare {
             if wideButton {
                 buttonFrame.size.height = frame.size.height
                 buttonFrame.size.width  = frame.size.width
                 
                 // not more than 2 times as wide as high
-                if frame.size.width > 2 * frame.size.height { buttonFrame.size.width  = frame.size.height * 2 }
-                
-                buttonFrame.origin.y = 0
-                buttonFrame.origin.x = 0
+                if frame.size.width > 2 * frame.size.height {
+                    buttonFrame.size.width  = frame.size.height * 2
+                }
             } else {
                 if (frame.size.width > frame.size.height) {
                     // horizontal rectangle
@@ -144,49 +146,42 @@ import UIKit
                     buttonFrame.origin.y = (frame.size.height - frame.size.width) / 2
                 }
             }
-        } else {
-            // not square
-            buttonFrame.origin.x = 0
-            buttonFrame.origin.y = 0
-            var spacing:CGFloat = 0
-            if let sv = superview as? UIStackView {
-                spacing = sv.spacing
-            }
-            let newHeight = (buttonFrame.size.width - spacing) / 2
-            let newY = (buttonFrame.size.height - newHeight) / 2
-            buttonFrame.size.height = newHeight
-            buttonFrame.origin.y = newY
-            
         }
 
-        var fontSize = buttonFrame.size.height * 0.48
-        if type == .operation || type == .equal {
-            fontSize *= 1.2
-        }
-        button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
+        var fontSize = buttonFrame.size.height * 0.45
         
         button.frame = buttonFrame
 
         switch type {
         case .zero:
-            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: fontSize * 0.7, bottom: 0, right: 0)
+            let leftInset = buttonFrame.size.width * 0.25 - fontSize * 0.35
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: leftInset, bottom: 0, right: 0)
         case .operation, .equal:
+            button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
+        case .signChange:
             button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: fontSize/5, right: 0)
         default:
             break
         }
-        if buttonTitle == "±" {
-            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/1.7, bottom: 0, right: fontSize/1.7)
-        } else if buttonTitle == "1/x" {
-            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: fontSize/3, bottom: 0, right: fontSize/3)
+
+        switch type {
+        case .operation, .signChange, .equal:
+            fontSize = buttonFrame.size.height * 0.5
+        default:
+            fontSize = buttonFrame.size.height * 0.45
+            break
         }
+        
+        button.titleLabel?.font = UIFont.systemFont(ofSize: fontSize)
         refreshCorners()
     }
 
     func sharedInit() {
         sizeChanged()
         button.setTitle(buttonTitle, for: .normal)
-
+//        if buttonTitle == "log10" {
+            button.titleLabel?.adjustsFontSizeToFitWidth = true
+//        }
         //        backgroundColor = .yellow
         backgroundColor = .clear
         
@@ -206,25 +201,14 @@ import UIKit
             button.contentHorizontalAlignment = .left;
         case .dot:
             button.setTitleColor(.white, for: .normal)
-        case .operation, .equal:
+        case .operation, .equal, .C, .signChange, .inverse:
             button.setTitleColor(.white, for: .normal)
-        case .C, .signChange, .inverse:
-            button.setTitleColor(.black, for: .normal)
         }
 
-        if buttonTitle == "±" {
-            button.setImage(UIImage(named: buttonTitle), for: UIControl.State())
-            button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-            button.setTitle("", for: .normal)
-        } else if buttonTitle == "1/x" {
-            button.setImage(UIImage(named: "1_x"), for: UIControl.State())
-            button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
-            button.setTitle("", for: .normal)
-        } else if let imagecandidate = UIImage(named: buttonTitle) {
-            button.setImage(imagecandidate, for: UIControl.State())
-            button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
+        if let imagecandidate = UIImage(named: buttonTitle) {
+        button.setImage(imagecandidate, for: UIControl.State())
+        button.imageView?.contentMode = UIView.ContentMode.scaleAspectFit
         }
-
     }
     
     func refreshCorners() {
@@ -243,12 +227,10 @@ import UIKit
                     self.button.backgroundColor = self.digitsColor
                 case .dot:
                     self.button.backgroundColor = self.digitsColor
-                case .operation:
-                    break
-                case .equal:
+                case .operation, .equal, .C:
                     self.button.backgroundColor = self.operationColor
-                case .C, .signChange, .inverse:
-                    self.button.backgroundColor = self.clearColor
+                case .signChange, .inverse:
+                    self.button.backgroundColor = self.digitsColor
                 }
             }, completion: nil
         )
@@ -265,12 +247,10 @@ import UIKit
                 self.button.backgroundColor = self.digitsColorPressed
             case .dot:
                 self.button.backgroundColor = self.digitsColorPressed
-            case .operation:
-                break
-            case .equal:
+            case .operation, .equal, .C:
                 self.button.backgroundColor = self.operationColorPressed
-            case .C, .signChange, .inverse:
-                self.button.backgroundColor = self.clearColorPressed
+            case .signChange, .inverse:
+                self.button.backgroundColor = self.digitsColorPressed
             }
             }, completion: nil
         )
