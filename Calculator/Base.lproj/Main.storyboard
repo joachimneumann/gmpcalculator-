@@ -455,23 +455,47 @@
                                 </constraints>
                                 <variation key="heightClass=regular-widthClass=compact" hidden="YES"/>
                             </stackView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aTQ-Tu-6PU">
+                                <rect key="frame" x="950" y="50" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="1qf-7T-OEb"/>
+                                    <constraint firstAttribute="height" constant="30" id="T5p-JQ-9hQ"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="down"/>
+                                <connections>
+                                    <action selector="downPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Vmi-3q-l0F"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nb7-CZ-aTd">
+                                <rect key="frame" x="950" y="50" width="30" height="30"/>
+                                <state key="normal" title="Button" image="up"/>
+                                <connections>
+                                    <action selector="upPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b0t-JA-WsQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="trailing" secondItem="ftT-kr-Bvo" secondAttribute="trailing" constant="20" id="8ZJ-Tz-spG"/>
                             <constraint firstAttribute="trailing" secondItem="Qde-R4-3fV" secondAttribute="trailing" id="AcA-3h-Mks"/>
+                            <constraint firstItem="aTQ-Tu-6PU" firstAttribute="width" secondItem="nb7-CZ-aTd" secondAttribute="width" id="CzX-uH-vGF"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" constant="20" id="Eff-rq-ZcL"/>
                             <constraint firstItem="TUZ-zx-tWI" firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" id="JAW-4H-Syi"/>
                             <constraint firstItem="Qde-R4-3fV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Kdk-Ly-ft2"/>
                             <constraint firstItem="TUZ-zx-tWI" firstAttribute="top" secondItem="xv2-Rt-BuW" secondAttribute="top" id="PdC-S9-pXf"/>
+                            <constraint firstAttribute="trailing" secondItem="aTQ-Tu-6PU" secondAttribute="trailing" constant="20" id="TWO-gV-hxY"/>
+                            <constraint firstAttribute="trailing" secondItem="nb7-CZ-aTd" secondAttribute="trailing" constant="20" id="WW2-Om-8aj"/>
                             <constraint firstItem="TUZ-zx-tWI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="Wrr-Fv-ygx"/>
                             <constraint firstItem="O34-5Z-Dhp" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="dzt-oM-cyL"/>
                             <constraint firstItem="xv2-Rt-BuW" firstAttribute="top" secondItem="Qde-R4-3fV" secondAttribute="bottom" id="eOR-cg-fix"/>
                             <constraint firstItem="BFC-HU-Eqa" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="gbK-Uc-y6X"/>
+                            <constraint firstItem="aTQ-Tu-6PU" firstAttribute="height" secondItem="nb7-CZ-aTd" secondAttribute="height" id="hJp-Hg-UWM"/>
+                            <constraint firstItem="aTQ-Tu-6PU" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="50" id="hhp-6V-yaM"/>
                             <constraint firstAttribute="trailing" secondItem="xv2-Rt-BuW" secondAttribute="trailing" id="iH4-eo-dUn"/>
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="ftT-kr-Bvo" secondAttribute="bottom" constant="20" id="iyn-91-rx6"/>
                             <constraint firstAttribute="trailing" secondItem="BFC-HU-Eqa" secondAttribute="trailing" constant="20" id="jJ9-ae-T8i"/>
                             <constraint firstItem="O34-5Z-Dhp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="kky-dF-dyH"/>
+                            <constraint firstItem="nb7-CZ-aTd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="50" id="xd6-fA-WSf"/>
                             <constraint firstItem="ftT-kr-Bvo" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" constant="20" id="yvV-1p-0o3"/>
                             <constraint firstItem="ftT-kr-Bvo" firstAttribute="top" secondItem="BFC-HU-Eqa" secondAttribute="bottom" constant="20" id="zOY-wE-frq"/>
                         </constraints>
@@ -486,6 +510,8 @@
                         <outlet property="displayHeight" destination="Seg-9v-BfX" id="Q7w-8c-Nit"/>
                         <outlet property="displayLeft" destination="Kdk-Ly-ft2" id="568-D7-edQ"/>
                         <outlet property="displayRight" destination="AcA-3h-Mks" id="JAM-gQ-aG7"/>
+                        <outlet property="downButton" destination="aTQ-Tu-6PU" id="gia-O3-LFp"/>
+                        <outlet property="downButtonTopConstraint" destination="hhp-6V-yaM" id="oiq-CN-QBK"/>
                         <outlet property="extraKeysStack" destination="TUZ-zx-tWI" id="w56-Gn-BlS"/>
                         <outlet property="extraKeysStackLeading" destination="Wrr-Fv-ygx" id="ZVQ-9k-OAz"/>
                         <outlet property="extraKeysStackWidth" destination="UK1-F2-q41" id="8bT-CI-iyW"/>
@@ -498,16 +524,20 @@
                         <outlet property="largeDisplay" destination="ftT-kr-Bvo" id="4VL-Ke-FIr"/>
                         <outlet property="stackView01" destination="iff-ke-4f6" id="k87-tl-LwU"/>
                         <outlet property="stackView02" destination="AIe-Vq-k9g" id="sOD-58-2IO"/>
+                        <outlet property="upButton" destination="nb7-CZ-aTd" id="MhS-sy-Vmj"/>
+                        <outlet property="upButtonTopConstraint" destination="xd6-fA-WSf" id="GND-wC-D7z"/>
                         <outlet property="zoomButton" destination="BFC-HU-Eqa" id="h2j-07-d9t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="263.768115942029" y="-576.5625"/>
+            <point key="canvasLocation" x="262.39999999999998" y="-577.09359605911334"/>
         </scene>
     </scenes>
     <resources>
         <image name="copy" width="230" height="230"/>
+        <image name="down" width="625" height="625"/>
+        <image name="up" width="627" height="625"/>
         <image name="zoom_out" width="230" height="230"/>
     </resources>
     <color key="tintColor" systemColor="systemTealColor" red="0.35294117650000001" green="0.7843137255" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

@@ -12,6 +12,10 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     
     @IBOutlet weak var zoomButton: UIButton!
     @IBOutlet weak var copyButton: UIButton!
+    @IBOutlet weak var upButton: UIButton!
+    @IBOutlet weak var upButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var downButton: UIButton!
+    @IBOutlet weak var downButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var largeDisplay: UITextView!
     @IBOutlet weak var displayLeft: NSLayoutConstraint!
@@ -61,6 +65,18 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         display.text = s
     }
     
+    @IBAction func upPressed(_ sender: Any) {
+        largeDisplay.scrollRangeToVisible(NSMakeRange(0,0))
+    }
+    
+    @IBAction func downPressed(_ sender: Any) {
+        if largeDisplay.text.count > 0 {
+            let location = largeDisplay.text.count - 1
+            let bottom = NSMakeRange(location, 1)
+            largeDisplay.scrollRangeToVisible(bottom)
+        }
+    }
+    
     @IBAction func zoomPressed(_ sender: Any) {
         if zoom {
             zoomButton.setImage(UIImage(named: "zoom_out"), for: .normal)
@@ -72,11 +88,23 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             }
             display.isHidden = false
             copyButton.isHidden = true
+            upButton.isHidden = true
+            downButton.isHidden = true
             largeDisplay.isHidden = true
         } else {
             zoomButton.setImage(UIImage(named: "zoom_in"), for: .normal)
             copyButton.isHidden = false
             largeDisplay.text = Brain.shared.longString()
+            largeDisplay.scrollRangeToVisible(NSMakeRange(0,0))
+            if largeDisplay.contentSize.height > largeDisplay.frame.size.height {
+                upButton.isHidden = false
+                upButtonTopConstraint.constant = largeDisplay.frame.origin.y + 0.2 * upButton.frame.size.height
+                downButton.isHidden = false
+                downButtonTopConstraint.constant = largeDisplay.frame.origin.y + largeDisplay.frame.size.height - 1.2 * downButton.frame.size.height
+            } else {
+                upButton.isHidden = true
+                downButton.isHidden = true
+            }
             largeDisplay.isHidden = false
             keysStack.isHidden = true
             extraKeysStack.isHidden = true
@@ -214,6 +242,13 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         display.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .thin)
         fontSize = min(w,h) * 0.04
         largeDisplay.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        if !upButton.isHidden {
+            upButtonTopConstraint.constant = largeDisplay.frame.origin.y + 0.2 * upButton.frame.size.height
+        }
+        if !downButton.isHidden {
+            downButtonTopConstraint.constant = largeDisplay.frame.origin.y + largeDisplay.frame.size.height - 1.2 * downButton.frame.size.height
+        }
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
