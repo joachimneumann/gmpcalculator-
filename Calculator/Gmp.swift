@@ -226,9 +226,11 @@ class Gmp: CustomDebugStringConvertible {
             negative = true
         }
         
-        // find last significant digit
+        // find last non-zero digit
         var lastSignificantIndex = charArray.count-1
-        while (charArray[lastSignificantIndex] == 0 || charArray[lastSignificantIndex] == 48) && lastSignificantIndex > 0 { lastSignificantIndex -= 1 }
+        while (charArray[lastSignificantIndex] == 0 || charArray[lastSignificantIndex] == 48) && lastSignificantIndex > 0 {
+            lastSignificantIndex -= 1
+        }
         let lastSignificantDigit = lastSignificantIndex + 1
         
         // is it an Integer?
