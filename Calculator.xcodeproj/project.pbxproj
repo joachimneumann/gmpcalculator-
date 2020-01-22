@@ -87,9 +87,9 @@
 				AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */,
 				AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */,
 				BE153BB11CF4354900E53E4B /* Gmp.swift */,
+				AA43979C215554E0009F58D3 /* Brain.swift */,
 				BE808DCB1CF772D400ECDBAF /* libGmp */,
 				AAE9DA9C1CE0BD3400C44198 /* supporting files */,
-				AA43979C215554E0009F58D3 /* Brain.swift */,
 			);
 			path = Calculator;
 			sourceTree = "<group>";

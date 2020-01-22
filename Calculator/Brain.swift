@@ -213,8 +213,19 @@ class Brain {
         if debug { test() }
     }
     
+    func fromLongString(_ string: String) -> Bool {
+        if isValidGmpString(s: string, precision: nBits) {
+            let value = Gmp(string, precision: nBits)
+            n.push(value)
+            display = value.toLongString()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    
     func longString() -> String {
-//        maxPrecision = 6
         var result = display
         var resultArray = result.split(separator: "E")
         if resultArray.count == 2 {

@@ -250,12 +250,18 @@
                                 </connections>
                             </button>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O34-5Z-Dhp">
-                                <rect key="frame" x="20" y="20" width="40" height="40"/>
+                                <rect key="frame" x="20" y="20" width="80" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="1Jz-My-6Nl"/>
-                                    <constraint firstAttribute="width" secondItem="O34-5Z-Dhp" secondAttribute="height" multiplier="1:1" id="jlq-Ux-coj"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="RU6-BO-H5e"/>
                                 </constraints>
-                                <state key="normal" image="copy"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="copy">
+                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
                                 <connections>
                                     <action selector="copyToClipboard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CoK-oV-atq"/>
                                 </connections>
@@ -473,6 +479,23 @@
                                     <action selector="upPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="b0t-JA-WsQ"/>
                                 </connections>
                             </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RNf-Kv-cYN" userLabel="Paste Button">
+                                <rect key="frame" x="140" y="20" width="80" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="8BQ-Ur-NuW"/>
+                                    <constraint firstAttribute="height" constant="40" id="Ofk-Ju-2wi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="paste">
+                                    <color key="titleColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="copyFromClipboard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ntV-Jg-Yh5"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -482,6 +505,7 @@
                             <constraint firstItem="y7k-dk-FLH" firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" constant="20" id="Eff-rq-ZcL"/>
                             <constraint firstItem="TUZ-zx-tWI" firstAttribute="bottom" secondItem="xv2-Rt-BuW" secondAttribute="bottom" id="JAW-4H-Syi"/>
                             <constraint firstItem="Qde-R4-3fV" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Kdk-Ly-ft2"/>
+                            <constraint firstItem="RNf-Kv-cYN" firstAttribute="leading" secondItem="O34-5Z-Dhp" secondAttribute="trailing" constant="40" id="M5E-Ym-9JF"/>
                             <constraint firstItem="TUZ-zx-tWI" firstAttribute="top" secondItem="xv2-Rt-BuW" secondAttribute="top" id="PdC-S9-pXf"/>
                             <constraint firstAttribute="trailing" secondItem="aTQ-Tu-6PU" secondAttribute="trailing" constant="20" id="TWO-gV-hxY"/>
                             <constraint firstAttribute="trailing" secondItem="nb7-CZ-aTd" secondAttribute="trailing" constant="20" id="WW2-Om-8aj"/>
@@ -496,6 +520,7 @@
                             <constraint firstAttribute="trailing" secondItem="BFC-HU-Eqa" secondAttribute="trailing" constant="20" id="jJ9-ae-T8i"/>
                             <constraint firstItem="O34-5Z-Dhp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="kky-dF-dyH"/>
                             <constraint firstItem="nb7-CZ-aTd" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="50" id="xd6-fA-WSf"/>
+                            <constraint firstItem="RNf-Kv-cYN" firstAttribute="centerY" secondItem="O34-5Z-Dhp" secondAttribute="centerY" id="xgI-D2-nPE"/>
                             <constraint firstItem="ftT-kr-Bvo" firstAttribute="leading" secondItem="y7k-dk-FLH" secondAttribute="leading" constant="20" id="yvV-1p-0o3"/>
                             <constraint firstItem="ftT-kr-Bvo" firstAttribute="top" secondItem="BFC-HU-Eqa" secondAttribute="bottom" constant="20" id="zOY-wE-frq"/>
                         </constraints>
@@ -522,6 +547,7 @@
                         <outlet property="keysStackTrailing" destination="iH4-eo-dUn" id="4c9-Yv-G6T"/>
                         <outlet property="keysStackWidth" destination="4Yz-qc-GHg" id="5PA-5i-7Dd"/>
                         <outlet property="largeDisplay" destination="ftT-kr-Bvo" id="4VL-Ke-FIr"/>
+                        <outlet property="pasteButton" destination="RNf-Kv-cYN" id="bi7-sI-jRJ"/>
                         <outlet property="stackView01" destination="iff-ke-4f6" id="k87-tl-LwU"/>
                         <outlet property="stackView02" destination="AIe-Vq-k9g" id="sOD-58-2IO"/>
                         <outlet property="upButton" destination="nb7-CZ-aTd" id="MhS-sy-Vmj"/>
@@ -535,7 +561,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="copy" width="230" height="230"/>
         <image name="down" width="625" height="625"/>
         <image name="up" width="627" height="625"/>
         <image name="zoom_out" width="230" height="230"/>

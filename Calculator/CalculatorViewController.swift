@@ -12,6 +12,7 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     
     @IBOutlet weak var zoomButton: UIButton!
     @IBOutlet weak var copyButton: UIButton!
+    @IBOutlet weak var pasteButton: UIButton!
     @IBOutlet weak var upButton: UIButton!
     @IBOutlet weak var upButtonTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var downButton: UIButton!
@@ -63,6 +64,9 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     
     func updateDisplay(s: String) {
         display.text = s
+        if !largeDisplay.isHidden {
+            largeDisplay.text = Brain.shared.longString()
+        }
     }
     
     @IBAction func upPressed(_ sender: Any) {
@@ -88,12 +92,14 @@ class CalculatorViewController: UIViewController, BrainProtocol {
             }
             display.isHidden = false
             copyButton.isHidden = true
+            pasteButton.isHidden = true
             upButton.isHidden = true
             downButton.isHidden = true
             largeDisplay.isHidden = true
         } else {
             zoomButton.setImage(UIImage(named: "zoom_in"), for: .normal)
             copyButton.isHidden = false
+            pasteButton.isHidden = false
             largeDisplay.text = Brain.shared.longString()
             largeDisplay.scrollRangeToVisible(NSMakeRange(0,0))
             if largeDisplay.contentSize.height > largeDisplay.frame.size.height {
@@ -114,19 +120,45 @@ class CalculatorViewController: UIViewController, BrainProtocol {
     }
     
     @IBAction func copyToClipboard(_ sender: UIButton) {
-        let t = 0.1
-        UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
-            self.largeDisplay.textColor = UIColor.orange
-        }, completion: nil)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2*t, execute: {
-            UIView.transition(with: self.display, duration: t, options: .transitionCrossDissolve, animations: {
-                self.largeDisplay.textColor = UIColor.white
-            }, completion: nil)
-      })
+        self.copyButton.setTitleColor(.orange, for: .normal)
+        self.copyButton.setTitleColor(.orange, for: .highlighted)
+        self.largeDisplay.textColor = .orange
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.largeDisplay.textColor = .white
+            self.copyButton.setTitleColor(.lightGray, for: .normal)
+            self.copyButton.setTitleColor(.orange, for: .highlighted)
+        })
         let pasteboard = UIPasteboard.general
         pasteboard.string = largeDisplay.text
     }
 
+    @IBAction func copyFromClipboard(_ sender: UIButton) {
+        let pasteboard = UIPasteboard.general
+        if let s = pasteboard.string {
+            if Brain.shared.fromLongString(s) {
+                self.pasteButton.setTitleColor(.orange, for: .normal)
+                self.pasteButton.setTitleColor(.orange, for: .highlighted)
+                self.largeDisplay.textColor = .orange
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    self.pasteButton.setTitleColor(.lightGray, for: .normal)
+                    self.pasteButton.setTitleColor(.orange, for: .highlighted)
+                    self.largeDisplay.textColor = .white
+                })
+            } else {
+                self.pasteButton.setTitle("invalid", for: .normal)
+                self.pasteButton.setTitle("invalid", for: .highlighted)
+                self.pasteButton.setTitleColor(.orange, for: .normal)
+                self.pasteButton.setTitleColor(.orange, for: .highlighted)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+                    self.pasteButton.setTitle("paste", for: .normal)
+                    self.pasteButton.setTitle("paste", for: .highlighted)
+                    self.pasteButton.setTitleColor(.lightGray, for: .normal)
+                    self.pasteButton.setTitleColor(.orange, for: .highlighted)
+                })
+            }
+        }
+    }
+    
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -155,6 +187,10 @@ class CalculatorViewController: UIViewController, BrainProtocol {
                 }
             }
         }
+        self.copyButton.setTitleColor(.lightGray, for: .normal)
+        self.copyButton.setTitleColor(.orange, for: .highlighted)
+        self.pasteButton.setTitleColor(.lightGray, for: .normal)
+        self.pasteButton.setTitleColor(.orange, for: .highlighted)
     }
     
     override var shouldAutorotate : Bool {
@@ -242,6 +278,8 @@ class CalculatorViewController: UIViewController, BrainProtocol {
         display.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .thin)
         fontSize = min(w,h) * 0.04
         largeDisplay.font = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+        copyButton.titleLabel?.font = largeDisplay.font
+        pasteButton.titleLabel?.font = largeDisplay.font
         if !upButton.isHidden {
             upButtonTopConstraint.constant = largeDisplay.frame.origin.y + 0.2 * upButton.frame.size.height
         }

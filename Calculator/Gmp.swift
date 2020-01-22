@@ -169,6 +169,13 @@ func pow_10_x(_ me: Gmp) {
     mpfr_exp10(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
 }
 
+func isValidGmpString(s: String, precision: CLong) -> Bool {
+    var temp_mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
+    let s1 = s.replacingOccurrences(of: " E", with: "e")
+    mpfr_init2 (&temp_mpfr, precision)
+    return mpfr_set_str (&temp_mpfr, s1, 10, MPFR_RNDN) == 0
+}
+
 class Gmp: CustomDebugStringConvertible {
     // Swift requires me to initialize the mpfr_t struc
     // I do this with zeros. The struct will be initialized correctly in mpfr_init2
