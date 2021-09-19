@@ -1,0 +1,13 @@
+GMP
+===
+
+Get the latest source code from https://gmplib.org/download/snapshot
+To unpack the tar.zst file:
+1. brew install zstd
+2. unzstd gmp-6.2.1  ...   .tar.zst
+3. tar zxf gmp-6.2.1  ...  .tar
+
+Make use you have the Xcode commandline tools:
+xcode-select --install
+
+

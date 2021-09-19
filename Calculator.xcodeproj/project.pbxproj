@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA43979D215554E0009F58D3 /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979C215554E0009F58D3 /* Brain.swift */; };
 		AA44F8362397973300774C37 /* CalculatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA44F8352397973300774C37 /* CalculatorKey.swift */; };
+		AAB585FA26F6EEF60018029F /* COMPILE_LIBRARIES.txt in Resources */ = {isa = PBXBuildFile; fileRef = AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */; };
 		AAE9DA8B1CE0BBE400C44198 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */; };
 		AAE9DA8D1CE0BBE400C44198 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */; };
 		AAE9DA901CE0BBE400C44198 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 		AA4397A521555D50009F58D3 /* mpf2mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpf2mpfr.h; path = libGmp/mpf2mpfr.h; sourceTree = "<group>"; };
 		AA4397A621555D50009F58D3 /* mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpfr.h; path = libGmp/mpfr.h; sourceTree = "<group>"; };
 		AA44F8352397973300774C37 /* CalculatorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorKey.swift; sourceTree = "<group>"; };
+		AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = COMPILE_LIBRARIES.txt; sourceTree = "<group>"; };
 		AAE9DA871CE0BBE400C44198 /* Better Calc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Better Calc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		AAE9DA891CE0BBE400C44198 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */,
 				AA44F8352397973300774C37 /* CalculatorKey.swift */,
 				AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */,
 				AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */,
@@ -186,6 +189,7 @@
 			files = (
 				BE808DDB1CF772EF00ECDBAF /* README in Resources */,
 				AAE9DA951CE0BBE400C44198 /* LaunchScreen.storyboard in Resources */,
+				AAB585FA26F6EEF60018029F /* COMPILE_LIBRARIES.txt in Resources */,
 				AAE9DA921CE0BBE400C44198 /* Assets.xcassets in Resources */,
 				AAE9DA901CE0BBE400C44198 /* Main.storyboard in Resources */,
 				BE808DDA1CF772EF00ECDBAF /* COPYING.LESSER in Resources */,
