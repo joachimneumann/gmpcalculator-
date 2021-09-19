@@ -7,8 +7,6 @@ __pr="--print-path"
 __name="xcode-select"
 DEVELOPER=`${__name} ${__pr}`
 
-GMP_VERSION="6.2.1"
-
 SDKVERSION=`xcrun -sdk iphoneos --show-sdk-version`
 
 MIN_IOS="14.0"
@@ -27,14 +25,6 @@ IPHONESIMULATOR_SDK=`xcrun --sdk iphonesimulator --show-sdk-path`
 CLANG=`xcrun --sdk iphoneos --find clang`
 CLANGPP=`xcrun --sdk iphoneos --find clang++`
 
-
-# downloadGMP()
-# {
-#     if [ ! -s ${CURRENT}/gmp-${GMP_VERSION}.tar.bz2 ]; then
-#         echo "Downloading GMP"
-#         curl -L -o ${CURRENT}/gmp-${GMP_VERSION}.tar.bz2 ftp://ftp.gmplib.org/pub/gmp/gmp-${GMP_VERSION}.tar.bz2
-#     fi
-# }
 
 build()
 {
@@ -71,11 +61,12 @@ build()
 	make install &> "${CURRENT}/gmplib-${ARCH}-install.log"
 }
 
-# downloadGMP
 
-# rm -rf gmp
-# tar xfj "gmp-${GMP_VERSION}.tar.bz2"
-# mv gmp-${GMP_VERSION} gmp
+rm -rf dist
+mkdir dist
+mkdir dist/arm64
+mkdir dist/x64_86
+mkdir dist/include
 
 cd gmp
 CURRENT=`pwd`
@@ -85,18 +76,14 @@ build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}"
 build "x64_86" "${OSX_SDK}" "${OSX_PLATFORM}"
 
 
-
-rm -rf dist
-mkdir dist
-
-cp ${CURRENT}/gmplib-arm64/lib/libgmp.a  ${CURRENT}/dist/libgmp.arm64.a
-cp ${CURRENT}/gmplib-x64_86/lib/libgmp.a ${CURRENT}/dist/libgmp.x64_86.a
-cp ${CURRENT}/gmplib-arm64/include/gmp.h ${CURRENT}/dist/include
+cp ${CURRENT}/gmplib-arm64/lib/libgmp.a  ${CURRENT}/../dist/arm64/libgmp.a
+cp ${CURRENT}/gmplib-x64_86/lib/libgmp.a ${CURRENT}/../dist/x64_86/libgmp.a
+cp ${CURRENT}/gmplib-arm64/include/gmp.h ${CURRENT}/../dist/include/gmp.h
 
 echo "################"
 echo "####  DONE  ####"
 echo "################"
-echo ${CURRENT}/dist/libgmp.arm64.a
-echo ${CURRENT}/dist/libgmp.x64_86.a
+echo ${CURRENT}/dist/arm64/libgmp.a
+echo ${CURRENT}/dist/x64_86/libgmp.a
 echo ${CURRENT}/dist/include/gmp.h
 

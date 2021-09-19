@@ -10,4 +10,3 @@ To unpack the tar.zst file:
 Make use you have the Xcode commandline tools:
 xcode-select --install
 
-
