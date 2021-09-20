@@ -11,7 +11,7 @@ SDKVERSION=`xcrun -sdk iphoneos --show-sdk-version`
 
 MIN_IOS="14.0"
 
-BITCODE=""
+BITCODE="-fembed-bitcode"
 
 OSX_PLATFORM=`xcrun --sdk macosx --show-sdk-platform-path`
 OSX_SDK=`xcrun --sdk macosx --show-sdk-path`
@@ -42,7 +42,8 @@ build()
 
 	EXTRAS=""
 	if [ "${ARCH}" != "x64_86" ]; then
-		EXTRAS="-miphoneos-version-min=${MIN_IOS} -no-integrated-as -arch ${ARCH} -target ${ARCH}-apple-darwin"
+		# EXTRAS="-miphoneos-version-min=${MIN_IOS} -no-integrated-as -arch ${ARCH} -target ${ARCH}-apple-darwin"
+		EXTRAS="-miphoneos-version-min=${MIN_IOS} -no-integrated-as -arch ${ARCH} -target x86_64-apple-ios13.0-macabi"
 	fi
 
 	CFLAGS="${BITCODE} -isysroot ${SDK} -Wno-error -Wno-implicit-function-declaration ${EXTRAS}"
@@ -52,10 +53,6 @@ build()
 
 	echo "make in progress for ${ARCH}"
 	make -j `sysctl -n hw.logicalcpu_max` &> "${CURRENT}/mpfrlib-${ARCH}-build.log"
-	# if [ "${ARCH}" == "i386" ]; then
-		# echo "check in progress for ${ARCH}"
-		# make check &> "${CURRENT}/gmplib-${ARCH}-check.log"
-	# fi
 	echo "install in progress for ${ARCH}"
 	make install &> "${CURRENT}/mpfrlib-${ARCH}-install.log"
 }
@@ -64,14 +61,13 @@ build()
 cd mpfr
 CURRENT=`pwd`
 
-build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}" 
+build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}"
 build "x64_86" "${OSX_SDK}" "${OSX_PLATFORM}"
 
-
-
-cp ${CURRENT}/mpfrlib-arm64/lib/libmpfr.a  ${CURRENT}/../dist/arm64/libmpfr.a
-cp ${CURRENT}/mpfrlib-x64_86/lib/libmpfr.a ${CURRENT}/../dist/x64_86/libmpfrs.a
-cp ${CURRENT}/mpfrlib-arm64/include/mpfr.h ${CURRENT}/../dist/include
+cp ${CURRENT}/mpfrlib-arm64/lib/libmpfr.a      ${CURRENT}/../dist/arm64/libmpfr.a
+cp ${CURRENT}/mpfrlib-x64_86/lib/libmpfr.a     ${CURRENT}/../dist/x64_86/libmpfr.a
+cp ${CURRENT}/mpfrlib-arm64/include/mpfr.h     ${CURRENT}/../dist/include
+cp ${CURRENT}/mpfrlib-arm64/include/mpf2mpfr.h ${CURRENT}/../dist/include
 
 # echo "################"
 # echo "####  DONE  ####"
@@ -79,4 +75,3 @@ cp ${CURRENT}/mpfrlib-arm64/include/mpfr.h ${CURRENT}/../dist/include
 # echo ${CURRENT}/dist/libgmp.arm64.a
 # echo ${CURRENT}/dist/libgmp.x64_86.a
 # echo ${CURRENT}/dist/include/gmp.h
-

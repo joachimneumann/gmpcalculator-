@@ -11,7 +11,7 @@ SDKVERSION=`xcrun -sdk iphoneos --show-sdk-version`
 
 MIN_IOS="14.0"
 
-BITCODE=""
+BITCODE="-fembed-bitcode"
 
 OSX_PLATFORM=`xcrun --sdk macosx --show-sdk-platform-path`
 OSX_SDK=`xcrun --sdk macosx --show-sdk-path`
@@ -49,14 +49,9 @@ build()
 
 	./configure --prefix="${CURRENT}/gmplib-${ARCH}" CC="${CLANG} ${CFLAGS}"  CPP="${CLANG} -E"  CPPFLAGS="${CFLAGS}" \
 	--host=aarch64-apple-darwin --disable-assembly --enable-static --disable-shared ${ARGS}
-	# &> "${CURRENT}/gmplib-${ARCH}-configure.log"
 
 	echo "make in progress for ${ARCH}"
 	make -j `sysctl -n hw.logicalcpu_max` &> "${CURRENT}/gmplib-${ARCH}-build.log"
-	# if [ "${ARCH}" == "i386" ]; then
-		# echo "check in progress for ${ARCH}"
-		# make check &> "${CURRENT}/gmplib-${ARCH}-check.log"
-	# fi
 	echo "install in progress for ${ARCH}"
 	make install &> "${CURRENT}/gmplib-${ARCH}-install.log"
 }
@@ -71,7 +66,7 @@ mkdir dist/include
 cd gmp
 CURRENT=`pwd`
 
-build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}" 
+build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}"
 # build "i386" "${IPHONESIMULATOR_SDK}" "${IPHONESIMULATOR_PLATFORM}"
 build "x64_86" "${OSX_SDK}" "${OSX_PLATFORM}"
 
@@ -86,4 +81,3 @@ echo "################"
 echo ${CURRENT}/dist/arm64/libgmp.a
 echo ${CURRENT}/dist/x64_86/libgmp.a
 echo ${CURRENT}/dist/include/gmp.h
-
