@@ -12,7 +12,6 @@ struct NonScientificDisplay: View {
     let t: TE
     var body: some View {
         if let text = brain.nonScientific {
-            let _ = print("NonScientificDisplay \(text)")
             let isLong = text.count >= TE.digitsInAllDigitsDisplay
             let textWithComment = (isLong && brain.precision == TE.mediumPrecision) ? text + "\n\ncopy to get \(TE.mediumPrecisionString)" : (isLong && brain.precision == TE.highPrecision) ? text + "\n\ncopy to get \(TE.highPrecisionString)" : text
             ScrollViewReader { scrollViewProxy in

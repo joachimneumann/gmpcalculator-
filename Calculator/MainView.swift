@@ -34,7 +34,7 @@ struct MainView: View {
                 Spacer(minLength: 0.0)
                 Text("Rad")
                     .font(Font.system(size: keySize.height*0.27).monospacedDigit())
-                    .foregroundColor(textColor)
+                    .foregroundColor(Color.yellow)
                     .padding(.leading, keySize.height*0.27)
                     .padding(.bottom, keySize.height*0.1)
             }

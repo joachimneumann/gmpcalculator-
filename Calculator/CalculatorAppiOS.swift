@@ -21,7 +21,6 @@ struct CalculatorAppiOS: Scene {
             /// shows up during device orientation change rotation
             let expandedDeviceSize: CGFloat = 1.5 * max(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
             iOSSize(brain: brain)
-                .edgesIgnoringSafeArea(.all)
                 .statusBar(hidden: true)
                 .background(Rectangle()
                                 .frame(width: expandedDeviceSize,
