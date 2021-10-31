@@ -49,38 +49,38 @@ build()
 }
 
 
-# rm -rf iPhone simulator x86_64-catalyst arm64-catalyst
-# mkdir iPhone simulator x86_64-catalyst arm64-catalyst
-#
-# cd gmp
-# build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}"
-# cp .libs/libgmp.a ../iPhone/libgmp.a
-#
-# build "x86_64" "${IPHONESIMULATOR_SDK}" "${IPHONESIMULATOR_PLATFORM}"
-# cp .libs/libgmp.a ../simulator/libgmp.a
-#
-# build "x86_64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi"
-# cp .libs/libgmp.a ../x86_64-catalyst/libgmp.a
-#
-# build "arm64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi"
-# cp .libs/libgmp.a ../arm64-catalyst/libgmp.a
-# cd ..
+rm -rf iPhone simulator x86_64-catalyst arm64-catalyst
+mkdir iPhone simulator x86_64-catalyst arm64-catalyst
 
-# pwd=`pwd`
+cd gmp
+build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}"
+cp .libs/libgmp.a ../iPhone/libgmp.a
 
-# cd mpfr
-# build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}" "" "--with-gmp-lib=${pwd}/iPhone --with-gmp-include=${pwd}/include"
-# cp src/.libs/libmpfr.a ../iPhone/libmpfr.a
-#
-# build "x86_64" "${IPHONESIMULATOR_SDK}" "${IPHONESIMULATOR_PLATFORM}" "" "--with-gmp-lib=${pwd}/simulator --with-gmp-include=${pwd}/include"
-# cp src/.libs/libmpfr.a ../simulator/libmpfr.a
+build "x86_64" "${IPHONESIMULATOR_SDK}" "${IPHONESIMULATOR_PLATFORM}"
+cp .libs/libgmp.a ../simulator/libgmp.a
 
-# build "x86_64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi" "--with-gmp-lib=${pwd}/x86_64-catalyst --with-gmp-include=${pwd}/include"
-# cp src/.libs/libmpfr.a ../x86_64-catalyst/libmpfr.a
-#
-# build "arm64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi" "--with-gmp-lib=${pwd}/arm64-catalyst --with-gmp-include=${pwd}/include"
-# cp src/.libs/libmpfr.a ../arm64-catalyst/libmpfr.a
-# cd ..
+build "x86_64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi"
+cp .libs/libgmp.a ../x86_64-catalyst/libgmp.a
+
+build "arm64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi"
+cp .libs/libgmp.a ../arm64-catalyst/libgmp.a
+cd ..
+
+pwd=`pwd`
+
+cd mpfr
+build "arm64" "${IPHONEOS_SDK}" "${IPHONEOS_PLATFORM}" "" "--with-gmp-lib=${pwd}/iPhone --with-gmp-include=${pwd}/include"
+cp src/.libs/libmpfr.a ../iPhone/libmpfr.a
+
+build "x86_64" "${IPHONESIMULATOR_SDK}" "${IPHONESIMULATOR_PLATFORM}" "" "--with-gmp-lib=${pwd}/simulator --with-gmp-include=${pwd}/include"
+cp src/.libs/libmpfr.a ../simulator/libmpfr.a
+
+build "x86_64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi" "--with-gmp-lib=${pwd}/x86_64-catalyst --with-gmp-include=${pwd}/include"
+cp src/.libs/libmpfr.a ../x86_64-catalyst/libmpfr.a
+
+build "arm64" "${OSX_SDK}" "${OSX_PLATFORM}" "-target x86_64-apple-ios-macabi" "--with-gmp-lib=${pwd}/arm64-catalyst --with-gmp-include=${pwd}/include"
+cp src/.libs/libmpfr.a ../arm64-catalyst/libmpfr.a
+cd ..
 
 rm -rf signed
 mkdir signed
