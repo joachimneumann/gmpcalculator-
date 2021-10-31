@@ -3,10 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2576AB26F8EA3900CDD8C9 /* gmp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA2576A926F8EA3900CDD8C9 /* gmp.xcframework */; };
+		AA2576AD26F8EA3900CDD8C9 /* mpfr.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA2576AA26F8EA3900CDD8C9 /* mpfr.xcframework */; };
 		AA43979D215554E0009F58D3 /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979C215554E0009F58D3 /* Brain.swift */; };
 		AA44F8362397973300774C37 /* CalculatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA44F8352397973300774C37 /* CalculatorKey.swift */; };
 		AAB585FA26F6EEF60018029F /* COMPILE_LIBRARIES.txt in Resources */ = {isa = PBXBuildFile; fileRef = AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */; };
@@ -16,8 +18,6 @@
 		AAE9DA921CE0BBE400C44198 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA911CE0BBE400C44198 /* Assets.xcassets */; };
 		AAE9DA951CE0BBE400C44198 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */; };
 		BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE153BB11CF4354900E53E4B /* Gmp.swift */; };
-		BE808DC91CF7705E00ECDBAF /* libmpfr.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE808DC71CF7705E00ECDBAF /* libmpfr.a */; };
-		BE808DCA1CF7705E00ECDBAF /* libgmp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE808DC81CF7705E00ECDBAF /* libgmp.a */; };
 		BE808DD61CF772EF00ECDBAF /* AUTHORS.gmp in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */; };
 		BE808DD71CF772EF00ECDBAF /* README.gmp in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCD1CF772EF00ECDBAF /* README.gmp */; };
 		BE808DD81CF772EF00ECDBAF /* AUTHORS in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCE1CF772EF00ECDBAF /* AUTHORS */; };
@@ -27,7 +27,22 @@
 		BE808DDC1CF772EF00ECDBAF /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = BE808DD21CF772EF00ECDBAF /* VERSION */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		AA2576AF26F8EA3900CDD8C9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		AA2576A926F8EA3900CDD8C9 /* gmp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = gmp.xcframework; path = ../Calculator/dist/gmp.xcframework; sourceTree = "<group>"; };
+		AA2576AA26F8EA3900CDD8C9 /* mpfr.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = mpfr.xcframework; path = ../Calculator/dist/mpfr.xcframework; sourceTree = "<group>"; };
 		AA43979C215554E0009F58D3 /* Brain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brain.swift; sourceTree = "<group>"; };
 		AA4397A421555D50009F58D3 /* gmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gmp.h; path = libGmp/gmp.h; sourceTree = "<group>"; };
 		AA4397A521555D50009F58D3 /* mpf2mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpf2mpfr.h; path = libGmp/mpf2mpfr.h; sourceTree = "<group>"; };
@@ -42,8 +57,6 @@
 		AAE9DA941CE0BBE400C44198 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AAE9DA961CE0BBE400C44198 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE153BB11CF4354900E53E4B /* Gmp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gmp.swift; sourceTree = "<group>"; };
-		BE808DC71CF7705E00ECDBAF /* libmpfr.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libmpfr.a; path = libGmp/libmpfr.a; sourceTree = "<group>"; };
-		BE808DC81CF7705E00ECDBAF /* libgmp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgmp.a; path = libGmp/libgmp.a; sourceTree = "<group>"; };
 		BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.gmp; path = libGmp/AUTHORS.gmp; sourceTree = "<group>"; };
 		BE808DCD1CF772EF00ECDBAF /* README.gmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.gmp; path = libGmp/README.gmp; sourceTree = "<group>"; };
 		BE808DCE1CF772EF00ECDBAF /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS; path = libGmp/AUTHORS; sourceTree = "<group>"; };
@@ -58,19 +71,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE808DC91CF7705E00ECDBAF /* libmpfr.a in Frameworks */,
-				BE808DCA1CF7705E00ECDBAF /* libgmp.a in Frameworks */,
+				AA2576AD26F8EA3900CDD8C9 /* mpfr.xcframework in Frameworks */,
+				AA2576AB26F8EA3900CDD8C9 /* gmp.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA2576A826F8EA3900CDD8C9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA2576A926F8EA3900CDD8C9 /* gmp.xcframework */,
+				AA2576AA26F8EA3900CDD8C9 /* mpfr.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AAE9DA7E1CE0BBE300C44198 = {
 			isa = PBXGroup;
 			children = (
 				AAE9DA891CE0BBE400C44198 /* Calculator */,
 				AAE9DA881CE0BBE400C44198 /* Products */,
+				AA2576A826F8EA3900CDD8C9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,8 +144,6 @@
 				BE808DD01CF772EF00ECDBAF /* COPYING.LESSER */,
 				BE808DD11CF772EF00ECDBAF /* README */,
 				BE808DD21CF772EF00ECDBAF /* VERSION */,
-				BE808DC71CF7705E00ECDBAF /* libmpfr.a */,
-				BE808DC81CF7705E00ECDBAF /* libgmp.a */,
 			);
 			name = libGmp;
 			sourceTree = "<group>";
@@ -137,6 +158,7 @@
 				AAE9DA831CE0BBE400C44198 /* Sources */,
 				AAE9DA841CE0BBE400C44198 /* Frameworks */,
 				AAE9DA851CE0BBE400C44198 /* Resources */,
+				AA2576AF26F8EA3900CDD8C9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -338,7 +360,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -352,16 +375,19 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
@@ -381,16 +407,19 @@
 				CLANG_ENABLE_MODULES = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 4;
 				DEFINES_MODULE = NO;
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
-				MARKETING_VERSION = 2.2;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
