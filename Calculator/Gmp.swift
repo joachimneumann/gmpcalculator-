@@ -2,16 +2,13 @@
 //  Gmp.swift
 //  Calculator
 //
-//  Created by Joachim Neumann on 24/05/16.
-//  Copyright © 2016 mindo software S.L. All rights reserved.
+//  Created by Joachim Neumann on 20/09/2021.
 //
 
-
-// This class bridges between swift and the GMP library that is implemented in C
+// This class bridges between swift and the GMP library which is implemented in C
 
 
 import Foundation
-
 
 extension String {
     
@@ -24,357 +21,231 @@ extension String {
     }
 }
 
-var dummyUnsignedLongInt: CUnsignedLong = 0
+var globalUnsignedLongInt: CUnsignedLong = 0
+var globalGmpSignificantBits: Int = 0 /// Will be be set be brain.init() and in the menu
+var globalGmpPrecision: Int = 0
 
-
-func toDouble(me: Gmp) -> Double {
-    return mpfr_get_d(&me.mpfr, MPFR_RNDN)
-}
-
-func + (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-func add (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_add(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-
-func / (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_div(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-func div (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_div(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-
-func - (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-
-func min (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_sub(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-
-func * (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-
-func mul (left: Gmp, right: Gmp) -> Gmp {
-    mpfr_mul(&left.mpfr, &left.copy().mpfr, &right.mpfr, MPFR_RNDN)
-    return left
-}
-
-func pow_x_y(_ base: Gmp, exponent: Gmp) -> Gmp {
-    mpfr_pow(&base.mpfr, &base.copy().mpfr, &exponent.mpfr, MPFR_RNDN)
-    return base
-}
-
-func x_double_up_arrow_y(_ left: Gmp, right: Gmp) -> Gmp {
-    var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
-    mpfr_init2 (&temp, mpfr_get_prec(&left.mpfr))
-    mpfr_set(&temp, &left.mpfr, MPFR_RNDN)
+class Gmp: Equatable {
+    static func == (lhs: Gmp, rhs: Gmp) -> Bool {
+        let l = lhs.data(DisplayData.digitsInExpandedDisplay)
+        let r = rhs.data(DisplayData.digitsInExpandedDisplay)
+        if l.mantissa != r.mantissa { return false }
+        if l.negative != r.negative { return false }
+        if l.exponent != r.exponent { return false }
+        return true
+    }
     
-    let counter: CLong = mpfr_get_si(&right.mpfr, MPFR_RNDN) - 1
-    guard counter > 0 else { return left }
-    for _ in 0..<counter {
-        mpfr_pow(&left.mpfr, &temp, &left.copy().mpfr, MPFR_RNDN)
-    }
-    mpfr_clear(&temp)
-    return left
-}
-
-func changeSign(_ me: Gmp) {
-    mpfr_neg(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-
-func abs(_ me: Gmp) {
-    mpfr_abs(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-
-func π(_ me: Gmp) {
-    mpfr_const_pi(&me.mpfr, MPFR_RNDN)
-}
-func sqrt(_ me: Gmp) {
-    mpfr_sqrt(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func sqrt3(_ me: Gmp) {
-    mpfr_cbrt(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func rez(_ me: Gmp) {
-    mpfr_ui_div(&me.mpfr, 1, &me.copy().mpfr, MPFR_RNDN)
-}
-
-func Z(_ me: Gmp) {
-    mpfr_zeta(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-
-func fac(_ me: Gmp) {
-    let n = mpfr_get_si(&me.mpfr, MPFR_RNDN)
-    if n >= 0 {
-        let un = UInt(n)
-        mpfr_fac_ui(&me.mpfr, un, MPFR_RNDN)
-    } else {
-        mpfr_set_d(&me.mpfr, 0.0, MPFR_RNDN)
-    }
-}
-func ln(_ me: Gmp) {
-    mpfr_log(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func log10(_ me: Gmp) {
-    mpfr_log10(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func sin(_ me: Gmp) {
-    mpfr_sin(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func cos(_ me: Gmp) {
-    mpfr_cos(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func tan(_ me: Gmp) {
-    mpfr_tan(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func asin(_ me: Gmp) {
-    mpfr_asin(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func acos(_ me: Gmp) {
-    mpfr_acos(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func atan(_ me: Gmp) {
-    mpfr_atan(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func e(_ me: Gmp) {
-    var one: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
-    mpfr_init2 (&one, mpfr_get_prec(&me.mpfr))
-    mpfr_set_d(&one, 1.0, MPFR_RNDN)
-    mpfr_exp(&me.mpfr, &one, MPFR_RNDN); // Strangely, this returns a status of -1
-    mpfr_clear(&one);
-}
-func γ(_ me: Gmp) {
-    mpfr_const_euler(&me.mpfr, MPFR_RNDN)
-}
-func pow_x_2(_ me: Gmp) {
-    mpfr_sqr(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func pow_x_3(_ me: Gmp) {
-    mpfr_pow_ui(&me.mpfr, &me.copy().mpfr, 3, MPFR_RNDN)
-}
-func pow_e_x(_ me: Gmp) {
-    mpfr_exp(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-func pow_10_x(_ me: Gmp) {
-    mpfr_exp10(&me.mpfr, &me.copy().mpfr, MPFR_RNDN)
-}
-
-func isValidGmpString(s: String, precision: CLong) -> Bool {
-    var temp_mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
-    let s1 = s.replacingOccurrences(of: " E", with: "e")
-    mpfr_init2 (&temp_mpfr, precision)
-    return mpfr_set_str (&temp_mpfr, s1, 10, MPFR_RNDN) == 0
-}
-
-class Gmp: CustomDebugStringConvertible {
     // Swift requires me to initialize the mpfr_t struc
     // I do this with zeros. The struct will be initialized correctly in mpfr_init2
-    fileprivate var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &dummyUnsignedLongInt)
-    
+    var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &globalUnsignedLongInt)
+
     // there is only ine initialzer that takes a string.
     // Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
-    init(_ s: String, precision: CLong) {
-        let s1 = s.replacingOccurrences(of: " E", with: "e")
-        mpfr_init2 (&mpfr, precision)
+    init(_ s: String) {
+        let s1 = s.replacingOccurrences(of: ",", with: ".")
+        mpfr_init2 (&mpfr, globalGmpSignificantBits)
         mpfr_set_str (&mpfr, s1, 10, MPFR_RNDN)
     }
-
+    convenience init(_ s: String?) {
+        if s == nil {
+            assert(false)
+        }
+        self.init(s!)
+    }
+    
+    convenience init() {
+        self.init("0")
+    }
+    
     func copy() -> Gmp {
-        let ret = Gmp("0.0", precision: mpfr_get_prec(&mpfr))
+        let ret = Gmp()
         mpfr_set(&ret.mpfr, &mpfr, MPFR_RNDN)
         return ret
     }
     
-    var debugDescription: String {
-        return toLongString()
+    static var randstate: gmp_randstate_t? = nil
+
+    func isNull()       -> Bool { mpfr_cmp_d(&mpfr, 0.0) == 0 }
+    func isNegtive()    -> Bool { mpfr_cmp_d(&mpfr, 0.0)  < 0 }
+    
+    func inPlace(op: inplaceType) { op(self)() }
+    /// in the second argument, I a simultaneously using the same memory
+    /// Option 1: &mpfr -> &copy().mpfr
+    /// Option 2: in the build settings set exclusiv access to memory to compiletime enfocement only
+    func abs()        { mpfr_abs(  &mpfr, &mpfr, MPFR_RNDN) }
+    func sqrt()       { mpfr_sqrt( &mpfr, &mpfr, MPFR_RNDN) }
+    func sqrt3()      { mpfr_cbrt( &mpfr, &mpfr, MPFR_RNDN) }
+    func Z()          { mpfr_zeta( &mpfr, &mpfr, MPFR_RNDN) }
+    func ln()         { mpfr_log(  &mpfr, &mpfr, MPFR_RNDN) }
+    func log10()      { mpfr_log10(&mpfr, &mpfr, MPFR_RNDN) }
+    func log2()       { mpfr_log2 (&mpfr, &mpfr, MPFR_RNDN) }
+    func sin()        { mpfr_sin(  &mpfr, &mpfr, MPFR_RNDN) }
+    func cos()        { mpfr_cos(  &mpfr, &mpfr, MPFR_RNDN) }
+    func tan()        { mpfr_tan(  &mpfr, &mpfr, MPFR_RNDN) }
+    func asin()       { mpfr_asin( &mpfr, &mpfr, MPFR_RNDN) }
+    func acos()       { mpfr_acos( &mpfr, &mpfr, MPFR_RNDN) }
+    func atan()       { mpfr_atan( &mpfr, &mpfr, MPFR_RNDN) }
+    func sinh()       { mpfr_sinh( &mpfr, &mpfr, MPFR_RNDN) }
+    func cosh()       { mpfr_cosh( &mpfr, &mpfr, MPFR_RNDN) }
+    func tanh()       { mpfr_tanh( &mpfr, &mpfr, MPFR_RNDN) }
+    func asinh()      { mpfr_asinh(&mpfr, &mpfr, MPFR_RNDN) }
+    func acosh()      { mpfr_acosh(&mpfr, &mpfr, MPFR_RNDN) }
+    func atanh()      { mpfr_atanh(&mpfr, &mpfr, MPFR_RNDN) }
+    func pow_x_2()    { mpfr_sqr(  &mpfr, &mpfr, MPFR_RNDN) }
+    func pow_e_x()    { mpfr_exp(  &mpfr, &mpfr, MPFR_RNDN) }
+    func pow_10_x()   { mpfr_exp10(&mpfr, &mpfr, MPFR_RNDN) }
+    func changeSign() { mpfr_neg(  &mpfr, &mpfr, MPFR_RNDN) }
+
+    static var deg2rad: Gmp? = nil
+    static var rad2deg: Gmp? = nil
+
+    static func deleteConstants() {
+        Gmp.deg2rad = nil
+        Gmp.rad2deg = nil
+    }
+    static func assertConstants() {
+        if Gmp.deg2rad == nil {
+            Gmp.deg2rad = Gmp("0");
+            Gmp.deg2rad!.π()
+            Gmp.deg2rad!.div(other: Gmp("180"))
+        }
+        if Gmp.rad2deg == nil {
+            Gmp.rad2deg = Gmp("0");
+            Gmp.rad2deg!.π()
+            Gmp.rad2deg!.rez()
+            Gmp.rad2deg!.mul(other: Gmp("180"))
+        }
+    }
+
+    func sinD()  { Gmp.assertConstants(); mpfr_mul(&mpfr, &mpfr, &Gmp.deg2rad!.mpfr, MPFR_RNDN); mpfr_sin(  &mpfr, &mpfr, MPFR_RNDN) }
+    func cosD()  { Gmp.assertConstants(); mpfr_mul(&mpfr, &mpfr, &Gmp.deg2rad!.mpfr, MPFR_RNDN); mpfr_cos(  &mpfr, &mpfr, MPFR_RNDN) }
+    func tanD()  { Gmp.assertConstants(); mpfr_mul(&mpfr, &mpfr, &Gmp.deg2rad!.mpfr, MPFR_RNDN); mpfr_tan(  &mpfr, &mpfr, MPFR_RNDN) }
+    func asinD() { Gmp.assertConstants(); mpfr_asin( &mpfr, &mpfr, MPFR_RNDN); mpfr_mul(&mpfr, &mpfr, &Gmp.rad2deg!.mpfr, MPFR_RNDN) }
+    func acosD() { Gmp.assertConstants(); mpfr_acos( &mpfr, &mpfr, MPFR_RNDN); mpfr_mul(&mpfr, &mpfr, &Gmp.rad2deg!.mpfr, MPFR_RNDN) }
+    func atanD() { Gmp.assertConstants(); mpfr_atan( &mpfr, &mpfr, MPFR_RNDN); mpfr_mul(&mpfr, &mpfr, &Gmp.rad2deg!.mpfr, MPFR_RNDN) }
+    
+    func π() {
+        mpfr_const_pi(&mpfr, MPFR_RNDN)
+    }
+    func e() { mpfr_exp( &mpfr, &Gmp("1.0").mpfr, MPFR_RNDN)}
+
+    func rand() {
+        if Gmp.randstate == nil {
+            Gmp.randstate = gmp_randstate_t()
+            __gmp_randinit_mt(&Gmp.randstate!)
+            __gmp_randseed_ui(&Gmp.randstate!, UInt.random(in: 0..<UInt.max));
+        }
+        mpfr_urandom(&mpfr, &Gmp.randstate!, MPFR_RNDN)
+    }
+
+    
+    func pow_x_3()    { mpfr_pow_ui(&mpfr, &mpfr, 3, MPFR_RNDN) }
+    func pow_2_x()    { mpfr_ui_pow(&mpfr, 2, &mpfr, MPFR_RNDN) }
+    func rez()        { mpfr_ui_div(&mpfr, 1, &mpfr, MPFR_RNDN) }
+    func fac() {
+        let n = mpfr_get_si(&mpfr, MPFR_RNDN)
+        if n >= 0 {
+            let un = UInt(n)
+            mpfr_fac_ui(&mpfr, un, MPFR_RNDN)
+        } else {
+            mpfr_set_d(&mpfr, 0.0, MPFR_RNDN)
+        }
     }
     
-    func toLongString() -> String {
-        if mpfr_nan_p(&mpfr) != 0 {
-            return "Not a Number"
+    func execute(_ op: twoOperantsType, with other: Gmp) { op(self)(other) }
+    func add (other: Gmp) { mpfr_add(&mpfr, &mpfr, &other.mpfr, MPFR_RNDN) }
+    func sub (other: Gmp) {
+        mpfr_sub(&mpfr, &mpfr, &other.mpfr, MPFR_RNDN)
+    }
+    func mul (other: Gmp) { mpfr_mul(&mpfr, &mpfr, &other.mpfr, MPFR_RNDN) }
+    func div (other: Gmp) { mpfr_div(&mpfr, &mpfr, &other.mpfr, MPFR_RNDN) }
+
+    func pow_x_y(exponent: Gmp) { mpfr_pow(&mpfr, &mpfr, &exponent.mpfr, MPFR_RNDN) }
+    func pow_y_x(base: Gmp)     { mpfr_pow(&mpfr, &base.mpfr, &mpfr, MPFR_RNDN) }
+    func sqrty(exponent: Gmp)   { exponent.rez(); pow_x_y(exponent: exponent) }
+    func logy(base: Gmp) {
+        self.ln()
+        base.ln()
+        self.div(other: base)
+    }
+    func EE(other: Gmp) {
+        other.pow_10_x()
+        self.mul(other: other)
+    }
+    func x_double_up_arrow_y(other: Gmp) {
+        var temp: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &globalUnsignedLongInt)
+        mpfr_init2 (&temp, mpfr_get_prec(&mpfr))
+        mpfr_set(&temp, &mpfr, MPFR_RNDN)
+        
+        let counter: CLong = mpfr_get_si(&other.mpfr, MPFR_RNDN) - 1
+        guard counter > 0 else { return }
+        for _ in 0..<counter {
+            mpfr_pow(&mpfr, &temp, &mpfr, MPFR_RNDN)
         }
-        if mpfr_inf_p(&mpfr) != 0 {
-            return "Infinity"
-        }
-        
-        // set negative 0 to 0
-        if mpfr_zero_p(&mpfr) != 0 {
-            return "0"
-        }
-        
-        let significantBytesEstimate = Int(round(0.302 * Double(mpfr_get_prec(&mpfr))))+1
-        var expptr: mpfr_exp_t = 0
-        var charArray: Array<CChar> = Array(repeating: 0, count: significantBytesEstimate+2) // +2 because: one for a possible - and one for zero termination
-        mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
-        
-        // for speed, we work a bit with the charArray before using swift string
-        
-        // negative?
-        var negative = false
+        mpfr_clear(&temp)
+    }
+    
+//    func isValidGmpString(s: String) -> Bool {
+//        var temp_mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &globalUnsignedLongInt)
+//        mpfr_init2 (&temp_mpfr, xxxx) // TODO precision
+//        return mpfr_set_str (&temp_mpfr, s, 10, MPFR_RNDN) == 0
+//    }
+    func toDouble() -> Double {
+        return mpfr_get_d(&mpfr, MPFR_RNDN)
+    }
+    var isValid: Bool {
+        mpfr_number_p(&mpfr) != 0
+    }
+    var NaN: Bool {
+        mpfr_nan_p(&mpfr) != 0
+    }
+    var inf: Bool {
+        mpfr_inf_p(&mpfr) != 0
+    }
+    var isZero: Bool {
+        mpfr_zero_p(&mpfr) != 0
+    }
+    
+    struct Data {
+        let mantissa: String
+        let exponent: Int
+        let negative: Bool
+    }
+    
+    func data(_ length: Int) -> Data {
+        var exponent: mpfr_exp_t = 0
+        var charArray: Array<CChar> = Array(repeating: 0, count: length+5)
+        //print("data 11")
+        mpfr_get_str(&charArray, &exponent, 10, length+5, &mpfr, MPFR_RNDN)
+        //print("data 12")
+        var negative: Bool
         if charArray[0] == 45 {
             charArray.removeFirst()
             negative = true
+        } else {
+            negative = false
         }
         
-        // find last non-zero digit
-        var lastSignificantIndex = charArray.count-1
-        while (charArray[lastSignificantIndex] == 0 || charArray[lastSignificantIndex] == 48) && lastSignificantIndex > 0 {
-            lastSignificantIndex -= 1
-        }
-        let lastSignificantDigit = lastSignificantIndex + 1
-        
-        // is it an Integer?
-        if expptr > 0 && lastSignificantDigit <= expptr && expptr < significantBytesEstimate {
-            charArray[expptr] = 0
-            guard let integerString = String(validatingUTF8: charArray)
-                else { return "not a number" }
-            if negative {
-                return "-"+integerString
-            } else {
-                return integerString
+        var mantissa = ""
+        for c in charArray {
+            if c != 0 {
+                let x1 = UInt8(c)
+                let x2 = UnicodeScalar(x1)
+                let x3 = String(x2)
+                mantissa += x3.withCString { String(format: "%s", $0) }
             }
         }
-        
-        // do we have a simple double that can written in decimal notation?
-        let doubleDigits = 6
-        if lastSignificantDigit < doubleDigits && abs(expptr) < 10 {
-            let d = mpfr_get_d(&mpfr, MPFR_RNDN)
-            return String(d)
+        while mantissa.last == "0" {
+            mantissa.removeLast()
         }
-
-        charArray[lastSignificantDigit] = 0
-
-        guard var floatString = String(validatingUTF8: charArray)
-            else { return "not a number" }
         
-        // make sure the length of the float string is at least two characters
-        while floatString.count < 2 { floatString += "0" }
-        
-        floatString.insert(".", at: floatString.index(floatString.startIndex, offsetBy: 1))
-        
-        // if exponent is 0, drop it
-        if expptr-1 != 0 {
-            floatString += " E"+String(expptr-1)
-        }
-
-        if negative {
-            return "-"+floatString
+        if mantissa == "" {
+            mantissa = "0"
         } else {
-            return floatString
+            exponent = exponent - 1
         }
+        /// prefix(length-1) because of the comma. I want to return length digits
+        return Data(mantissa: String(mantissa.prefix(length-1)), exponent: exponent, negative: negative)
     }
     
-    func toShortString(maxPrecision: CLong) -> String {
-        if mpfr_nan_p(&mpfr) != 0 {
-            return "Not a Number"
-        }
-        if mpfr_inf_p(&mpfr) != 0 {
-            return "Infinity"
-        }
-        
-        // set negative 0 to 0
-        if mpfr_zero_p(&mpfr) != 0 {
-            return "0"
-        }
-        
-        let significantBytesEstimate = 7
-        var expptr: mpfr_exp_t = 0
-        var charArray: Array<CChar> = Array(repeating: 0, count: significantBytesEstimate+2) // +2 because: one for a possible - and one for zero termination
-        mpfr_get_str(&charArray, &expptr, 10, significantBytesEstimate, &mpfr, MPFR_RNDN)
-        
-        if expptr > maxPrecision {
-            return "too large"
-        }
-
-        if expptr < -maxPrecision {
-            return "too small"
-        }
-
-        // for speed, we work a bit with the charArray before using swift string
-        
-        // negative?
-        var negative = false
-        if charArray[0] == 45 {
-            charArray.removeFirst()
-            negative = true
-        }
-        
-        // find last significant digit
-        var lastSignificantIndex = charArray.count-1
-        while (charArray[lastSignificantIndex] == 0 || charArray[lastSignificantIndex] == 48) && lastSignificantIndex > 0 { lastSignificantIndex -= 1 }
-        let lastSignificantDigit = lastSignificantIndex + 1
-        
-        // is it an Integer?
-        if expptr > 0 && lastSignificantDigit <= expptr && expptr < significantBytesEstimate {
-            charArray[expptr] = 0
-            guard let integerString = String(validatingUTF8: charArray)
-                else { return "not a number" }
-            if negative {
-                return "-"+integerString
-            } else {
-                return integerString
-            }
-        }
-        
-        // do we have a simple double that can written in decimal notation?
-        let d:Double = mpfr_get_d(&mpfr, MPFR_RNDN)
-        let log10D = log10(d)
-        if log10D < 3 && log10D > -4 {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.numberStyle = .decimal
-            numberFormatter.usesSignificantDigits = true
-            numberFormatter.maximumSignificantDigits = 8
-            return numberFormatter.string(for: d)!
-        }
-
-        charArray[lastSignificantDigit] = 0
-
-        guard var floatString = String(validatingUTF8: charArray)
-            else { return "not a number" }
-        
-        // make sure the length of the float string is at least two characters
-        while floatString.count < 2 { floatString += "0" }
-        
-        floatString.insert(".", at: floatString.index(floatString.startIndex, offsetBy: 1))
-        
-        // if exponent is 0, drop it
-        if expptr-1 != 0 {
-            floatString += " E"+String(expptr-1)
-        }
-
-        if negative {
-            return "-"+floatString
-        } else {
-            return floatString
-        }
-    }
-
-    func isNull() -> Bool {
-        return mpfr_cmp_d(&mpfr, 0.0) == 0
-    }
-
-    func isNegtive() -> Bool {
-        return mpfr_cmp_d(&mpfr, 0.0) < 0
-    }
-
-    func isNotANumber() -> Bool {
-        return mpfr_nan_p(&mpfr) != 0
-    }
-
-}
-
-extension Gmp: Equatable {
-    static func ==(lhs: Gmp, rhs: Gmp) -> Bool {
-        return lhs.toLongString() == rhs.toLongString()
-    }
 }

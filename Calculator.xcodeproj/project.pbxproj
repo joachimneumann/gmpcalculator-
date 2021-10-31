@@ -3,28 +3,36 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA2576AB26F8EA3900CDD8C9 /* gmp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA2576A926F8EA3900CDD8C9 /* gmp.xcframework */; };
-		AA2576AD26F8EA3900CDD8C9 /* mpfr.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA2576AA26F8EA3900CDD8C9 /* mpfr.xcframework */; };
-		AA43979D215554E0009F58D3 /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43979C215554E0009F58D3 /* Brain.swift */; };
-		AA44F8362397973300774C37 /* CalculatorKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA44F8352397973300774C37 /* CalculatorKey.swift */; };
-		AAB585FA26F6EEF60018029F /* COMPILE_LIBRARIES.txt in Resources */ = {isa = PBXBuildFile; fileRef = AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */; };
-		AAE9DA8B1CE0BBE400C44198 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */; };
-		AAE9DA8D1CE0BBE400C44198 /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */; };
-		AAE9DA901CE0BBE400C44198 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */; };
-		AAE9DA921CE0BBE400C44198 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA911CE0BBE400C44198 /* Assets.xcassets */; };
-		AAE9DA951CE0BBE400C44198 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */; };
-		BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE153BB11CF4354900E53E4B /* Gmp.swift */; };
-		BE808DD61CF772EF00ECDBAF /* AUTHORS.gmp in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */; };
-		BE808DD71CF772EF00ECDBAF /* README.gmp in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCD1CF772EF00ECDBAF /* README.gmp */; };
-		BE808DD81CF772EF00ECDBAF /* AUTHORS in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCE1CF772EF00ECDBAF /* AUTHORS */; };
-		BE808DD91CF772EF00ECDBAF /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = BE808DCF1CF772EF00ECDBAF /* COPYING */; };
-		BE808DDA1CF772EF00ECDBAF /* COPYING.LESSER in Resources */ = {isa = PBXBuildFile; fileRef = BE808DD01CF772EF00ECDBAF /* COPYING.LESSER */; };
-		BE808DDB1CF772EF00ECDBAF /* README in Resources */ = {isa = PBXBuildFile; fileRef = BE808DD11CF772EF00ECDBAF /* README */; };
-		BE808DDC1CF772EF00ECDBAF /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = BE808DD21CF772EF00ECDBAF /* VERSION */; };
+		AA08C78B272EB73E001B8575 /* CalculatorCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C772272EB73D001B8575 /* CalculatorCommands.swift */; };
+		AA08C78C272EB73E001B8575 /* NumberStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C773272EB73D001B8575 /* NumberStack.swift */; };
+		AA08C78D272EB73E001B8575 /* iOSSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C774272EB73D001B8575 /* iOSSize.swift */; };
+		AA08C78E272EB73E001B8575 /* ScientificKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C775272EB73D001B8575 /* ScientificKeys.swift */; };
+		AA08C78F272EB73E001B8575 /* Gmp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C776272EB73D001B8575 /* Gmp.swift */; };
+		AA08C790272EB73E001B8575 /* OperatorStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C777272EB73E001B8575 /* OperatorStack.swift */; };
+		AA08C791272EB73E001B8575 /* CalculatorAppiOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C778272EB73E001B8575 /* CalculatorAppiOS.swift */; };
+		AA08C792272EB73E001B8575 /* Number.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C779272EB73E001B8575 /* Number.swift */; };
+		AA08C793272EB73E001B8575 /* Zoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C77A272EB73E001B8575 /* Zoom.swift */; };
+		AA08C794272EB73E001B8575 /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C77B272EB73E001B8575 /* Symbols.swift */; };
+		AA08C796272EB73E001B8575 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C77D272EB73E001B8575 /* MainView.swift */; };
+		AA08C797272EB73E001B8575 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C77E272EB73E001B8575 /* Key.swift */; };
+		AA08C798272EB73E001B8575 /* Brain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C77F272EB73E001B8575 /* Brain.swift */; };
+		AA08C799272EB73E001B8575 /* KeyInputSubjectWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C780272EB73E001B8575 /* KeyInputSubjectWrapper.swift */; };
+		AA08C79A272EB73E001B8575 /* TargetEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C781272EB73E001B8575 /* TargetEnvironment.swift */; };
+		AA08C79B272EB73E001B8575 /* DisplayData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C782272EB73E001B8575 /* DisplayData.swift */; };
+		AA08C79C272EB73E001B8575 /* CalculatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C783272EB73E001B8575 /* CalculatorApp.swift */; };
+		AA08C79D272EB73E001B8575 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA08C784272EB73E001B8575 /* Assets.xcassets */; };
+		AA08C79E272EB73E001B8575 /* NumberKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C785272EB73E001B8575 /* NumberKeys.swift */; };
+		AA08C79F272EB73E001B8575 /* CalibratedDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C786272EB73E001B8575 /* CalibratedDisplay.swift */; };
+		AA08C7A0272EB73E001B8575 /* Precision.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C787272EB73E001B8575 /* Precision.swift */; };
+		AA08C7A1272EB73E001B8575 /* CalculatorAppCatalyst.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C789272EB73E001B8575 /* CalculatorAppCatalyst.swift */; };
+		AA08C7A2272EB73E001B8575 /* Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C78A272EB73E001B8575 /* Display.swift */; };
+		AA08C7A4272EB750001B8575 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AA08C7A3272EB750001B8575 /* Credits.rtf */; };
+		AA08C7B2272EC26A001B8575 /* gmp.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA08C7B1272EC26A001B8575 /* gmp.xcframework */; };
+		AA08C7B4272EC276001B8575 /* mpfr.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA08C7B3272EC276001B8575 /* mpfr.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,29 +49,35 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AA2576A926F8EA3900CDD8C9 /* gmp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = gmp.xcframework; path = ../Calculator/dist/gmp.xcframework; sourceTree = "<group>"; };
-		AA2576AA26F8EA3900CDD8C9 /* mpfr.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = mpfr.xcframework; path = ../Calculator/dist/mpfr.xcframework; sourceTree = "<group>"; };
-		AA43979C215554E0009F58D3 /* Brain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Brain.swift; sourceTree = "<group>"; };
-		AA4397A421555D50009F58D3 /* gmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gmp.h; path = libGmp/gmp.h; sourceTree = "<group>"; };
-		AA4397A521555D50009F58D3 /* mpf2mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpf2mpfr.h; path = libGmp/mpf2mpfr.h; sourceTree = "<group>"; };
-		AA4397A621555D50009F58D3 /* mpfr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mpfr.h; path = libGmp/mpfr.h; sourceTree = "<group>"; };
-		AA44F8352397973300774C37 /* CalculatorKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorKey.swift; sourceTree = "<group>"; };
-		AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = COMPILE_LIBRARIES.txt; sourceTree = "<group>"; };
+		AA08C772272EB73D001B8575 /* CalculatorCommands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorCommands.swift; sourceTree = "<group>"; };
+		AA08C773272EB73D001B8575 /* NumberStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberStack.swift; sourceTree = "<group>"; };
+		AA08C774272EB73D001B8575 /* iOSSize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSSize.swift; sourceTree = "<group>"; };
+		AA08C775272EB73D001B8575 /* ScientificKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScientificKeys.swift; sourceTree = "<group>"; };
+		AA08C776272EB73D001B8575 /* Gmp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gmp.swift; sourceTree = "<group>"; };
+		AA08C777272EB73E001B8575 /* OperatorStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OperatorStack.swift; sourceTree = "<group>"; };
+		AA08C778272EB73E001B8575 /* CalculatorAppiOS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorAppiOS.swift; sourceTree = "<group>"; };
+		AA08C779272EB73E001B8575 /* Number.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Number.swift; sourceTree = "<group>"; };
+		AA08C77A272EB73E001B8575 /* Zoom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Zoom.swift; sourceTree = "<group>"; };
+		AA08C77B272EB73E001B8575 /* Symbols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
+		AA08C77C272EB73E001B8575 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA08C77D272EB73E001B8575 /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		AA08C77E272EB73E001B8575 /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		AA08C77F272EB73E001B8575 /* Brain.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Brain.swift; sourceTree = "<group>"; };
+		AA08C780272EB73E001B8575 /* KeyInputSubjectWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyInputSubjectWrapper.swift; sourceTree = "<group>"; };
+		AA08C781272EB73E001B8575 /* TargetEnvironment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TargetEnvironment.swift; sourceTree = "<group>"; };
+		AA08C782272EB73E001B8575 /* DisplayData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayData.swift; sourceTree = "<group>"; };
+		AA08C783272EB73E001B8575 /* CalculatorApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorApp.swift; sourceTree = "<group>"; };
+		AA08C784272EB73E001B8575 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA08C785272EB73E001B8575 /* NumberKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NumberKeys.swift; sourceTree = "<group>"; };
+		AA08C786272EB73E001B8575 /* CalibratedDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalibratedDisplay.swift; sourceTree = "<group>"; };
+		AA08C787272EB73E001B8575 /* Precision.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Precision.swift; sourceTree = "<group>"; };
+		AA08C788272EB73E001B8575 /* Calculator.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = Calculator.entitlements; sourceTree = "<group>"; };
+		AA08C789272EB73E001B8575 /* CalculatorAppCatalyst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalculatorAppCatalyst.swift; sourceTree = "<group>"; };
+		AA08C78A272EB73E001B8575 /* Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Display.swift; sourceTree = "<group>"; };
+		AA08C7A3272EB750001B8575 /* Credits.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		AA08C7B1272EC26A001B8575 /* gmp.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = gmp.xcframework; path = dist/gmp.xcframework; sourceTree = "<group>"; };
+		AA08C7B3272EC276001B8575 /* mpfr.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = mpfr.xcframework; path = dist/mpfr.xcframework; sourceTree = "<group>"; };
 		AAE9DA871CE0BBE400C44198 /* Better Calc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Better Calc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
-		AAE9DA8F1CE0BBE400C44198 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		AAE9DA911CE0BBE400C44198 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AAE9DA941CE0BBE400C44198 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		AAE9DA961CE0BBE400C44198 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BE153BB11CF4354900E53E4B /* Gmp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gmp.swift; sourceTree = "<group>"; };
-		BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS.gmp; path = libGmp/AUTHORS.gmp; sourceTree = "<group>"; };
-		BE808DCD1CF772EF00ECDBAF /* README.gmp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.gmp; path = libGmp/README.gmp; sourceTree = "<group>"; };
-		BE808DCE1CF772EF00ECDBAF /* AUTHORS */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = AUTHORS; path = libGmp/AUTHORS; sourceTree = "<group>"; };
-		BE808DCF1CF772EF00ECDBAF /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = COPYING; path = libGmp/COPYING; sourceTree = "<group>"; };
-		BE808DD01CF772EF00ECDBAF /* COPYING.LESSER */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = COPYING.LESSER; path = libGmp/COPYING.LESSER; sourceTree = "<group>"; };
-		BE808DD11CF772EF00ECDBAF /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README; path = libGmp/README; sourceTree = "<group>"; };
-		BE808DD21CF772EF00ECDBAF /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = VERSION; path = libGmp/VERSION; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,8 +85,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA2576AD26F8EA3900CDD8C9 /* mpfr.xcframework in Frameworks */,
-				AA2576AB26F8EA3900CDD8C9 /* gmp.xcframework in Frameworks */,
+				AA08C7B4272EC276001B8575 /* mpfr.xcframework in Frameworks */,
+				AA08C7B2272EC26A001B8575 /* gmp.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,8 +96,8 @@
 		AA2576A826F8EA3900CDD8C9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA2576A926F8EA3900CDD8C9 /* gmp.xcframework */,
-				AA2576AA26F8EA3900CDD8C9 /* mpfr.xcframework */,
+				AA08C7B3272EC276001B8575 /* mpfr.xcframework */,
+				AA08C7B1272EC26A001B8575 /* gmp.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -108,44 +122,34 @@
 		AAE9DA891CE0BBE400C44198 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
-				AAB585F926F6EEF60018029F /* COMPILE_LIBRARIES.txt */,
-				AA44F8352397973300774C37 /* CalculatorKey.swift */,
-				AAE9DA8C1CE0BBE400C44198 /* CalculatorViewController.swift */,
-				AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */,
-				BE153BB11CF4354900E53E4B /* Gmp.swift */,
-				AA43979C215554E0009F58D3 /* Brain.swift */,
-				BE808DCB1CF772D400ECDBAF /* libGmp */,
-				AAE9DA9C1CE0BD3400C44198 /* supporting files */,
+				AA08C784272EB73E001B8575 /* Assets.xcassets */,
+				AA08C77F272EB73E001B8575 /* Brain.swift */,
+				AA08C788272EB73E001B8575 /* Calculator.entitlements */,
+				AA08C783272EB73E001B8575 /* CalculatorApp.swift */,
+				AA08C789272EB73E001B8575 /* CalculatorAppCatalyst.swift */,
+				AA08C778272EB73E001B8575 /* CalculatorAppiOS.swift */,
+				AA08C772272EB73D001B8575 /* CalculatorCommands.swift */,
+				AA08C786272EB73E001B8575 /* CalibratedDisplay.swift */,
+				AA08C78A272EB73E001B8575 /* Display.swift */,
+				AA08C782272EB73E001B8575 /* DisplayData.swift */,
+				AA08C776272EB73D001B8575 /* Gmp.swift */,
+				AA08C77C272EB73E001B8575 /* Info.plist */,
+				AA08C774272EB73D001B8575 /* iOSSize.swift */,
+				AA08C77E272EB73E001B8575 /* Key.swift */,
+				AA08C780272EB73E001B8575 /* KeyInputSubjectWrapper.swift */,
+				AA08C77D272EB73E001B8575 /* MainView.swift */,
+				AA08C779272EB73E001B8575 /* Number.swift */,
+				AA08C785272EB73E001B8575 /* NumberKeys.swift */,
+				AA08C773272EB73D001B8575 /* NumberStack.swift */,
+				AA08C777272EB73E001B8575 /* OperatorStack.swift */,
+				AA08C787272EB73E001B8575 /* Precision.swift */,
+				AA08C775272EB73D001B8575 /* ScientificKeys.swift */,
+				AA08C77B272EB73E001B8575 /* Symbols.swift */,
+				AA08C781272EB73E001B8575 /* TargetEnvironment.swift */,
+				AA08C77A272EB73E001B8575 /* Zoom.swift */,
+				AA08C7A3272EB750001B8575 /* Credits.rtf */,
 			);
 			path = Calculator;
-			sourceTree = "<group>";
-		};
-		AAE9DA9C1CE0BD3400C44198 /* supporting files */ = {
-			isa = PBXGroup;
-			children = (
-				AAE9DA8A1CE0BBE400C44198 /* AppDelegate.swift */,
-				AAE9DA911CE0BBE400C44198 /* Assets.xcassets */,
-				AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */,
-				AAE9DA961CE0BBE400C44198 /* Info.plist */,
-			);
-			name = "supporting files";
-			sourceTree = "<group>";
-		};
-		BE808DCB1CF772D400ECDBAF /* libGmp */ = {
-			isa = PBXGroup;
-			children = (
-				AA4397A421555D50009F58D3 /* gmp.h */,
-				AA4397A521555D50009F58D3 /* mpf2mpfr.h */,
-				AA4397A621555D50009F58D3 /* mpfr.h */,
-				BE808DCC1CF772EF00ECDBAF /* AUTHORS.gmp */,
-				BE808DCD1CF772EF00ECDBAF /* README.gmp */,
-				BE808DCE1CF772EF00ECDBAF /* AUTHORS */,
-				BE808DCF1CF772EF00ECDBAF /* COPYING */,
-				BE808DD01CF772EF00ECDBAF /* COPYING.LESSER */,
-				BE808DD11CF772EF00ECDBAF /* README */,
-				BE808DD21CF772EF00ECDBAF /* VERSION */,
-			);
-			name = libGmp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,8 +180,8 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1000;
-				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = "mindo software S.L";
+				LastUpgradeCheck = 1310;
+				ORGANIZATIONNAME = "Joachim Neumann";
 				TargetAttributes = {
 					AAE9DA861CE0BBE400C44198 = {
 						CreatedOnToolsVersion = 7.3;
@@ -187,7 +191,7 @@
 				};
 			};
 			buildConfigurationList = AAE9DA821CE0BBE300C44198 /* Build configuration list for PBXProject "Calculator" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -209,17 +213,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE808DDB1CF772EF00ECDBAF /* README in Resources */,
-				AAE9DA951CE0BBE400C44198 /* LaunchScreen.storyboard in Resources */,
-				AAB585FA26F6EEF60018029F /* COMPILE_LIBRARIES.txt in Resources */,
-				AAE9DA921CE0BBE400C44198 /* Assets.xcassets in Resources */,
-				AAE9DA901CE0BBE400C44198 /* Main.storyboard in Resources */,
-				BE808DDA1CF772EF00ECDBAF /* COPYING.LESSER in Resources */,
-				BE808DD91CF772EF00ECDBAF /* COPYING in Resources */,
-				BE808DD81CF772EF00ECDBAF /* AUTHORS in Resources */,
-				BE808DD61CF772EF00ECDBAF /* AUTHORS.gmp in Resources */,
-				BE808DD71CF772EF00ECDBAF /* README.gmp in Resources */,
-				BE808DDC1CF772EF00ECDBAF /* VERSION in Resources */,
+				AA08C79D272EB73E001B8575 /* Assets.xcassets in Resources */,
+				AA08C7A4272EB750001B8575 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,34 +225,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAE9DA8D1CE0BBE400C44198 /* CalculatorViewController.swift in Sources */,
-				BE153BB21CF4354900E53E4B /* Gmp.swift in Sources */,
-				AA43979D215554E0009F58D3 /* Brain.swift in Sources */,
-				AAE9DA8B1CE0BBE400C44198 /* AppDelegate.swift in Sources */,
-				AA44F8362397973300774C37 /* CalculatorKey.swift in Sources */,
+				AA08C792272EB73E001B8575 /* Number.swift in Sources */,
+				AA08C78E272EB73E001B8575 /* ScientificKeys.swift in Sources */,
+				AA08C79A272EB73E001B8575 /* TargetEnvironment.swift in Sources */,
+				AA08C791272EB73E001B8575 /* CalculatorAppiOS.swift in Sources */,
+				AA08C78B272EB73E001B8575 /* CalculatorCommands.swift in Sources */,
+				AA08C798272EB73E001B8575 /* Brain.swift in Sources */,
+				AA08C799272EB73E001B8575 /* KeyInputSubjectWrapper.swift in Sources */,
+				AA08C79C272EB73E001B8575 /* CalculatorApp.swift in Sources */,
+				AA08C78D272EB73E001B8575 /* iOSSize.swift in Sources */,
+				AA08C797272EB73E001B8575 /* Key.swift in Sources */,
+				AA08C7A0272EB73E001B8575 /* Precision.swift in Sources */,
+				AA08C794272EB73E001B8575 /* Symbols.swift in Sources */,
+				AA08C793272EB73E001B8575 /* Zoom.swift in Sources */,
+				AA08C796272EB73E001B8575 /* MainView.swift in Sources */,
+				AA08C79B272EB73E001B8575 /* DisplayData.swift in Sources */,
+				AA08C79F272EB73E001B8575 /* CalibratedDisplay.swift in Sources */,
+				AA08C7A2272EB73E001B8575 /* Display.swift in Sources */,
+				AA08C78F272EB73E001B8575 /* Gmp.swift in Sources */,
+				AA08C790272EB73E001B8575 /* OperatorStack.swift in Sources */,
+				AA08C79E272EB73E001B8575 /* NumberKeys.swift in Sources */,
+				AA08C78C272EB73E001B8575 /* NumberStack.swift in Sources */,
+				AA08C7A1272EB73E001B8575 /* CalculatorAppCatalyst.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		AAE9DA8E1CE0BBE400C44198 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AAE9DA8F1CE0BBE400C44198 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		AAE9DA931CE0BBE400C44198 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AAE9DA941CE0BBE400C44198 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		AAE9DA971CE0BBE400C44198 /* Debug */ = {
@@ -283,6 +276,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -339,6 +333,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -370,31 +365,43 @@
 		AAE9DA9A1CE0BBE400C44198 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_ENTITLEMENTS = Calculator/Calculator.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = 8A4DL788W9;
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
+				LIBRARY_SEARCH_PATHS = "";
 				MARKETING_VERSION = 3.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				OTHER_SWIFT_FLAGS = "-Xfrontend -debug-time-function-bodies -Xfrontend -warn-long-expression-type-checking=300 -Xfrontend -warn-long-function-bodies=300 -Onone -Xfrontend -warn-long-expression-type-checking=300 -Xfrontend -warn-long-function-bodies=300";
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/joachim/projects/gmpcalculator-/dist/include/bridge.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
@@ -402,30 +409,41 @@
 		AAE9DA9B1CE0BBE400C44198 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_ENABLE_MODULES = NO;
+				CODE_SIGN_ENTITLEMENTS = Calculator/Calculator.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEFINES_MODULE = NO;
+				DEVELOPMENT_TEAM = 8A4DL788W9;
 				ENABLE_BITCODE = NO;
-				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				HEADER_SEARCH_PATHS = "";
 				INCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "";
 				INFOPLIST_FILE = Calculator/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/Calculator/libGmp";
+				LIBRARY_SEARCH_PATHS = "";
 				MARKETING_VERSION = 3.0;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.joachimneumann.gmpcalculator;
 				PRODUCT_NAME = "Better Calc";
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = Calculator/libGmp/mpfr.h;
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
+				SWIFT_OBJC_BRIDGING_HEADER = "/Users/joachim/projects/gmpcalculator-/dist/include/bridge.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
