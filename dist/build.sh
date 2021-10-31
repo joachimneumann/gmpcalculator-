@@ -101,8 +101,7 @@ mkdir signed/catalyst;
 lipo -create signed/x86_64-catalyst/libgmp.a  signed/arm64-catalyst/libgmp.a -output signed/catalyst/libgmp.a
 lipo -create signed/x86_64-catalyst/libmpfr.a  signed/arm64-catalyst/libmpfr.a -output signed/catalyst/libmpfr.a
 
-rm -rf mpfr.xcframework gmp.xcframework
-xcodebuild -create-xcframework -library signed/iPhone/libgmp.a  -library signed/simulator/libgmp.a  -library signed/catalyst/libgmp.a  -output gmp.xcframework
-xcodebuild -create-xcframework -library signed/iPhone/libmpfr.a -library signed/simulator/libmpfr.a -library signed/catalyst/libmpfr.a -output mpfr.xcframework
-ln -s mpfr.xcframework/ios-arm64_x86_64-maccatalyst mpfr.xcframework/ios-x86_64-maccatalyst
-ln -s  gmp.xcframework/ios-arm64_x86_64-maccatalyst  gmp.xcframework/ios-x86_64-maccatalyst
+
+# Troubleshooting:
+# remove frameworks from copy in build phases
+# Exclusive Access to memory: compile time only

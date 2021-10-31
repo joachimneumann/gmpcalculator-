@@ -20,9 +20,8 @@ struct CalculatorAppiOS: Scene {
             /// The factor 1.5 is a little hack to prevent that the white background
             /// shows up during device orientation change rotation
             let expandedDeviceSize: CGFloat = 1.5 * max(UIScreen.main.bounds.size.width, UIScreen.main.bounds.size.height)
-            Text("iOSSize(brain: brain)")
-                .foregroundColor(Color.red)
-//                .edgesIgnoringSafeArea(.all)
+            iOSSize(brain: brain)
+                .edgesIgnoringSafeArea(.all)
                 .statusBar(hidden: true)
                 .background(Rectangle()
                                 .frame(width: expandedDeviceSize,
@@ -31,9 +30,9 @@ struct CalculatorAppiOS: Scene {
                                 .foregroundColor(TE.appBackgroundColor)
                                 .ignoresSafeArea())
         }
-//        .commands() {
-//            CalculatorCommands(brain: brain)
-//        }
+        .commands() {
+            CalculatorCommands(brain: brain)
+        }
     }
 }
 
