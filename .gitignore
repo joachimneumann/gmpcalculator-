@@ -2,4 +2,10 @@
 Calculator.xcodeproj/project.xcworkspace/xcuserdata/
 gmp/gmp/*
 gmp/mpfr/*
-gmp/dist
+dist/gmp/*
+dist/mpfr/*
+dist/xcframework/*
+dist/build.log
+dist/iPhone
+dist/simulator
+dist/catalyst
