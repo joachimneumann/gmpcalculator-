@@ -155,10 +155,10 @@ class TE {
         upAnimationTime: 0.0)
 
     /// I have selected "Optimize Interface for Mac" in target settings, general, which is 0.77 times smaller
-    static private let kh: CGFloat  = 63.00 * 0.77 // key height
-    static private let kw: CGFloat  = 72.75 * 0.77 // key width
-    static private let wkw: CGFloat = 77.00 * 0.77 // wider with for +-*/= keys
-    static private let sp: CGFloat  = 1.0          // space between keys
+    static private let kh: CGFloat  = 63.00 * 0.77 /// key height
+    static private let kw: CGFloat  = 72.75 * 0.77 /// key width
+    static private let wkw: CGFloat = 77.00 * 0.77 /// wider with for +-*/= keys
+    static private let sp: CGFloat  = 1.0          /// space between keys
 
     static private let zoomIconSize: CGFloat = 30.0 * 0.77
     static let macWindowWidth: CGFloat = 9.0 * TE.kw + TE.wkw + 9.0 * TE.sp
@@ -176,9 +176,10 @@ class TE {
     let widerKeySize: CGSize  = CGSize(width: TE.wkw, height: TE.kh)
     let scientificKeySize: CGSize   = CGSize(width: TE.kw,  height: TE.kh)
     let allkeysHeight: CGFloat = 5.0 * TE.kh + 4.0 * TE.sp
-    let remainingAboveKeys: CGFloat = TE.macWindowHeight - (5.0 * TE.kh + 4.0 * TE.sp)
     let isPad: Bool = false
     let zeroLeadingPadding: CGFloat = TE.kw / 2 - TE.kh * 0.1
+    var displayTopPaddingZoomed: CGFloat = 0.0
+    var displayTopPaddingNotZoomed: CGFloat = 0.0
 
     struct ButtonShape: View {
         var body: some View {
@@ -206,10 +207,11 @@ class TE {
     var displayFont: Font
     var spaceBetweenkeys: CGFloat
     var allkeysHeight: CGFloat
-    var remainingAboveKeys: CGFloat
     var digitsInSmallDisplay: Int
     var isPad: Bool
     var zeroLeadingPadding: CGFloat
+    var displayTopPaddingZoomed: CGFloat
+    var displayTopPaddingNotZoomed: CGFloat
     init(appFrame: CGSize, isPad: Bool) {
         self.isPad = isPad
         spaceBetweenkeys = appFrame.width * Self.landscapeSpacingFration
@@ -224,7 +226,8 @@ class TE {
         displayFontSize = keySize.height
         displayFont = Font.system(size: displayFontSize, weight: .thin).monospacedDigit()
         allkeysHeight = 5.0 * keySize.height + 4.0 * spaceBetweenkeys
-        remainingAboveKeys = appFrame.height - allkeysHeight
+        displayTopPaddingNotZoomed = appFrame.height - allkeysHeight - keySize.height - spaceBetweenkeys
+        displayTopPaddingZoomed = 0.0
         zeroLeadingPadding = keySize.width / 2 - digitsKeyFontSize*0.25
         digits_1_9 = KeyProperties(
             size: keySize,

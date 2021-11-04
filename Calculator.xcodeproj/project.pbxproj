@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA08C7C2272EDA48001B8575 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C7C1272EDA48001B8575 /* Calculator.swift */; };
-		AA08C7C4272EDA48001B8575 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C7C3272EDA48001B8575 /* ContentView.swift */; };
 		AA08C7C6272EDA4A001B8575 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA08C7C5272EDA4A001B8575 /* Assets.xcassets */; };
 		AA08C7C9272EDA4A001B8575 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA08C7C8272EDA4A001B8575 /* Preview Assets.xcassets */; };
 		AA08C7D3272EDA4A001B8575 /* CalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA08C7D2272EDA4A001B8575 /* CalculatorTests.swift */; };
@@ -72,8 +70,6 @@
 
 /* Begin PBXFileReference section */
 		AA08C7BE272EDA48001B8575 /* Better Calc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Better Calc.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA08C7C1272EDA48001B8575 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
-		AA08C7C3272EDA48001B8575 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		AA08C7C5272EDA4A001B8575 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA08C7C8272EDA4A001B8575 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		AA08C7CE272EDA4A001B8575 /* CalculatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,8 +190,6 @@
 				AA2FABF3272F22AC006DE4C8 /* mpf2mpfr.h */,
 				AA2FABF5272F22AC006DE4C8 /* mpfr.h */,
 				AA08C7EC272F1572001B8575 /* Info.plist */,
-				AA08C7C1272EDA48001B8575 /* Calculator.swift */,
-				AA08C7C3272EDA48001B8575 /* ContentView.swift */,
 				AA08C7C5272EDA4A001B8575 /* Assets.xcassets */,
 				AA08C7C7272EDA4A001B8575 /* Preview Content */,
 			);
@@ -373,7 +367,6 @@
 				AA2FAC0E272F2349006DE4C8 /* ScientificKeys.swift in Sources */,
 				AA2FAC1B272F2349006DE4C8 /* CalibratedDisplay.swift in Sources */,
 				AA2FAC16272F2349006DE4C8 /* CalculatorAppCatalyst.swift in Sources */,
-				AA08C7C4272EDA48001B8575 /* ContentView.swift in Sources */,
 				AA2FAC17272F2349006DE4C8 /* Brain.swift in Sources */,
 				AA2FAC14272F2349006DE4C8 /* KeyInputSubjectWrapper.swift in Sources */,
 				AA2FAC12272F2349006DE4C8 /* NumberStack.swift in Sources */,
@@ -388,7 +381,6 @@
 				AA2FAC1E272F2349006DE4C8 /* CalculatorAppiOS.swift in Sources */,
 				AA2FAC11272F2349006DE4C8 /* Zoom.swift in Sources */,
 				AA2FAC15272F2349006DE4C8 /* CalculatorApp.swift in Sources */,
-				AA08C7C2272EDA48001B8575 /* Calculator.swift in Sources */,
 				AA2FAC13272F2349006DE4C8 /* TargetEnvironment.swift in Sources */,
 				AA2FAC1A272F2349006DE4C8 /* CalculatorCommands.swift in Sources */,
 			);
@@ -642,7 +634,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Calculator.app/Calculator";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Better Calc.app/Better Calc";
 			};
 			name = Debug;
 		};
@@ -667,7 +659,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Calculator.app/Calculator";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Better Calc.app/Better Calc";
 			};
 			name = Release;
 		};

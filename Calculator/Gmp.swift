@@ -35,12 +35,12 @@ class Gmp: Equatable {
         return true
     }
     
-    // Swift requires me to initialize the mpfr_t struc
-    // I do this with zeros. The struct will be initialized correctly in mpfr_init2
+    /// Swift requires me to initialize the mpfr_t struc
+    /// I do this with zeros. The struct will be initialized correctly in mpfr_init2
     var mpfr: mpfr_t = mpfr_t(_mpfr_prec: 0, _mpfr_sign: 0, _mpfr_exp: 0, _mpfr_d: &globalUnsignedLongInt)
 
-    // there is only ine initialzer that takes a string.
-    // Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
+    /// there is only ine initialzer that takes a string.
+    /// Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
     init(_ s: String) {
         let s1 = s.replacingOccurrences(of: ",", with: ".")
         mpfr_init2 (&mpfr, globalGmpSignificantBits)

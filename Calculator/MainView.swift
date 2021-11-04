@@ -15,13 +15,13 @@ struct MainView: View {
         let brain: Brain
         var t: TE
         var body: some View {
-            // the keys
             HStack(spacing: 0.0) {
                 ScientificKeys(brain: brain, t: t)
                     .padding(.trailing, t.spaceBetweenkeys)
                 NumberKeys(brain: brain, t: t)
                 Spacer(minLength: 0.0)
             }
+            .frame(height: t.allkeysHeight)
             .transition(.move(edge: .bottom))
         }
     }
@@ -43,7 +43,7 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            if !t.isPad {
+            if true { //}!t.isPad {
                 HStack(spacing: 0.0) {
                     Spacer(minLength: 0.0)
                     Zoom(scrollTarget: $brain.scrollViewTarget,
@@ -67,9 +67,7 @@ struct MainView: View {
             }
             
             VStack(spacing: 0.0) {
-                // everything is in here
                 HStack(spacing: 0.0) {
-                    // everyting above the keys
                     if brain.rad && !brain.zoomed {
                         Rad(keySize: t.digits_1_9.size, textColor: t.digits_1_9.textColor)
                     }
@@ -87,9 +85,12 @@ struct MainView: View {
             }
         }
         .background(
-            Display(brain: brain, t: t)
-                .padding(.trailing, t.digits_1_9.size.width * 1.0)
-                .animation(nil, value: UUID())
+            VStack {
+                Spacer(minLength: brain.zoomed ? t.displayTopPaddingZoomed : t.displayTopPaddingNotZoomed)
+                Display(brain: brain, t: t)
+                    .padding(.trailing, t.digits_1_9.size.width * 1.0)
+                    .animation(nil, value: UUID())
+            }
         )
     }
 }
