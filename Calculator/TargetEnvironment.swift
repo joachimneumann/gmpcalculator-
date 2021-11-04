@@ -181,7 +181,9 @@ class TE {
     let zoomTopPadding: CGFloat = 0.0
     let displayTopPaddingZoomed: CGFloat = 0.0
     let displayTopPaddingNotZoomed: CGFloat = 0.0
+    let displayBottomPadding: CGFloat = 0.0
     let iconSize: CGFloat = TE.kh * 0.7
+    let isPortraitIPad = false
 
     struct ButtonShape: View {
         var body: some View {
@@ -217,7 +219,7 @@ class TE {
     var displayBottomPadding: CGFloat
     var zoomTopPadding: CGFloat
     var iconSize: CGFloat
-    var portraitIPad: Bool
+    var isPortraitIPad: Bool
     init(appFrame: CGSize, isPad: Bool) {
         self.isPad = isPad
         spaceBetweenkeys = appFrame.width * Self.landscapeSpacingFration
@@ -234,7 +236,7 @@ class TE {
         allkeysHeight = 5.0 * keySize.height + 4.0 * spaceBetweenkeys
         zeroLeadingPadding = keySize.width / 2 - digitsKeyFontSize*0.25
         iconSize = keySize.height * 0.7
-        portraitIPad = false
+        isPortraitIPad = false
         if isPad {
             if appFrame.width > appFrame.height {
                 /// iPad landscape
@@ -248,7 +250,7 @@ class TE {
                 displayTopPaddingNotZoomed = appFrame.height - allkeysHeight - keySize.height - spaceBetweenkeys
                 displayTopPaddingZoomed = 0.0
                 displayBottomPadding = allkeysHeight
-                portraitIPad = true
+                isPortraitIPad = true
             }
         } else {
             /// iPhone

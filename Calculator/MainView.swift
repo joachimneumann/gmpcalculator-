@@ -73,7 +73,7 @@ struct MainView: View {
                         Spacer(minLength: 0.0)
                     }
                 }
-                if !brain.zoomed || t.portraitIPad {
+                if !brain.zoomed || t.isPortraitIPad {
                     Keys(brain: brain, t: t)
                         .background(TE.appBackgroundColor)
                 }
@@ -85,7 +85,7 @@ struct MainView: View {
                 Display(brain: brain, t: t)
                     .padding(.trailing, t.digits_1_9.size.width * 1.0)
                     //.animation(nil, value: UUID())
-                    .background(Color.yellow.opacity(0.3))
+                    //.background(Color.yellow.opacity(0.3))
                     .padding(.bottom, t.displayBottomPadding)
             }
         )
