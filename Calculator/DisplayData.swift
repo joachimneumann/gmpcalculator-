@@ -119,6 +119,7 @@ class DisplayData: ObservableObject {
                     floatString += "0"
                 }
                 floatString += data.mantissa
+                if data.negative { floatString = "-" + floatString }
                 set(floatString)
                 return
             }
