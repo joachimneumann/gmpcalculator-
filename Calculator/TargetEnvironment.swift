@@ -183,6 +183,7 @@ class TE {
     let displayTopPaddingNotZoomed: CGFloat = 0.0
     let displayBottomPadding: CGFloat = 0.0
     let iconSize: CGFloat = TE.kh * 0.7
+    let circularProgressViewScaleFactor: CGFloat = 0.77
     let isPortraitIPad = false
 
     struct ButtonShape: View {
@@ -219,6 +220,7 @@ class TE {
     var displayBottomPadding: CGFloat
     var zoomTopPadding: CGFloat
     var iconSize: CGFloat
+    let circularProgressViewScaleFactor: CGFloat = 2.0
     var isPortraitIPad: Bool
     init(appFrame: CGSize, isPad: Bool) {
         self.isPad = isPad

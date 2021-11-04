@@ -11,6 +11,7 @@ struct Zoom: View {
     @Binding var scrollTarget: Int?
     let iconName: String
     let iconSize: CGFloat
+    let scaleFactor: CGFloat
     let textColor: Color
     @Binding var zoomed: Bool
     let showCalculating: Bool
@@ -19,7 +20,7 @@ struct Zoom: View {
             if showCalculating {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
-                    .scaleEffect(0.77, anchor: .center)
+                    .scaleEffect(scaleFactor, anchor: .center)
             } else {
                 Image(systemName: iconName)
                 .resizable()

@@ -49,6 +49,7 @@ struct MainView: View {
                     Zoom(scrollTarget: $brain.scrollViewTarget,
                          iconName: brain.zoomed ? brain.precisionIconName : "plus.circle.fill",
                          iconSize: t.iconSize,
+                         scaleFactor: t.circularProgressViewScaleFactor,
                          textColor: t.digits_1_9.textColor,
                          zoomed: $brain.zoomed,
                          showCalculating: brain.showCalculating)
