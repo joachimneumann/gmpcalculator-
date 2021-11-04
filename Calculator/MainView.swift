@@ -43,26 +43,21 @@ struct MainView: View {
     
     var body: some View {
         ZStack {
-            if true { //}!t.isPad {
-                HStack(spacing: 0.0) {
-                    Spacer(minLength: 0.0)
+            HStack(spacing: 0.0) {
+                Spacer(minLength: 0.0)
+                VStack {
                     Zoom(scrollTarget: $brain.scrollViewTarget,
                          iconName: brain.zoomed ? brain.precisionIconName : "plus.circle.fill",
-                         iconSize: t.colorOpProperties.size.height * 0.7,
+                         iconSize: t.iconSize,
                          textColor: t.digits_1_9.textColor,
                          zoomed: $brain.zoomed,
                          showCalculating: brain.showCalculating)
                         .frame(width: t.colorOpProperties.size.width, height: t.colorOpProperties.size.height, alignment: .center)
-                        .padding(.bottom, t.allkeysHeight + t.spaceBetweenkeys)
-                }
-            }
-            if true {
-                HStack(spacing: 0.0) {
-                    Spacer(minLength: 0.0)
+                        .padding(.top, t.zoomTopPadding)
                     Precision(brain: brain, textColor: t.digits_1_9.textColor,
-                              iconSize: t.colorOpProperties.size.height * 0.7)
+                              iconSize: t.iconSize)
                         .frame(width: t.colorOpProperties.size.width, height: t.colorOpProperties.size.height, alignment: .center)
-                        .padding(.bottom, t.allkeysHeight + t.spaceBetweenkeys - t.colorOpProperties.size.height * 2.5)
+                    Spacer(minLength: 0.0)
                 }
             }
             
@@ -78,7 +73,7 @@ struct MainView: View {
                         Spacer(minLength: 0.0)
                     }
                 }
-                if !brain.zoomed {
+                if !brain.zoomed || t.portraitIPad {
                     Keys(brain: brain, t: t)
                         .background(TE.appBackgroundColor)
                 }
@@ -89,7 +84,9 @@ struct MainView: View {
                 Spacer(minLength: brain.zoomed ? t.displayTopPaddingZoomed : t.displayTopPaddingNotZoomed)
                 Display(brain: brain, t: t)
                     .padding(.trailing, t.digits_1_9.size.width * 1.0)
-                    .animation(nil, value: UUID())
+                    //.animation(nil, value: UUID())
+                    .background(Color.yellow.opacity(0.3))
+                    .padding(.bottom, t.displayBottomPadding)
             }
         )
     }

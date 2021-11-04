@@ -178,8 +178,10 @@ class TE {
     let allkeysHeight: CGFloat = 5.0 * TE.kh + 4.0 * TE.sp
     let isPad: Bool = false
     let zeroLeadingPadding: CGFloat = TE.kw / 2 - TE.kh * 0.1
-    var displayTopPaddingZoomed: CGFloat = 0.0
-    var displayTopPaddingNotZoomed: CGFloat = 0.0
+    let zoomTopPadding: CGFloat = 0.0
+    let displayTopPaddingZoomed: CGFloat = 0.0
+    let displayTopPaddingNotZoomed: CGFloat = 0.0
+    let iconSize: CGFloat = TE.kh * 0.7
 
     struct ButtonShape: View {
         var body: some View {
@@ -212,6 +214,10 @@ class TE {
     var zeroLeadingPadding: CGFloat
     var displayTopPaddingZoomed: CGFloat
     var displayTopPaddingNotZoomed: CGFloat
+    var displayBottomPadding: CGFloat
+    var zoomTopPadding: CGFloat
+    var iconSize: CGFloat
+    var portraitIPad: Bool
     init(appFrame: CGSize, isPad: Bool) {
         self.isPad = isPad
         spaceBetweenkeys = appFrame.width * Self.landscapeSpacingFration
@@ -226,9 +232,32 @@ class TE {
         displayFontSize = keySize.height
         displayFont = Font.system(size: displayFontSize, weight: .thin).monospacedDigit()
         allkeysHeight = 5.0 * keySize.height + 4.0 * spaceBetweenkeys
-        displayTopPaddingNotZoomed = appFrame.height - allkeysHeight - keySize.height - spaceBetweenkeys
-        displayTopPaddingZoomed = 0.0
         zeroLeadingPadding = keySize.width / 2 - digitsKeyFontSize*0.25
+        iconSize = keySize.height * 0.7
+        portraitIPad = false
+        if isPad {
+            if appFrame.width > appFrame.height {
+                /// iPad landscape
+                displayTopPaddingNotZoomed = appFrame.height - allkeysHeight - keySize.height - spaceBetweenkeys
+                displayTopPaddingZoomed = displayTopPaddingNotZoomed
+                zoomTopPadding = displayTopPaddingNotZoomed
+                displayBottomPadding = 0.0
+            } else {
+                /// iPad portrait
+                zoomTopPadding = 0.0
+                displayTopPaddingNotZoomed = appFrame.height - allkeysHeight - keySize.height - spaceBetweenkeys
+                displayTopPaddingZoomed = 0.0
+                displayBottomPadding = allkeysHeight
+                portraitIPad = true
+            }
+        } else {
+            /// iPhone
+            zoomTopPadding = 0.5 * (keySize.height + spaceBetweenkeys - iconSize)
+            displayTopPaddingNotZoomed = appFrame.height - allkeysHeight - keySize.height - spaceBetweenkeys
+            displayTopPaddingZoomed = displayTopPaddingNotZoomed
+            displayBottomPadding = 0.0
+        }
+
         digits_1_9 = KeyProperties(
             size: keySize,
             font: Font.system(size: digitsKeyFontSize).monospacedDigit(),
