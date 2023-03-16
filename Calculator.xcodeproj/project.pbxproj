@@ -545,7 +545,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10pm;
 				DEVELOPMENT_ASSET_PATHS = "\"Calculator/Preview Content\"";
-				DEVELOPMENT_TEAM = 8A4DL788W9;
+				DEVELOPMENT_TEAM = 6389FT2N69;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Calculator/Info.plist;
@@ -568,7 +568,7 @@
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
-				SWIFT_OBJC_BRIDGING_HEADER = /Users/joachim/Desktop/Calculator/dist/include/bridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = dist/include/bridge.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
@@ -584,7 +584,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10pm;
 				DEVELOPMENT_ASSET_PATHS = "\"Calculator/Preview Content\"";
-				DEVELOPMENT_TEAM = 8A4DL788W9;
+				DEVELOPMENT_TEAM = 6389FT2N69;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Calculator/Info.plist;
@@ -607,7 +607,7 @@
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_ENFORCE_EXCLUSIVE_ACCESS = off;
-				SWIFT_OBJC_BRIDGING_HEADER = /Users/joachim/Desktop/Calculator/dist/include/bridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = dist/include/bridge.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};

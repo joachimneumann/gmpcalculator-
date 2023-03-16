@@ -47,6 +47,7 @@ class DisplayData: ObservableObject {
     
     func update(with number: Number, digitsInExpandedDisplay: Int = DisplayData.digitsInExpandedDisplay) {
         let gmp: Gmp
+        let separator = Locale.current.decimalSeparator!
         if let str = number.str {
             if str.count <= DisplayData.digitsInOneLine {
                     set(str)
@@ -104,7 +105,7 @@ class DisplayData: ObservableObject {
                 /// can be displayed
                 var floatString = data.mantissa
                 let index = floatString.index(floatString.startIndex, offsetBy: data.exponent+1)
-                floatString.insert(",", at: index)
+                floatString.insert(contentsOf:separator, at: index)
                 if data.negative { floatString = "-" + floatString }
                 set(floatString)
                 return
@@ -129,7 +130,7 @@ class DisplayData: ObservableObject {
         let exponent = "e\(data.exponent)"
         var mantissa = data.mantissa
         let indexOne = mantissa.index(mantissa.startIndex, offsetBy: 1)
-        mantissa.insert(",", at: indexOne)
+        mantissa.insert(contentsOf:separator, at: indexOne)
         if mantissa.count <= 2 { mantissa += "0" } /// e.g. 1e16 -> 1,e16 -> 1,0e16
         if data.negative { mantissa = "-" + mantissa }
         set(Scientific(mantissa, exponent))

@@ -21,6 +21,7 @@ class CalculatorTests: XCTestCase {
     
     func test() {
         let digits = 16
+        let separator = Locale.current.decimalSeparator!
         
         var res = ""
         var resTruncated = ""
@@ -155,16 +156,16 @@ class CalculatorTests: XCTestCase {
         
         /// 0,
         brain.nonWaitingOperation("C")
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         XCTAssertEqual(brain.nonScientific, "0,")
         XCTAssertEqual(brain.scientific, nil)
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         XCTAssertEqual(brain.nonScientific, "0,")
         XCTAssertEqual(brain.scientific, nil)
         
         /// -0,7
         brain.nonWaitingOperation("C")
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         XCTAssertEqual(brain.nonScientific, "0,")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(7)
@@ -190,7 +191,7 @@ class CalculatorTests: XCTestCase {
         brain.press(6)
         brain.nonWaitingOperation("=")
         brain.nonWaitingOperation("+")
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         brain.press(0)
         brain.press(0)
         brain.press(1)
@@ -288,7 +289,7 @@ class CalculatorTests: XCTestCase {
         brain.press(0)
         XCTAssertEqual(brain.nonScientific, "0")
         XCTAssertEqual(brain.scientific, nil)
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         XCTAssertEqual(brain.nonScientific, "0,")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(0)
@@ -309,7 +310,7 @@ class CalculatorTests: XCTestCase {
         
         /// 1 e -15
         brain.nonWaitingOperation("C")
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         res = "0,"
         for _ in 1..<digits-1 {
             res += "0"
@@ -329,7 +330,7 @@ class CalculatorTests: XCTestCase {
         brain.press(4)
         brain.press(5)
         brain.press(6)
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         brain.press(2)
         brain.press(2)
         brain.press(4)
@@ -600,7 +601,7 @@ class CalculatorTests: XCTestCase {
         
         brain.nonWaitingOperation("C")
         brain.press(0)
-        brain.nonWaitingOperation(",")
+        brain.nonWaitingOperation(separator)
         brain.press(0)
         brain.press(1)
         brain.nonWaitingOperation("/")

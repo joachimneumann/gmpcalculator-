@@ -42,7 +42,8 @@ class Gmp: Equatable {
     /// there is only ine initialzer that takes a string.
     /// Implementing an initializer that accepts a double which is created from a string leads to a loss of precision.
     init(_ s: String) {
-        let s1 = s.replacingOccurrences(of: ",", with: ".")
+        let separator = Locale.current.decimalSeparator!
+        let s1 = s.replacingOccurrences(of: separator, with: ".")
         mpfr_init2 (&mpfr, globalGmpSignificantBits)
         mpfr_set_str (&mpfr, s1, 10, MPFR_RNDN)
     }

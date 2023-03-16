@@ -11,6 +11,7 @@ import SwiftUI
 class Brain: ObservableObject {
     @Published var scrollViewTarget: Int? = nil
     var messageToUser: String? = nil
+    let separator = Locale.current.decimalSeparator
     private var n = NumberStack()
     private var operatorStack = OperatorStack()
     private var displayData: DisplayData = DisplayData()
@@ -193,7 +194,7 @@ class Brain: ObservableObject {
                 }
                 n.replaceLast(with: Number(gmp))
             }
-        } else if symbol == "," {
+        } else if symbol == separator {
             if pendingOperator != nil {
                 n.append(Number("0"))
                 pendingOperator = nil

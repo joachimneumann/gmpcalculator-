@@ -10,6 +10,7 @@ import Foundation
 class Number: CustomDebugStringConvertible {
     private var _str: String?
     private var _gmp: Gmp?
+    let separator = Locale.current.decimalSeparator!
     
     var isStr: Bool { _str != nil }
     var str: String? { return _str }
@@ -67,9 +68,9 @@ class Number: CustomDebugStringConvertible {
     
     func addComma() {
         if str == nil {
-            _str = "0,"
+            _str = "0" + separator
         } else {
-            if !_str!.contains(",") { _str!.append(",") }
+            if !_str!.contains(separator) { _str!.append(separator) }
         }
     }
     
