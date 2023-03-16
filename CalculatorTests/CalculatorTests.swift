@@ -80,7 +80,7 @@ class CalculatorTests: XCTestCase {
         XCTAssertEqual(brain.scientific, nil)
         brain.press(0)
         XCTAssertEqual(brain.nonScientific, nil)
-        XCTAssertEqual(brain.scientific, DisplayData.Scientific("1,234567890123456789", "e19"))
+        XCTAssertEqual(brain.scientific, DisplayData.Scientific("1.234567890123456789", "e19"))
         
         
         /// -12345678901234
@@ -119,7 +119,7 @@ class CalculatorTests: XCTestCase {
         brain.press(7)
         brain.press(7)
         XCTAssertEqual(brain.nonScientific, nil)
-        XCTAssertEqual(brain.scientific, DisplayData.Scientific("7,7777777777777777777777", "e22"))
+        XCTAssertEqual(brain.scientific, DisplayData.Scientific("7.7777777777777777777777", "e22"))
         
         
         
@@ -157,22 +157,22 @@ class CalculatorTests: XCTestCase {
         /// 0,
         brain.nonWaitingOperation("C")
         brain.nonWaitingOperation(separator)
-        XCTAssertEqual(brain.nonScientific, "0,")
+        XCTAssertEqual(brain.nonScientific, "0.")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation(separator)
-        XCTAssertEqual(brain.nonScientific, "0,")
+        XCTAssertEqual(brain.nonScientific, "0.")
         XCTAssertEqual(brain.scientific, nil)
         
         /// -0,7
         brain.nonWaitingOperation("C")
         brain.nonWaitingOperation(separator)
-        XCTAssertEqual(brain.nonScientific, "0,")
+        XCTAssertEqual(brain.nonScientific, "0.")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(7)
-        XCTAssertEqual(brain.nonScientific, "0,7")
+        XCTAssertEqual(brain.nonScientific, "0.7")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("+/-")
-        XCTAssertEqual(brain.nonScientific, "-0,7")
+        XCTAssertEqual(brain.nonScientific, "-0.7")
         XCTAssertEqual(brain.scientific, nil)
         
         /// 3 e6
@@ -196,7 +196,7 @@ class CalculatorTests: XCTestCase {
         brain.press(0)
         brain.press(1)
         brain.nonWaitingOperation("=")
-        XCTAssertEqual(brain.nonScientific, "3000000,001")
+        XCTAssertEqual(brain.nonScientific, "3000000.001")
         XCTAssertEqual(brain.scientific, nil)
         
         
@@ -208,7 +208,7 @@ class CalculatorTests: XCTestCase {
         brain.press(7)
         brain.nonWaitingOperation("=")
         XCTAssertEqual(brain.nonScientific, nil)
-        XCTAssertEqual(brain.scientific, DisplayData.Scientific("3,0", "e77"))
+        XCTAssertEqual(brain.scientific, DisplayData.Scientific("3.0", "e77"))
         
         /// 3 e-77
         brain.nonWaitingOperation("C")
@@ -219,7 +219,7 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("+/-")
         brain.nonWaitingOperation("=")
         XCTAssertEqual(brain.nonScientific, nil)
-        XCTAssertEqual(brain.scientific, DisplayData.Scientific("3,0", "e-77"))
+        XCTAssertEqual(brain.scientific, DisplayData.Scientific("3.0", "e-77"))
         
         /// -3 e-77
         brain.nonWaitingOperation("C")
@@ -231,7 +231,7 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("=")
         brain.nonWaitingOperation("+/-")
         XCTAssertEqual(brain.nonScientific, nil)
-        XCTAssertEqual(brain.scientific, DisplayData.Scientific("-3,0", "e-77"))
+        XCTAssertEqual(brain.scientific, DisplayData.Scientific("-3.0", "e-77"))
         
         /// -3 e-77
         brain.nonWaitingOperation("C")
@@ -243,7 +243,7 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("+/-")
         brain.nonWaitingOperation("=")
         XCTAssertEqual(brain.nonScientific, nil)
-        XCTAssertEqual(brain.scientific, DisplayData.Scientific("-3,0", "e-77"))
+        XCTAssertEqual(brain.scientific, DisplayData.Scientific("-3.0", "e-77"))
         
         
         /// 8888888
@@ -290,28 +290,28 @@ class CalculatorTests: XCTestCase {
         XCTAssertEqual(brain.nonScientific, "0")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation(separator)
-        XCTAssertEqual(brain.nonScientific, "0,")
+        XCTAssertEqual(brain.nonScientific, "0.")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(0)
-        XCTAssertEqual(brain.nonScientific, "0,0")
+        XCTAssertEqual(brain.nonScientific, "0.0")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(0)
         brain.press(0)
         brain.press(0)
         brain.press(0)
-        XCTAssertEqual(brain.nonScientific, "0,00000")
+        XCTAssertEqual(brain.nonScientific, "0.00000")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(1)
-        XCTAssertEqual(brain.nonScientific, "0,000001")
+        XCTAssertEqual(brain.nonScientific, "0.000001")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(0)
-        XCTAssertEqual(brain.nonScientific, "0,0000010")
+        XCTAssertEqual(brain.nonScientific, "0.0000010")
         XCTAssertEqual(brain.scientific, nil)
         
         /// 1 e -15
         brain.nonWaitingOperation("C")
         brain.nonWaitingOperation(separator)
-        res = "0,"
+        res = "0."
         for _ in 1..<digits-1 {
             res += "0"
             brain.press(0)
@@ -319,7 +319,7 @@ class CalculatorTests: XCTestCase {
             XCTAssertEqual(brain.scientific, nil)
         }
         brain.press(1)
-        XCTAssertEqual(brain.nonScientific, "0,000000000000001")
+        XCTAssertEqual(brain.nonScientific, "0.000000000000001")
         XCTAssertEqual(brain.nonScientific, res+"1")
         XCTAssertEqual(brain.scientific, nil)
         
@@ -335,8 +335,8 @@ class CalculatorTests: XCTestCase {
         brain.press(2)
         brain.press(4)
         brain.press(4)
-        res = "32456,2244"
-        sci = "3,24562244"
+        res = "32456.2244"
+        sci = "3.24562244"
         XCTAssertEqual(brain.nonScientific, res)
         XCTAssertEqual(brain.scientific, nil)
         
@@ -364,12 +364,12 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("C")
         brain.press(3)
         brain.nonWaitingOperation("One_x")
-        correct = "0,3333333333333333"
+        correct = "0.3333333333333333"
         res = brain.nonScientific!
         resTruncated = String(res.prefix(correct.count))
         XCTAssertEqual (resTruncated, correct)
         brain.nonWaitingOperation("+/-")
-        correct = "-0,3333333333333333"
+        correct = "-0.3333333333333333"
         res = brain.nonScientific!
         resTruncated = String(res.prefix(correct.count))
         XCTAssertEqual (resTruncated, correct)
@@ -378,17 +378,17 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("C")
         brain.press(9)
         brain.nonWaitingOperation("%")
-        XCTAssertEqual(brain.nonScientific, "0,09")
+        XCTAssertEqual(brain.nonScientific, "0.09")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("%")
-        XCTAssertEqual(brain.nonScientific, "0,0009")
+        XCTAssertEqual(brain.nonScientific, "0.0009")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("%")
         brain.nonWaitingOperation("%")
-        XCTAssertEqual(brain.nonScientific, "0,00000009")
+        XCTAssertEqual(brain.nonScientific, "0.00000009")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("x^2")
-        XCTAssertEqual(brain.nonScientific, "0,0000000000000081")
+        XCTAssertEqual(brain.nonScientific, "0.0000000000000081")
         XCTAssertEqual(brain.scientific, nil)
         
         
@@ -399,7 +399,7 @@ class CalculatorTests: XCTestCase {
         XCTAssertEqual(brain.nonScientific, "10")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("One_x")
-        XCTAssertEqual(brain.nonScientific, "0,1")
+        XCTAssertEqual(brain.nonScientific, "0.1")
         XCTAssertEqual(brain.scientific, nil)
         brain.press(1)
         brain.press(6)
@@ -407,7 +407,7 @@ class CalculatorTests: XCTestCase {
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("One_x")
         XCTAssertEqual(brain.debugLastDouble, 0.0625)
-        XCTAssertEqual(brain.nonScientific, "0,0625")
+        XCTAssertEqual(brain.nonScientific, "0.0625")
         XCTAssertEqual(brain.scientific, nil)
         
         /// 1+2+5+2= + 1/4 =
@@ -430,10 +430,10 @@ class CalculatorTests: XCTestCase {
         XCTAssertEqual(brain.scientific, nil)
         brain.press(4)
         brain.nonWaitingOperation("One_x")
-        XCTAssertEqual(brain.nonScientific, "0,25")
+        XCTAssertEqual(brain.nonScientific, "0.25")
         XCTAssertEqual(brain.scientific, nil)
         brain.nonWaitingOperation("=")
-        XCTAssertEqual(brain.nonScientific, "10,25")
+        XCTAssertEqual(brain.nonScientific, "10.25")
         XCTAssertEqual(brain.scientific, nil)
         
         /// 1+2*4=
@@ -494,7 +494,7 @@ class CalculatorTests: XCTestCase {
         /// pi
         brain.nonWaitingOperation("C")
         brain.nonWaitingOperation("π")
-        correct = "3,1415926535897932384626433832795028841971"
+        correct = "3.1415926535897932384626433832795028841971"
         XCTAssertEqual(brain.debugLastDouble, Double.pi)
         res = brain.nonScientific!
         resTruncated = String(res.prefix(correct.count))
@@ -506,7 +506,7 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("+")
         brain.nonWaitingOperation("π")
         brain.nonWaitingOperation("=")
-        correct = "4,1415926535897932384626433832795028841971"
+        correct = "4.1415926535897932384626433832795028841971"
         XCTAssertEqual(brain.debugLastDouble, 1.0+Double.pi)
         res = brain.nonScientific!
         resTruncated = String(res.prefix(correct.count))
@@ -519,7 +519,7 @@ class CalculatorTests: XCTestCase {
         brain.nonWaitingOperation("=")
         
         
-        correct = String("6,28318530717958647692528676655900576839433879875021164194988918461563281257241799725606965068423413596429617302656461329418768921910116446345".prefix(100))
+        correct = String("6.28318530717958647692528676655900576839433879875021164194988918461563281257241799725606965068423413596429617302656461329418768921910116446345".prefix(100))
         XCTAssertEqual(brain.debugLastDouble, 2.0*Double.pi)
         res = brain.nonScientific!
         resTruncated = String(res.prefix(100))

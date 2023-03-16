@@ -114,7 +114,7 @@ class DisplayData: ObservableObject {
             /// 0,xxxx
             if -data.exponent < DisplayData.digitsInOneLine - 3 {
                 /// can be displayed
-                var floatString = "0,"
+                var floatString = "0" + separator
                 let zeroes = -data.exponent
                 for _ in 1..<zeroes {
                     floatString += "0"
