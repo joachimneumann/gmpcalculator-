@@ -11,6 +11,7 @@ import SwiftUI
 struct NumberKeys: View {
     @ObservedObject var brain: Brain
     let t: TE
+    let separator = Locale.current.decimalSeparator!
 
     var body: some View {
         VStack(spacing: t.spaceBetweenkeys) {
@@ -40,7 +41,7 @@ struct NumberKeys: View {
             }
             HStack(spacing: t.spaceBetweenkeys) {
                 Key("0", requiresValidNuber: false, brain: brain, t: t, keyProperties: t.digits_0)
-                Key(",", requiresValidNuber: false, brain: brain, t: t, keyProperties: t.digits_1_9)
+                Key(separator, requiresValidNuber: false, brain: brain, t: t, keyProperties: t.digits_1_9)
                 Key("=", requiresValidNuber: true, brain: brain, t: t, keyProperties: t.colorOpProperties)
             }
         }
